@@ -31,7 +31,7 @@ public class RebackController {
             User user = (User)httpSession.getAttribute("user");
 
             PageResult pageResult = rebackService.pageQuery(rebackQueryBean, user);
-            System.out.println("开始返回");
+
             return pageResult;
         } catch (Exception e) {
             e.printStackTrace();
