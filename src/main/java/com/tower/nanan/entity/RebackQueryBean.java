@@ -1,8 +1,11 @@
 package com.tower.nanan.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
+@Data
 public class RebackQueryBean implements Serializable {
 	private Integer currentPage;//页码
 	private Integer pageSize;//每页记录数

@@ -84,17 +84,17 @@ public class ElectricService implements InitializingBean {
         }
         if (electricQueryBean.getVerifyCode() != null && !electricQueryBean.getVerifyCode().isEmpty()){
             String verifyCode = electricQueryBean.getVerifyCode();
-            criteria.andEqualTo("verifyCode",verifyCode);
+            criteria.andEqualTo("verify_code",verifyCode);
         }
 
         if (electricQueryBean.getStartAccountPeriod() != null && !electricQueryBean.getStartAccountPeriod().isEmpty()){
             String startAccountPeriod = electricQueryBean.getStartAccountPeriod();
-            criteria.andCondition("accountPeriod >=",startAccountPeriod);
+            criteria.andCondition("account_period >=",startAccountPeriod);
         }
 
         if (electricQueryBean.getEndAccountPeriod() != null && !electricQueryBean.getEndAccountPeriod().isEmpty()){
             String endAccountPeriod = electricQueryBean.getEndAccountPeriod();
-            criteria.andCondition("accountPeriod >=",endAccountPeriod);
+            criteria.andCondition("account_period <=",endAccountPeriod);
         }
         if (electricQueryBean.getCurrentPage() != null && electricQueryBean.getPageSize() != null) {
             PageHelper.startPage(electricQueryBean.getCurrentPage(), electricQueryBean.getPageSize());

@@ -11,6 +11,6 @@ import java.util.Set;
 
 public interface RebackDao extends Mapper<Reback> {
 
-    @Select("select rebackCode from reback")
+    @Select("select reback_code from reback")
     public Set<String> getRebackCodeSet();
 }

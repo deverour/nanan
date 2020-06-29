@@ -31,7 +31,7 @@ public class Electric {
 
 
     private String customer;//结算运营商
-    @Column(name = "verifyCode")
+    //@Column(name = "verifyCode")
     private String verifyCode;//核销单号
     private String accountPeriod;//账期
     private String rebackCode;//回款编号
