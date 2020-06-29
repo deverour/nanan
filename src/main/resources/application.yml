@@ -1,3 +1,15 @@
 server:
   port: 8090
-
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/nanan?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 134158
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  http:
+    multipart:
+      enabled: false

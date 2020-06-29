@@ -9,20 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Result {
+public class CheckResult {
 	private boolean flag;//执行结果，true为执行成功 false为执行失败
 	private String message;//返回结果信息
-	private Object data;//返回数据
-	//private String total;
+	private Double total;//返回数据
 
-	public Result(boolean flag, String message) {
+	public CheckResult(boolean flag, String message) {
 		this.flag = flag;
 		this.message = message;
 	}
 
-	/*public Result(boolean flag, String message, String total) {
-		this.flag = flag;
-		this.message = message;
-		this.total = total;
-	}*/
+
+
+
 }

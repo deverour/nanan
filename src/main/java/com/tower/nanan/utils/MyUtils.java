@@ -1,9 +1,14 @@
 package com.tower.nanan.utils;
 
+import com.tower.nanan.entity.ErrorMessage;
+import com.tower.nanan.pojo.Electric;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class MyUtils {
     public static String getRealName(String name){
@@ -28,4 +33,19 @@ public class MyUtils {
         DecimalFormat format = new DecimalFormat("#0.######");
         return format.format(new BigDecimal(numStr));
     }
+
+
+    public static ArrayList<String> getList(Electric electric){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(electric.getId());
+
+        return list;
+    }
+
+    public static String getExcelDate(Date date){
+        return FastDateFormat.getInstance("yyyy/MM/dd").format(date);
+    }
+
+
+
 }

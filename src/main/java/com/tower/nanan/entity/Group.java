@@ -33,4 +33,11 @@ public class Group {
 
         }
     };
+    public static final HashSet<String> CustomerSet = new HashSet<String>() {
+        {
+            add("移动");
+            add("联通");
+            add("电信");
+        }
+    };
 }
