@@ -151,7 +151,7 @@
                 <el-row>
                     <el-col :span="6" :offset="8">
                         <div class="grid-content bg-purple">
-                            <el-button @click="rebackquery()">查询</el-button>
+                            <el-button @click="query()">查询</el-button>
                             <el-button @click="rebackexport()"  type="primary">导出</el-button>
 
                         </div>
@@ -370,7 +370,7 @@
                 }
             },
             //查询
-            rebackquery() {
+            query() {
                 const loading = this.$loading({
                     lock: true,
                     text: 'Loading...',
@@ -380,8 +380,6 @@
                 this.currentPage = 1;
                 this.findPage();
                 loading.close();
-              /*  this.$message({message: '回款明细查询成功',type: 'success'});*/
-
             },
             //导出
             rebackexport() {

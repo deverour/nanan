@@ -21,11 +21,16 @@ public class ExcelColumns {
     public static final int INDEX_ELECTRIC_SHARECUSTOMER = 11;//共享运营商
     public static final int INDEX_ELECTRIC_PROPORTION = 12;//分摊比例
     public static final int INDEX_ELECTRIC_SETTLEMENT = 13;//结算金额
-
     public static final int INDEX_ELECTRIC_CUSTOMER = 14;//结算运营商
     public static final int INDEX_ELECTRIC_VERIFYCODE = 15;//核销单号
     public static final int INDEX_ELECTRIC_ACCOUNTPERIOD =16;//账期
     public static final int INDEX_ELECTRIC_REBACKCODE = 17; //回款编号
+
+    public static final int INDEX_PERCENTAGE_SITECODE = 0;
+    public static final int INDEX_PERCENTAGE_AMMETERCODE = 1;
+    public static final int INDEX_PERCENTAGE_NEWPERPORTION1 = 2;
+    public static final int INDEX_PERCENTAGE_NEWPERPORTION2 = 3;
+    public static final int INDEX_PERCENTAGE_NEWPERPORTION3 =4;
 
 
 

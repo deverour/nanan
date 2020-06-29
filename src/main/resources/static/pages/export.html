@@ -36,38 +36,25 @@
 					<h3><small>代垫明细</small></h3>
 					<el-card class="box-card">
 						<el-row>
-							<!--分公司-->
-							<!--<el-col :span="2">&ensp;&ensp;&ensp;&ensp;分&ensp;公&ensp;司</el-col>-->
-							<el-col :span="8">
 
-								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;分&ensp;公&ensp;司&ensp;
-									<el-select v-model="billBranch" multiple placeholder="请选择" size="small">
-										<el-option v-for="item in Branchlist" :key="item" :label="item" :value="item"></el-option>
-									</el-select>
-								</div>
-							</el-col>
 
 							<!--区域-->
 							<!--<el-col :span="2">&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域</el-col>-->
 							<el-col :span="8">
-
 								<div class="grid-content bg-purple">
 									&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域&ensp;
-									<el-select v-model="billArea" multiple placeholder="请选择" size="small" @focus="getBillArea()">
-										<el-option v-for="item in billArealist" :key="item" :label="item" :value="item"></el-option>
+									<el-select v-model="region" multiple placeholder="请选择" size="small">
+										<el-option v-for="item in regionlist" :key="item" :label="item" :value="item"></el-option>
 									</el-select>
 								</div>
 							</el-col>
 
-							<!--运营商-->
-							<!--<el-col :span="2">&ensp;&ensp;&ensp;&ensp;运&ensp;营&ensp;商</el-col>-->
-							<el-col :span="8">
 
+							<el-col :span="8">
 								<div class="grid-content bg-purple">
 									&ensp;&ensp;&ensp;&ensp;运&ensp;营&ensp;商&ensp;
-									<el-select v-model="billCustomer" multiple placeholder="请选择" size="small">
-										<el-option v-for="item in billCustomerlist" :key="item" :label="item" :value="item"></el-option>
+									<el-select v-model="customer" multiple placeholder="请选择" size="small">
+										<el-option v-for="item in customerlist" :key="item" :label="item" :value="item"></el-option>
 									</el-select>
 								</div>
 							</el-col>
@@ -78,174 +65,106 @@
 
 								<div class="grid-content bg-purple">
 									&ensp;&ensp;&ensp;&ensp;支付单号
-									<el-input v-model="billPayNumber" size="small" placeholder="请输入内容"></el-input>
+									<el-input v-model="verifyCode" size="small" placeholder="请输入内容"></el-input>
 								</div>
 							</el-col>-->
-
-							<!--账期-->
-							<el-col :span="2.5">&ensp;&ensp;&ensp;&ensp;账&ensp;&ensp;&ensp;&ensp;期&ensp;</el-col>
-							<el-col :span="7.5">
-								<el-date-picker v-model="billPaymentDate" type="daterange" range-separator="至" start-placeholder="开始日期"
-												end-placeholder="结束日期" value-format="yyyyMM" size="small">
-								</el-date-picker>
-							</el-col>
-
-							<!--支付单号-->
-							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;支付单号</el-col>
+							<!--站址编码-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;站址编码</el-col>
 							<el-col :span="5">
-								<el-input v-model="billPayNumber" size="small" placeholder="请输入内容"></el-input>
+								<el-input v-model="siteCode" size="small" placeholder="请输入内容"></el-input>
 							</el-col>
 
 
-						</el-row><br /><br />
-						<el-row type="flex" class="row-bg" justify="space-around">
-							<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-							<el-col :span="6"><div class="grid-content bg-purple-light">
-							<span :style="billVisibility">{{billQueryMessage}}</span>
-							</div></el-col>
-							<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-							
-
-						</el-row><br /><br />
-						<el-row type="flex" class="row-bg" justify="space-around">
-							<el-col :span="6" ></el-col>
-							<el-col :span="6" >
-								<div class="grid-content bg-purple">
-									<el-button @click="billQuery()">查询</el-button>
-									<el-button @click="billExport()" type="primary" >导出</el-button>
-								</div>
-							</el-col>
-							<el-col :span="6" ></el-col>
-						</el-row>
-
-
-
-					</el-card>
-				</div>
-				<!--包干-->
-				<div class="box">
-					<h3><small>包干明细</small></h3>
-					<el-card class="box-card">
-						<el-row>
-							<!--分公司-->
-							<el-col :span="8">
-								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;分&ensp;公&ensp;司&ensp;
-									<el-select v-model="cpyBranch" multiple placeholder="请选择" size="small">
-										<el-option v-for="item in Branchlist" :key="item" :label="item" :value="item"></el-option>
-									</el-select>
-								</div>
+							<!--核销单号-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;核销单号</el-col>
+							<el-col :span="5">
+								<el-input v-model="verifyCode" size="small" placeholder="请输入内容"></el-input>
 							</el-col>
 
-							<!--区域-->
-							<el-col :span="8">
-								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域&ensp;
-									<el-select v-model="cpyArea" multiple placeholder="请选择" size="small" @focus="getCpyArea()">
-										<el-option v-for="item in cpyArealist" :key="item" :label="item" :value="item"></el-option>
-									</el-select>
-								</div>
-							</el-col>
-
-							<!--运营商-->
-							<el-col :span="8">
-								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;运&ensp;营&ensp;商&ensp;
-									<el-select v-model="cpyCustomer" multiple placeholder="请选择" size="small">
-										<el-option v-for="item in cpyCustomerlist" :key="item" :label="item" :value="item"></el-option>
-									</el-select>
-								</div>
-							</el-col>
 						</el-row><br />
-
 						<el-row>
-
 							<!--账期-->
 							<el-col :span="2.5">&ensp;&ensp;&ensp;&ensp;账&ensp;&ensp;&ensp;&ensp;期&ensp;</el-col>
 							<el-col :span="7.5">
-								<el-date-picker v-model="cpyPaymentDate" type="daterange" range-separator="至" start-placeholder="开始日期"
+								<el-date-picker v-model="accountPeriod" type="daterange" range-separator="至" start-placeholder="开始日期"
 												end-placeholder="结束日期" value-format="yyyyMM" size="small">
 								</el-date-picker>
 							</el-col>
-						</el-row><br /><br />
-						<el-row type="flex" class="row-bg" justify="space-around">
-							<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-							<el-col :span="6"><div class="grid-content bg-purple-light">
-								<span :style="cpyVisibility">{{cpyQueryMessage}}</span>
-							</div></el-col>
-							<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+						</el-row>
+						<br />
 
-
-						</el-row><br /><br />
 						<el-row type="flex" class="row-bg" justify="space-around">
 							<el-col :span="6" ></el-col>
 							<el-col :span="6" >
 								<div class="grid-content bg-purple">
-									<el-button @click="cpyQuery()">查询</el-button>
-									<el-button @click="cpyExport()" type="primary" >导出</el-button>
+									<el-button @click="elec_reset()">重置</el-button>
+									<el-button @click="query()">查询</el-button>
+									<el-button @click="elec_export()" type="primary" >导出</el-button>
 								</div>
 							</el-col>
 							<el-col :span="6" ></el-col>
 						</el-row>
+					</el-card>
+
+					<el-card class="box-card">
+						<el-table border :data="dataList" style="width: 100%" size='small' current-row-key="id">
+
+							<!--<el-table-column prop="fengongsi" label="分公司" min-width="45"></el-table-column>-->
+							<el-table-column prop="region" label="区域" ></el-table-column>
+							<el-table-column prop="siteCode" label="站点编码"></el-table-column>
+							<el-table-column prop="ammeterCode" label="电表编码" ></el-table-column>
+							<el-table-column prop="directSupply" label="是否直供电"></el-table-column>
+							<el-table-column prop="startDegrees" label="起度" ></el-table-column>
+							<el-table-column prop="endDegrees" label="止度"></el-table-column>
+							<el-table-column prop="electricQuantity" label="电量" ></el-table-column>
+							<el-table-column prop="startDate" label="始期" ></el-table-column>
+							<el-table-column prop="payMoney" label="垫资总额"></el-table-column>
+							<el-table-column prop="proportion" label="分摊比例" ></el-table-column>
+							<el-table-column prop="settlement" label="结算金额" ></el-table-column>
+							<el-table-column prop="customer" label="运营商" ></el-table-column>
+							<el-table-column prop="accountPeriod" label="账期"></el-table-column>
+
+						</el-table>
+						<div class="pagination-container">
+							<el-pagination
+									class="pagiantion"
+									@current-change="handleCurrentChange"
+									:current-page="currentPage"
+									:page-size="pageSize"
+									layout="total, prev, pager, next, jumper"
+									:total="total">
+							</el-pagination>
+						</div>
 
 					</el-card>
 				</div>
+
 			</div>
 		</div>
 	</body>
-
-	<script>
-		var fengjie = ["奉节", "云阳", "巫山", "巫溪"];
-		var fuling = ["涪陵", "长寿", "垫江", "南川", "武隆", "丰都"];
-		var hechuan = ["合川", "北碚", "铜梁", "潼南"];
-		var liangjiang = ["两江", "江北", "渝北"];
-		var nanan = ["南岸", "巴南", "綦江", "江津"];
-		var qianjiang = ["黔江", "秀山", "酉阳", "彭水"];
-		var wanzhou = ["万州", "开州", "梁平", "城口", "忠县", "石柱"];
-		var yongchuan = ["永川", "大足", "璧山", "荣昌"];
-		var yuzhong = ["渝中", "沙坪坝", "九龙坡", "大渡口"];
-		var  branchmap = new Map();
-		 branchmap.set("奉节", fengjie);
-		 branchmap.set("涪陵", fuling);
-		 branchmap.set("合川", hechuan);
-		 branchmap.set("两江", liangjiang);
-		 branchmap.set("南岸", nanan);
-		 branchmap.set("黔江", qianjiang);
-		 branchmap.set("万州", wanzhou);
-		 branchmap.set("永川", yongchuan);
-		 branchmap.set("渝中", yuzhong);
-	</script>
+	
 	<script>
 		new Vue({
 			el: '#app',
 			data: {
+
 				group: '',
 				fullscreenLoading: false,
-				
-				billQueryMessage:"",
-				billCounts:"",
-				billMoney:"",
-				billVisibility: "visibility:hidden",
-				Branchlist: [],
-				billArealist: [],
-				billCustomerlist: ["移动", "联通", "电信"],
-				billBranch: [],
-				billArea: [],
-				billCustomer: [],
-				billPayNumber: '',
-				billPaymentDate: [],
+				regionlist: ["南岸", "綦江", "江津", "巴南"],
+				customerlist: ["移动", "联通", "电信"],
 
-				cpyQueryMessage:"",
-				cpyCounts:"",
-				cpyMoney:"",
-				cpyVisibility: "visibility:hidden",
-				Branchlist: [],
-				cpyArealist: [],
-				cpyCustomerlist: ["移动", "联通", "电信"],
-				cpyBranch: [],
-				cpyArea: [],
-				cpyCustomer: [],
-				cpyPaymentDate: [],
+				dataList: [],
+
+				currentPage: 1,//当前页码
+				pageSize: 5,//每页显示的记录数
+				total: 0,//总记录数
+
+				region: [],
+				customer: [],
+				siteCode: '',
+				verifyCode: '',
+				accountPeriod: [],
+
 			
 				
 				
@@ -253,108 +172,64 @@
 			},
 			created: function() { //在vue初始化时调用
 				axios.get("/user/group").then((response) => {
-
-					if (response.data.flag){
+					if (response.data.flag) {
 						this.group = response.data.data.group;
-
-						if (this.group == "重庆") {
-							this.Branchlist = ["奉节", "涪陵", "合川", "两江", "南岸", "黔江", "万州", "永川", "渝中"];
+						if (this.group == "admin") {
+							this.regionlist = ["南岸", "綦江", "江津", "巴南"];
 						} else {
-							this.Branchlist = [this.group];
+							this.regionlist = [this.region];
 						}
 					}
-
 				})
 
 
 			},
-			
 			methods: {
-
-
-				getBillArea() {
-					this.billArea = [];
-					this.billArealist = [];
-
-					billBranchselectlist = this.billBranch
-					for (var i = 0; i < billBranchselectlist.length; i++) {
-						var mycars =  branchmap.get(billBranchselectlist[i]).toString().split(',');
-						for (j = 0; j < mycars.length; j++) {
-							this.billArealist.push(mycars[j]);
-						}
-					}
+				elec_reset(){
+					this.region = [];
+					this.customer = [];
+					this.siteCode = '';
+					this.verifyCode = '';
+					this.accountPeriod = [];
 				},
-				getCpyArea() {
-					this.cpyArea = [];
-					this.cpyArealist = [];
-
-					cpyBranchselectlist = this.cpyBranch
-					for (var i = 0; i < cpyBranchselectlist.length; i++) {
-						var mycars = branchmap.get(cpyBranchselectlist[i]).toString().split(',');
-						for (j = 0; j < mycars.length; j++) {
-							this.cpyArealist.push(mycars[j]);
-						}
+				findPage() {
+					var querydata = {
+						"currentPage": this.currentPage,
+						"pageSize": this.pageSize,
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startAccountPeriod": this.accountPeriod[0],
+						"endAccountPeriod": this.accountPeriod[1],
 					}
+					axios.post("/electric/query", querydata).then((response) => {
+						this.dataList = response.data.rows;
+						this.total = response.data.total;
+					});
+
 				},
-				billQuery() {
+
+				//切换页码
+				handleCurrentChange(currentPage) {
+					this.currentPage = currentPage;
+					this.findPage();
+				},
+
+
+				query() {
 					const loading = this.$loading({
 						lock: true,
 						text: 'Loading...',
 						spinner: 'el-icon-loading',
 						background: 'rgba(0, 0, 0, 0.7)'
 					});
-
-					this.billQueryMessage="";
-					var querydata = {
-						"billBranch":this.billBranch,
-						"billArea": this.billArea,
-						"billCustomer": this.billCustomer,
-						"billPayNumber":this.billPayNumber,
-						"billStartPaymentDate": this.billPaymentDate[0],
-						"billEndPaymentDate": this.billPaymentDate[1],
-					}
-					axios.post("/bill/query", querydata).then((response) => {
-						this.billQueryMessage=response.data.message;
-						this.billVisibility = "visibility:visible";
-						loading.close();
-
-						this.$message({
-							message: '代垫明细查询成功',
-							type: 'success'
-						});
-					});
-
+					this.currentPage = 1;
+					this.findPage();
+					loading.close();
 				},
-				cpyQuery() {
-					const loading = this.$loading({
-						lock: true,
-						text: 'Loading...',
-						spinner: 'el-icon-loading',
-						background: 'rgba(0, 0, 0, 0.7)'
-					});
 
-					this.cpyQueryMessage="";
-					var querydata = {
-						"cpyBranch":this.cpyBranch,
-						"cpyArea": this.cpyArea,
-						"cpyCustomer": this.cpyCustomer,
-
-						"cpyStartPaymentDate": this.cpyPaymentDate[0],
-						"cpyEndPaymentDate": this.cpyPaymentDate[1],
-					}
-					axios.post("/cpy/query", querydata).then((response) => {
-						this.cpyQueryMessage=response.data.message;
-						this.cpyVisibility = "visibility:visible";
-						loading.close();
-
-						this.$message({
-							message: '包干明细查询成功',
-							type: 'success'
-						});
-					});
-
-				},
-				billExport(){
+				elec_export(){
 					const loading = this.$loading({
 						lock: true,
 						text: 'Loading...',
@@ -363,13 +238,16 @@
 					});
 
 					var querydata = {
-						"billArea": this.billArea,
-						"billCustomer": this.billCustomer,
-						"billPayNumber":this.billPayNumber,
-						"billStartPaymentDate": this.billPaymentDate[0],
-						"billEndPaymentDate": this.billPaymentDate[1],
+						"currentPage": 0,
+						"pageSize": this.pageSize,
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startAccountPeriod": this.accountPeriod[0],
+						"endAccountPeriod": this.accountPeriod[1],
 					};
-					axios.post("/bill/export", querydata,{responseType: 'blob'}).then(function(response) {
+					axios.post("/electric/export", querydata,{responseType: 'blob'}).then(function(response) {
 						var blob = new Blob([response.data])
 						var downloadElement = document.createElement('a');
 						var href = window.URL.createObjectURL(blob); //创建下载的链接
@@ -379,49 +257,10 @@
 						downloadElement.click(); //点击下载
 						document.body.removeChild(downloadElement); //下载完成移除元素
 						window.URL.revokeObjectURL(href); //释放掉blob对象
-
-
 						loading.close();
-
 					}).catch(function(error) {
 						console.log(error);
 					});
-
-				},
-
-				cpyExport(){
-					const loading = this.$loading({
-						lock: true,
-						text: 'Loading...',
-						spinner: 'el-icon-loading',
-						background: 'rgba(0, 0, 0, 0.7)'
-					});
-
-					var querydata = {
-						"cpyArea": this.cpyArea,
-						"cpyCustomer": this.cpyCustomer,
-						"cpyStartPaymentDate": this.cpyPaymentDate[0],
-						"cpyEndPaymentDate": this.cpyPaymentDate[1],
-					};
-					axios.post("/cpy/export", querydata,{responseType: 'blob'}).then(function(response) {
-						var blob = new Blob([response.data])
-						var downloadElement = document.createElement('a');
-						var href = window.URL.createObjectURL(blob); //创建下载的链接
-						downloadElement.href = href;
-						downloadElement.download = '包干签认明细.xlsx'; //下载后文件名
-						document.body.appendChild(downloadElement);
-						downloadElement.click(); //点击下载
-						document.body.removeChild(downloadElement); //下载完成移除元素
-						window.URL.revokeObjectURL(href); //释放掉blob对象
-
-
-						loading.close();
-
-					}).catch(function(error) {
-						console.log(error);
-					});
-
-
 				}
 
 			}

@@ -12,6 +12,7 @@ public class ElectricQueryBean implements Serializable {
 
     private List<String> regions;
     private List<String> customers;
+    private String siteCode;
     private String verifyCode;
     private String startAccountPeriod;
     private String endAccountPeriod;

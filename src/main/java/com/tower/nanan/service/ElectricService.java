@@ -27,7 +27,6 @@ import java.util.Set;
 
 @Service
 public class ElectricService implements InitializingBean {
-
     public static Set rebackCodeSet;
     public static Set verifyCodeSet;
 
@@ -40,6 +39,9 @@ public class ElectricService implements InitializingBean {
     @Autowired
     private VerifyService verifyService;
 
+    @Autowired
+    private PercentageService percentageService;
+
     @Transactional
     public Result saveElectrics(File file,User user) throws Exception {
 
@@ -51,8 +53,13 @@ public class ElectricService implements InitializingBean {
 
             for (List<String> elect : electricList) {
                 electric = ExcelColumns.getElectric(elect);
-                System.out.println(">>>>>>>>>>>>>>>>>"+electric);
                 electricDao.insertSelective(electric);
+                percentageService.savePercentageByElectric(
+                        electric.getSiteCode(),
+                        electric.getAmmeterCode(),
+                        electric.getCustomer(),
+                        electric.getEndDate(),
+                        electric.getProportion());
             }
             Electric electricR = ExcelColumns.getElectric(electricList.get(0));
             Reback reback = new Reback();
@@ -69,8 +76,10 @@ public class ElectricService implements InitializingBean {
     }
 
     public List<Electric> findByCondition(ElectricQueryBean electricQueryBean, User user){
+        System.out.println(electricQueryBean);
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
+
         if (electricQueryBean.getRegions() != null && !electricQueryBean.getRegions().isEmpty()){
             for (String region : electricQueryBean.getRegions()) {
                 criteria.orEqualTo("region",region);
@@ -82,9 +91,15 @@ public class ElectricService implements InitializingBean {
                 criteria.orEqualTo("customer",customer);
             }
         }
-        if (electricQueryBean.getVerifyCode() != null && !electricQueryBean.getVerifyCode().isEmpty()){
+
+        if (!electricQueryBean.getSiteCode().isEmpty()){
+
+            String siteCode = electricQueryBean.getSiteCode();
+            criteria.andEqualTo("siteCode",siteCode);
+        }
+        if (!electricQueryBean.getVerifyCode().isEmpty()){
             String verifyCode = electricQueryBean.getVerifyCode();
-            criteria.andEqualTo("verify_code",verifyCode);
+            criteria.andEqualTo("verifyCode",verifyCode);
         }
 
         if (electricQueryBean.getStartAccountPeriod() != null && !electricQueryBean.getStartAccountPeriod().isEmpty()){
@@ -96,14 +111,12 @@ public class ElectricService implements InitializingBean {
             String endAccountPeriod = electricQueryBean.getEndAccountPeriod();
             criteria.andCondition("account_period <=",endAccountPeriod);
         }
-        if (electricQueryBean.getCurrentPage() != null && electricQueryBean.getPageSize() != null) {
-            PageHelper.startPage(electricQueryBean.getCurrentPage(), electricQueryBean.getPageSize());
-        }
+
         return electricDao.selectByExample(example);
 
     }
 
-    public double query(ElectricQueryBean electricQueryBean, User user){
+ /*   public double query(ElectricQueryBean electricQueryBean, User user){
         double total =0.0;
         List<Electric> electrics = findByCondition(electricQueryBean,user);
         for (Electric electric : electrics) {
@@ -112,12 +125,14 @@ public class ElectricService implements InitializingBean {
 
 
         return MyUtils.to2Round(total);
-    }
+    }*/
 
     public PageResult pageQuery(ElectricQueryBean electricQueryBean, User user) {
-
-        Page<Electric> pageDate = (Page<Electric>) findByCondition(electricQueryBean,user);
-        return null;
+        if (electricQueryBean.getCurrentPage() != null && electricQueryBean.getPageSize() != null) {
+            PageHelper.startPage(electricQueryBean.getCurrentPage(), electricQueryBean.getPageSize());
+        }
+        Page<Electric> pageData = (Page<Electric>) findByCondition(electricQueryBean,user);
+        return new PageResult(pageData.getTotal(),pageData.getResult());
     }
 
     @Override

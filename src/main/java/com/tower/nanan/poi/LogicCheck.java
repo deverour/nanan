@@ -251,4 +251,70 @@ public class LogicCheck {
 
         return new Result(flag,errorMessage.getMessage().toString(),MyUtils.to2Round(total));
     }
+
+    public static Result percentageCheck(List<List<String>> percentages) {
+        ErrorMessage errorMessage = new ErrorMessage(new StringBuilder(),1);
+        HashSet<String> keySet = new HashSet();
+        boolean flag = true;
+        //列数
+        if (percentages.get(0).size() < ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION3+1){
+            errorMessage.addMessage("第【"+(percentages.get(0).size()+1)+"】列不能为空\n");
+            flag=false;
+            return new Result(flag,errorMessage.getMessage().toString());
+        }
+
+        for (List<String> percentage : percentages) {
+            //key
+            String key =percentage.get(ExcelColumns.INDEX_PERCENTAGE_SITECODE)+percentage.get(ExcelColumns.INDEX_PERCENTAGE_AMMETERCODE);
+            if (keySet.contains(key)){
+                flag=false;
+                errorMessage.addMessage("导入表【站址编码&电表编码】不能重复！");
+            }else {
+                keySet.add(key);
+            }
+
+            //站址编码siteCode
+            String siteCode = percentage.get(ExcelColumns.INDEX_PERCENTAGE_SITECODE);
+            if (!NumberUtils.isNumber(siteCode)){
+                flag=false;
+                errorMessage.addMessage("【站址编码】错误,请检查是否有空格或非数字");
+            }else if (siteCode.contains(".")){
+                flag=false;
+                errorMessage.addMessage("【站址编码】错误,请检查是否有空格或非数字");
+            }
+
+            //电表编码ammeterCode
+            String ammeterCode=percentage.get(ExcelColumns.INDEX_PERCENTAGE_AMMETERCODE);
+            if (ammeterCode==null){
+                flag=false;
+                errorMessage.addMessage("【电表编码】不能为空");
+            }
+
+            //分摊比例
+            String proportion1=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION1);
+            String proportion2=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION2);
+            String proportion3=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION3);
+            if (!NumberUtils.isNumber(proportion1)){
+                flag=false;
+                errorMessage.addMessage("【移动分摊比例】错误,请检查是否大于0且小于等于100%");
+            }else if (Double.parseDouble(proportion1)<=0 && Double.parseDouble(proportion1)>1){
+                flag=false;
+                errorMessage.addMessage("【移动分摊比例】错误,请检查是否大于0且小于等于100%");
+            }else if (!NumberUtils.isNumber(proportion2)){
+                flag=false;
+                errorMessage.addMessage("【联通分摊比例】错误,请检查是否大于0且小于等于100%");
+            }else if (Double.parseDouble(proportion2)<=0 && Double.parseDouble(proportion2)>1){
+                flag=false;
+                errorMessage.addMessage("【联通分摊比例】错误,请检查是否大于0且小于等于100%");
+            }else if (!NumberUtils.isNumber(proportion3)){
+                flag=false;
+                errorMessage.addMessage("【电信分摊比例】错误,请检查是否大于0且小于等于100%");
+            }else if (Double.parseDouble(proportion3)<=0 && Double.parseDouble(proportion3)>1){
+                flag=false;
+                errorMessage.addMessage("【电信分摊比例】错误,请检查是否大于0且小于等于100%");
+            }
+        }
+        return new Result(flag,errorMessage.getMessage().toString());
+
+    }
 }

@@ -38,7 +38,24 @@ public class MyUtils {
     public static ArrayList<String> getList(Electric electric){
         ArrayList<String> list=new ArrayList<String>();
         list.add(electric.getId());
-
+        list.add(electric.getRegion());
+        list.add(electric.getSiteCode());
+        list.add(electric.getAmmeterCode());
+        list.add(electric.getDirectSupply());
+        list.add(electric.getAccountCode());
+        list.add(electric.getStartDegrees());
+        list.add(electric.getEndDegrees());
+        list.add(electric.getElectricQuantity());
+        list.add(electric.getStartDate());
+        list.add(electric.getEndDate());
+        list.add(electric.getPayMoney());
+        list.add(electric.getShareCustomer());
+        list.add(electric.getProportion());
+        list.add(electric.getSettlement());
+        list.add(electric.getRebackCode());
+        list.add(electric.getCustomer());
+        list.add(electric.getVerifyCode());
+        list.add(electric.getAccountPeriod());
         return list;
     }
 

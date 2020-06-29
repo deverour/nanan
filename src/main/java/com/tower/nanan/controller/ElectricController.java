@@ -78,9 +78,10 @@ public class ElectricController {
         }
     }
 
-    @RequestMapping("/findPage")
+    @RequestMapping("/query")
     public PageResult findPage(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession) {
         try {
+
             User user = (User)httpSession.getAttribute("user");
             return electricService.pageQuery(electricQueryBean,user);
         } catch (Exception e) {

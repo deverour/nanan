@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface VerifyDao extends Mapper<Verify> {
 
-    @Select("select verifyCode from verify")
+    @Select("select verify_code from verify")
     public Set<String> getVerifyCodeSet();
 }
