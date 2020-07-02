@@ -4,7 +4,7 @@
 		<!-- 页面meta -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>传智健康</title>
+		<title>南岸电费管理系统 | 电费查询</title>
 		<meta name="description" content="传智健康">
 		<meta name="keywords" content="传智健康">
 		<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -16,6 +16,11 @@
 		<!-- 引入组件库 -->
 		<script src="../js/vue.js"></script>
 		<script src="../plugins/elementui/index.js"></script>
+		<!-- import Vue before Element -->
+		<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+		<!-- import JavaScript -->
+		<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
 		<script src="../js/axios-0.18.0.js"></script>
 	</head>
@@ -23,23 +28,22 @@
 		<div id="app">
 
 			<div class="content-header">
-				<h1>导入导出<small>签认明细下载</small></h1>
+				<h1>电费明细<small>查询</small></h1>
 				<el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-					<el-breadcrumb-item>导入导出</el-breadcrumb-item>
-					<el-breadcrumb-item>签认明细下载</el-breadcrumb-item>
+					<el-breadcrumb-item>电费明细</el-breadcrumb-item>
+					<el-breadcrumb-item>查询</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
 			<div class="app-container">
 				<!--代垫-->
 				<div class="box">
-					<h3><small>代垫明细</small></h3>
+
 					<el-card class="box-card">
 						<el-row>
 
 
 							<!--区域-->
-							<!--<el-col :span="2">&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域</el-col>-->
 							<el-col :span="8">
 								<div class="grid-content bg-purple">
 									&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域&ensp;
@@ -60,7 +64,7 @@
 							</el-col>
 						</el-row><br />
 
-						<el-row>
+						<el-row type="flex" class="row-bg" align="middle">
 							<!--<el-col :span="8">
 
 								<div class="grid-content bg-purple">
@@ -82,12 +86,14 @@
 							</el-col>
 
 						</el-row><br />
-						<el-row>
+						<el-row type="flex" class="row-bg" align="middle">
 							<!--账期-->
 							<el-col :span="2.5">&ensp;&ensp;&ensp;&ensp;账&ensp;&ensp;&ensp;&ensp;期&ensp;</el-col>
 							<el-col :span="7.5">
-								<el-date-picker v-model="accountPeriod" type="daterange" range-separator="至" start-placeholder="开始日期"
-												end-placeholder="结束日期" value-format="yyyyMM" size="small">
+								<el-date-picker v-model="accountPeriod"  type="monthrange" value-format ="yyyyMM"
+												range-separator="至"
+												start-placeholder="开始月份"
+												end-placeholder="结束月份"  size="small">
 								</el-date-picker>
 							</el-col>
 						</el-row>
@@ -118,6 +124,7 @@
 							<el-table-column prop="endDegrees" label="止度"></el-table-column>
 							<el-table-column prop="electricQuantity" label="电量" ></el-table-column>
 							<el-table-column prop="startDate" label="始期" ></el-table-column>
+							<el-table-column prop="endDate" label="终期" ></el-table-column>
 							<el-table-column prop="payMoney" label="垫资总额"></el-table-column>
 							<el-table-column prop="proportion" label="分摊比例" ></el-table-column>
 							<el-table-column prop="settlement" label="结算金额" ></el-table-column>
@@ -149,8 +156,7 @@
 			data: {
 
 				group: '',
-				fullscreenLoading: false,
-				regionlist: ["南岸", "綦江", "江津", "巴南"],
+				regionlist: [],
 				customerlist: ["移动", "联通", "电信"],
 
 				dataList: [],

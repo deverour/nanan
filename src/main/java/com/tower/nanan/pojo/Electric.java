@@ -6,12 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 
 @Getter
 @Setter
 @ToString
 public class Electric {
 
+    @Id
     private String id;
     private String region;//区域
     private String siteCode;//站点编码
@@ -21,7 +23,6 @@ public class Electric {
     private String startDegrees;//起度
     private String endDegrees;//止度
     private String electricQuantity;//电量
-    //private String unitPrice;//单价
     private String startDate;//始期
     private String endDate;//终期
     private String payMoney;//垫资总额
@@ -31,10 +32,12 @@ public class Electric {
 
 
     private String customer;//结算运营商
-    //@Column(name = "verifyCode")
     private String verifyCode;//核销单号
     private String accountPeriod;//账期
     private String rebackCode;//回款编号
+    private String uploadDate;//上传日期
+
+    private String notaxMoney;//不含税
 
 
 }

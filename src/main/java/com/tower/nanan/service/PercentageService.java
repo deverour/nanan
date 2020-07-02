@@ -25,15 +25,15 @@ public class PercentageService {
     public void savePercentageByElectric(String siteCode, String ammeterCode, String customer, String lastDate, String proportion) {
         Example example = new Example(Percentage.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("site_code",siteCode);
-        criteria.andEqualTo("ammeter_code",ammeterCode);
+        criteria.andEqualTo("siteCode",siteCode);
+        criteria.andEqualTo("ammeterCode",ammeterCode);
         Percentage percentage = percentageDao.selectOneByExample(example);
 
         Percentage newpercentage = new Percentage();
         newpercentage.setSiteCode(siteCode);
         newpercentage.setAmmeterCode(ammeterCode);
 
-        if (percentage.getSiteCode() != null){
+        if (percentage != null){
             if (customer.equals("移动")) {
                 if (NumberUtils.toDouble(lastDate) > NumberUtils.toDouble(percentage.getLastDate1())){
                     newpercentage.setLastDate1(lastDate);
@@ -87,8 +87,8 @@ public class PercentageService {
                 String newPerportion3 = per.get(4);
                 Example example = new Example(Percentage.class);
                 Example.Criteria criteria = example.createCriteria();
-                criteria.andEqualTo("site_code",siteCode);
-                criteria.andEqualTo("ammeter_code",ammeterCode);
+                criteria.andEqualTo("siteCode",siteCode);
+                criteria.andEqualTo("ammeterCode",ammeterCode);
                 Percentage oldpercentage = percentageDao.selectOneByExample(example);
                 System.out.println("oldpercentage"+oldpercentage);
                 Percentage percentage = new Percentage();

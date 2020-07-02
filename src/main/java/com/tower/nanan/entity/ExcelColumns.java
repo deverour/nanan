@@ -25,6 +25,7 @@ public class ExcelColumns {
     public static final int INDEX_ELECTRIC_VERIFYCODE = 15;//核销单号
     public static final int INDEX_ELECTRIC_ACCOUNTPERIOD =16;//账期
     public static final int INDEX_ELECTRIC_REBACKCODE = 17; //回款编号
+    public static final int INDEX_ELECTRIC_UPLOADDATE = 18;//上传日期
 
     public static final int INDEX_PERCENTAGE_SITECODE = 0;
     public static final int INDEX_PERCENTAGE_AMMETERCODE = 1;
@@ -37,38 +38,60 @@ public class ExcelColumns {
 
     public static Electric getElectric(List<String> list){
         Electric electric = new Electric();
-        electric.setVerifyCode(list.get(0));
+        electric.setRegion(list.get(INDEX_ELECTRIC_REGION));
+        electric.setSiteCode(list.get(INDEX_ELECTRIC_SITECODE));
+        electric.setAmmeterCode(list.get(INDEX_ELECTRIC_AMMETERCODE));
+        electric.setDirectSupply(list.get(INDEX_ELECTRIC_DIRECTSUPPLY));
+        electric.setAccountCode(list.get(INDEX_ELECTRIC_ACCOUNTCODE));
+        electric.setStartDegrees(list.get(INDEX_ELECTRIC_STARTDEGRESS));
+        electric.setEndDegrees(list.get(INDEX_ELECTRIC_ENDDEGRESS));
+        electric.setElectricQuantity(list.get(INDEX_ELECTRIC_ELECTRICQUANTITY));
+        electric.setStartDate(list.get(INDEX_ELECTRIC_STARTDATE));
+        electric.setEndDate(list.get(INDEX_ELECTRIC_ENDDATE));
+        electric.setPayMoney(list.get(INDEX_ELECTRIC_PAYMONEY));
+        electric.setShareCustomer(list.get(INDEX_ELECTRIC_SHARECUSTOMER));
+        electric.setProportion(list.get(INDEX_ELECTRIC_PROPORTION));
+        electric.setSettlement(list.get(INDEX_ELECTRIC_SETTLEMENT));
+        electric.setCustomer(list.get(INDEX_ELECTRIC_CUSTOMER));
+        electric.setVerifyCode(list.get(INDEX_ELECTRIC_VERIFYCODE));
+        electric.setAccountPeriod(list.get(INDEX_ELECTRIC_ACCOUNTPERIOD));
+        electric.setRebackCode(list.get(INDEX_ELECTRIC_REBACKCODE));
 
         return electric;
     }
 
     public static ArrayList<String> getElectricTitle() {
         ArrayList<String> namelist = new ArrayList<String>() ;
-        namelist.add("结算编号(唯一值)");
+        namelist.add("电费编号(唯一值)");
         namelist.add("区域");
-        namelist.add("支付单号");
         namelist.add("站址编码");
         namelist.add("电表编码");
-        namelist.add("电表倍率");
         namelist.add("是否直供电");
         namelist.add("户号");
-        namelist.add("始期");
-        namelist.add("终期");
         namelist.add("起度");
         namelist.add("止度");
-        namelist.add("电损");
         namelist.add("电量");
+        namelist.add("始期");
+        namelist.add("终期");
         namelist.add("垫资总额");
         namelist.add("共享运营商");
         namelist.add("分摊比例");
         namelist.add("结算金额");
-        namelist.add("账期");
         namelist.add("结算运营商");
-        namelist.add("制表时间");
+        namelist.add("核销单号");
+        namelist.add("账期");
         namelist.add("回款编号");
         namelist.add("上传日期");
         return namelist;
     }
 
 
+    public static ArrayList<String> getRebackStatTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("核销单号(唯一值)");
+        namelist.add("核销金额");
+        namelist.add("已签认金额");
+        namelist.add("统计时间");
+        return namelist;
+    }
 }

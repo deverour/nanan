@@ -37,7 +37,6 @@ public class ElectricController {
 
     @RequestMapping("/upload")
     public Result upload(@RequestParam("electricFile") MultipartFile multipartFile, HttpSession httpSession){
-        System.out.println("1111111111111");
         try {
             //User user = (User) httpSession.getAttribute("user");
             User user = new User();
@@ -58,6 +57,28 @@ public class ElectricController {
         }
     }
 
+    @RequestMapping("update")
+    public Result update(@RequestParam("electricFile") MultipartFile multipartFile,HttpSession httpSession){
+        try {
+            //User user = (User) httpSession.getAttribute("user");
+            User user = new User();
+            user.setRegion("南岸");
+            String path = FilePath.UPLOAD_TEMP;
+            String uuid = UUID.randomUUID().toString().replace("-", "");
+            String filename = uuid+ MyUtils.getRealName(multipartFile.getOriginalFilename());
+            File file = new File(path,filename);
+            if(!file.exists()){
+                file.mkdir();
+            }
+            multipartFile.transferTo(file);
+            electricService.update(file,user);
+            return new Result(true,"核销单号补录成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false,e.getMessage());
+        }
+    }
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession){
         try {
@@ -79,7 +100,7 @@ public class ElectricController {
     }
 
     @RequestMapping("/query")
-    public PageResult findPage(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession) {
+    public PageResult query(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession) {
         try {
 
             User user = (User)httpSession.getAttribute("user");

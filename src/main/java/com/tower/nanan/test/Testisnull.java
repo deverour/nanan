@@ -2,12 +2,16 @@ package com.tower.nanan.test;
 
 import com.tower.nanan.entity.ElectricQueryBean;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Testisnull {
 
     public static void main(String[] args) {
-        ElectricQueryBean electricQueryBean = new ElectricQueryBean();
-        System.out.println(electricQueryBean.getCustomers()==null);
-        //System.out.println(electricQueryBean.getCustomers().isEmpty());
-        System.out.println(electricQueryBean);
+        Set set = new HashSet();
+        set.add("a");
+        set.add("b");
+        set.add("a");
+        System.out.println(set);
     }
 }

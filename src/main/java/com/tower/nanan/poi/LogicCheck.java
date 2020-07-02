@@ -49,7 +49,7 @@ public class LogicCheck {
 
             //核销单号verifyCode
             String verifyCode = electric.get(ExcelColumns.INDEX_ELECTRIC_VERIFYCODE);
-            if (!verifyCodeSet.contains(verifyCode)){
+            if (!verifyCodeSet.contains(verifyCode) && !verifyCode.equals("待补录") ){
                 flag=false;
                 errorMessage.addMessage("【核销单号】不存在     ");
             }

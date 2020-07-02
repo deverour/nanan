@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>main</title>
+    <title>南岸电费管理系统</title>
     <!--让IE使用最新的渲染模式-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -115,18 +115,18 @@
             menuList: [
                 {
                     "path": "2",
-                    "title": "导入导出",
+                    "title": "电费明细",
                     "icon": "fa-user-md",
                     "children": [{
                         "path": "/2-1",
-                        "title": "签认明细上传",
-                        "linkUrl": "import.html",
+                        "title": "明细上传",
+                        "linkUrl": "electric-import.html",
                         "children": []
                     },
                         {
                             "path": "/2-2",
-                            "title": "签认明细下载",
-                            "linkUrl": "export.html",
+                            "title": "查询下载",
+                            "linkUrl": "electric-export.html",
                             "children": []
                         },
 
@@ -142,24 +142,31 @@
                         "linkUrl": "reback-process.html",
                         "children": []
                     },
-                        {
-                            "path": "/3-2",
-                            "title": "。。。",
-                            "linkUrl": "..........",
-                            "children": []
-                        },
-                        {
-                            "path": "/3-3",
-                            "title": "。。。",
-                            "linkUrl": "setmeal.html",
-                            "children": []
-                        },
-                        {
-                            "path": "/3-4",
-                            "title": "。。。",
-                            "linkUrl": "checkgroup.html",
-                            "children": []
-                        },
+                    {
+                        "path": "/3-2",
+                        "title": "。。。",
+                        "linkUrl": "..........",
+                        "children": []
+                    },
+
+                    ]
+                },
+                {
+                    "path": "4",
+                    "title": "管理员",
+                    "icon": "fa-tty",
+                    "children": [{
+                        "path": "/4-1",
+                        "title": "物业数据",
+                        "linkUrl": "admin.html",
+                        "children": []
+                    },
+                    {
+                        "path": "/4-2",
+                        "title": "统计分析",
+                        "linkUrl": "..........",
+                        "children": []
+                    },
 
                     ]
                 },

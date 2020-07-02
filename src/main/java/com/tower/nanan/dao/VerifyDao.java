@@ -10,4 +10,7 @@ public interface VerifyDao extends Mapper<Verify> {
 
     @Select("select verify_code from verify")
     public Set<String> getVerifyCodeSet();
+
+    @Select("select bill_id from verify")
+    public Set<String> getBillIdSet();
 }

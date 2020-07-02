@@ -44,18 +44,6 @@
             <!-- <h3><small>代垫明细</small></h3> -->
             <el-card class="box-card">
                 <el-row type="flex" class="row-bg">
-                    <!--分公司-->
-
-                    <!--<el-col :span="8">
-
-                        <div class="grid-content bg-purple">
-                            &ensp;&ensp;&ensp;&ensp;分&ensp;&ensp;&ensp;&ensp;公&ensp;&ensp;&ensp;&ensp;司&ensp;
-                            <el-select v-model="rebackBranch" multiple placeholder="请选择" size="small">
-                                <el-option v-for="item in rebackBranchlist" :key="item" :label="item"
-                                           :value="item"></el-option>
-                            </el-select>
-                        </div>
-                    </el-col>-->
 
                     <!--区域-->
 
@@ -68,12 +56,6 @@
                             </el-select>
                         </div>
                     </el-col>
-
-
-                </el-row>
-                </br>
-                
-                <el-row type="flex" class="row-bg">
                     <!--运营商-->
                     <el-col :span="8">
                         <div class="grid-content bg-purple">
@@ -86,38 +68,16 @@
                     </el-col>
 
 
-                    <!--是否回款-->
-<!--
-                    <el-col :span="8">
-                        &ensp;&ensp;&ensp;&ensp;是否回款&ensp;
-                        <el-select v-model="rebacked" size="small" clearable placeholder="请选择">
-                            <el-option key="是" label="是" value="是"></el-option>
-                            <el-option key="否" label="否" value="否"></el-option>
-                        </el-select>
-                    </el-col>-->
-
                 </el-row>
                 <br/>
 
 
                 <el-row type="flex" class="row-bg" align="middle">
 
-
-                    <!--是否上传扫描件-->
-
-                    <!--<el-col :span="8">
-                        &ensp;&ensp;&ensp;&ensp;是否上传扫描件&ensp;
-                        <el-select v-model="rebackScanned" size="small" clearable placeholder="请选择">
-                            <el-option key="是" label="是" value="是"></el-option>
-                            <el-option key="否" label="否" value="否"></el-option>
-                        </el-select>
-                    </el-col>-->
                     <!--回款编号-->
                     <el-col :span="3">&ensp;&ensp;&ensp;&ensp;回款编号&ensp;</el-col>
                     <el-col :span="7">
-
                         <div class="grid-content bg-purple">
-
                             <el-input type="text" v-model="rebackCode" size="small"></el-input>
 
                         </div>
@@ -131,18 +91,20 @@
                     <!--账期-->
                     <el-col :span="10">
                         &ensp;&ensp;&ensp;&ensp;账&ensp;&ensp;&ensp;&ensp;期&ensp;
-                        <el-date-picker v-model="accountPeriod" type="daterange" range-separator="至"
+                        <el-date-picker v-model="accountPeriod" type="monthrange" value-format="yyyyMM"
+                                        range-separator="至"
                                         start-placeholder="开始日期"
-                                        end-placeholder="结束日期" value-format="yyyyMM" size="small">
+                                        end-placeholder="结束日期"  size="small">
                         </el-date-picker>
                     </el-col>
 
                     <!--回款日期-->
                     <el-col :span="10">
                         回款日期&ensp;
-                        <el-date-picker v-model="rebackReceivableDate" type="daterange" range-separator="至"
+                        <el-date-picker v-model="rebackDate" type="daterange" value-format="yyyy/MM/dd"
+                                        range-separator="至"
                                         start-placeholder="开始日期"
-                                        end-placeholder="结束日期" value-format="yyyy-MM" size="small">
+                                        end-placeholder="结束日期"  size="small">
                         </el-date-picker>
                     </el-col>
                 </el-row>
@@ -163,22 +125,16 @@
                 <el-table border :data="dataList" style="width: 100%" size='small' current-row-key="id">
 
                     <!--<el-table-column prop="fengongsi" label="分公司" min-width="45"></el-table-column>-->
-                    <el-table-column prop="region" label="区域" min-width="45"></el-table-column>
-                    <el-table-column prop="accountPeriod" label="账期" min-width="65"></el-table-column>
-                    <el-table-column prop="customer" label="运营商" min-width="45"></el-table-column>
-                    <el-table-column prop="settlementModel" label="结算模式" min-width="45"></el-table-column>
-                    <el-table-column prop="rebackCode" label="回款编号" width="200"></el-table-column>
-                    <el-table-column prop="settlement" label="结算金额" min-width="81"></el-table-column>
-                    <el-table-column prop="issaomiao" label="扫描件" min-width="35"></el-table-column>
-                    <el-table-column prop="ishuikuan" label="是否回款" min-width="35"></el-table-column>
-                    <el-table-column prop="rebackDate" label="回款日期" min-width="78"></el-table-column>
-                    <el-table-column prop="scanoperation" label="编辑扫描件" width="218">
-                        <template slot-scope="scope">
-                            <el-button type="primary" size="mini" @click="rebackScannedUpdate(scope.row)">上传</el-button>
-                            <el-button type="success" size="mini" @click="rebackScannedDownload(scope.row)">下载</el-button>
-                            <el-button type="danger" size="mini" @click="rebackScannedDelete(scope.row)">删除</el-button>
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="region" label="区域" ></el-table-column>
+                    <el-table-column prop="accountPeriod" label="账期" ></el-table-column>
+                    <el-table-column prop="customer" label="运营商" ></el-table-column>
+                    <el-table-column prop="settlementModel" label="结算模式" ></el-table-column>
+                    <el-table-column prop="rebackCode" label="回款编号" ></el-table-column>
+                    <el-table-column prop="settlement" label="结算金额" ></el-table-column>
+                    <el-table-column prop="uploadDate" label="上传日期" ></el-table-column>
+                    <el-table-column prop="rebacked" label="是否回款" ></el-table-column>
+                    <el-table-column prop="rebackDate" label="回款日期"></el-table-column>
+
                     <el-table-column prop="scanoperation" label="回款明细操作" min-width="91">
                         <template slot-scope="scope">
 
@@ -200,21 +156,7 @@
                     </el-pagination>
                 </div>
 
-                <div class="add-form">
-                    <el-dialog title="扫描件上传" :visible.sync="updateScannedDialogVisible" width="20%">
-                        <span>回款编号:</span>
-                        <span>{{rowRebackNumber}}</span></br></br>
-                        <div style="text-align: right;display:block;">
-                            <el-upload :action="'/scanned/upload?id='+rowId" name="sannedFile" :show-file-list="false"
-                                       accept="image/png,.jpg,.pdf,.rar,.zip,.7z"
-                                       :on-success="handleSuccess" :on-progress="handleUploading"
-                                       :before-upload="beforeUpload">
-                                <el-button type="primary">上传文件</el-button>
-                            </el-upload>
-                        </div>
 
-                    </el-dialog>
-                </div>
             </el-card>
         </div>
         <el-dialog
@@ -222,7 +164,7 @@
                 :visible.sync="deleteRebackDialogVisible"
                 width="30%"
                 center>
-            <span>确定要删除回款编号为:【{{deleteRebackNumber}}】 的回款明细?</span>
+            <span>确定要删除回款编号为:【{{deleteRebackCode}}】 的回款明细?</span>
             <span>删除回款明细后,回款编号对应的签认明细将一起被删除!</span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="info" @click="deleteRebackDialogVisible = false">取 消</el-button>
@@ -230,52 +172,19 @@
             </span>
         </el-dialog>
 
-        <el-dialog
-                title="提示"
-                :visible.sync="deleteScannedDialogVisible"
-                width="30%"
-                center>
-            <span>确定要删除回款编号为:【{{deleteScannedRebackNumber}}】 的扫描件?</span>
-
-            <span slot="footer" class="dialog-footer">
-                <el-button type="info" @click="deleteScannedDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="deleteScannedConfirm">确 定</el-button>
-            </span>
-        </el-dialog>
 
     </div>
 </div>
 </body>
 
 <script>
-    var fengjie = ["奉节", "云阳", "巫山", "巫溪"];
-    var fuling = ["涪陵", "长寿", "垫江", "南川", "武隆", "丰都"];
-    var hechuan = ["合川", "北碚", "铜梁", "潼南"];
-    var liangjiang = ["两江", "江北", "渝北"];
-    var nanan = ["南岸", "巴南", "綦江", "江津"];
-    var qianjiang = ["黔江", "秀山", "酉阳", "彭水"];
-    var wanzhou = ["万州", "开州", "梁平", "城口", "忠县", "石柱"];
-    var yongchuan = ["永川", "大足", "璧山", "荣昌"];
-    var yuzhong = ["渝中", "沙坪坝", "九龙坡", "大渡口"];
-    var rebackBranchmap = new Map();
-    rebackBranchmap.set("奉节", fengjie);
-    rebackBranchmap.set("涪陵", fuling);
-    rebackBranchmap.set("合川", hechuan);
-    rebackBranchmap.set("两江", liangjiang);
-    rebackBranchmap.set("南岸", nanan);
-    rebackBranchmap.set("黔江", qianjiang);
-    rebackBranchmap.set("万州", wanzhou);
-    rebackBranchmap.set("永川", yongchuan);
-    rebackBranchmap.set("渝中", yuzhong);
-</script>
-<script>
 
 
     new Vue({
         el: '#app',
         data: {
+
             group: '',
-            rebackBranchlist: [],
             regionlist: [],
             customerlist: ["移动", "联通", "电信"],
 
@@ -283,24 +192,20 @@
             pageSize: 5,//每页显示的记录数
             total: 0,//总记录数
 
-            rebackBranch: [],
+            dataList: [],
+
             region: [],
             customer: [],
-            rebacked: "",
-            rebackScanned: "",
-            rebackCode: "",
-
+            rebackCode: '',
             accountPeriod: [],
-            rebackReceivableDate: [],
-            fullscreenLoading: false,
+            rebackDate: [],
 
-            dataList: [],
             rowRebackNumber: "",
             rowId: "",
             myloading: '',
 
             deleteId:"",
-            deleteRebackNumber:"",
+            deleteRebackCode:"",
             deleteRebackDialogVisible:false,
 
             deleteScannedId:"",
@@ -313,40 +218,39 @@
         },
         created: function () { //在vue初始化时调用
             axios.get("/user/group").then((response) => {
-
                 if (response.data.flag) {
                     this.group = response.data.data.group;
-
-                    if (this.group == "重庆") {
-                        this.rebackBranchlist = ["奉节", "涪陵", "合川", "两江", "南岸", "黔江", "万州", "永川", "渝中"];
+                    if (this.group == "admin") {
+                        this.regionlist = ["南岸", "綦江", "江津", "巴南"];
                     } else {
-                        this.rebackBranchlist = [this.group];
+                        this.regionlist = [this.region];
                     }
                 }
-
             })
         },
 
         methods: {
             findPage() {
-
-                var params = {
+                console.log("this.accountPeriod:>>>>>>>>>"+this.accountPeriod);
+                if (this.accountPeriod == undefined || this.accountPeriod.length <= 0){
+                    this.accountPeriod =[];
+                }
+                if (this.rebackDate == undefined || this.rebackDate.length <= 0){
+                    this.rebackDate =[];
+                }
+                var querydata = {
                     "currentPage": this.currentPage,
                     "pageSize": this.pageSize,
-                    "rebackBranch": this.rebackBranch,
-                    "region": this.region,
-                    "customer": this.customer,
-                    "rebacked": this.rebacked,
-                    "rebackScanned": this.rebackScanned,
-                    "rebackCode": this.rebackCode,
+
+                    "regions": this.region,
+                    "customers": this.customer,
+                    "siteCode":this.siteCode,
                     "startAccountPeriod": this.accountPeriod[0],
                     "endAccountPeriod": this.accountPeriod[1],
-
-                    "rebackStartReceivableDate": this.rebackReceivableDate[0],
-                    "rebackEndReceivableDate": this.rebackReceivableDate[1],
-
-                };
-                axios.post("/reback/findPage", params).then((response) => {
+                    "startRebackDate": this.rebackDate[0],
+                    "endRebackDate": this.rebackDate[1],
+                }
+                axios.post("/reback/query", querydata).then((response) => {
                     this.dataList = response.data.rows;
                     this.total = response.data.total;
                 });
@@ -357,18 +261,7 @@
                 this.currentPage = currentPage;
                 this.findPage();
             },
-            getarea() {
-                this.region = [];
-                this.regionlist = [];
 
-                rebackBranchselectlist = this.rebackBranch
-                for (var i = 0; i < rebackBranchselectlist.length; i++) {
-                    var mycars = rebackBranchmap.get(rebackBranchselectlist[i]).toString().split(',');
-                    for (j = 0; j < mycars.length; j++) {
-                        this.regionlist.push(mycars[j]);
-                    }
-                }
-            },
             //查询
             query() {
                 const loading = this.$loading({
@@ -391,17 +284,16 @@
                 });
 
                 var querydata = {
-                    "rebackBranch": this.rebackBranch,
-                    "region": this.region,
-                    "customer": this.customer,
-                    "rebacked": this.rebacked,
-                    "rebackScanned": this.rebackScanned,
-                    "rebackCode": this.rebackCode,
+                    "currentPage": 0,
+                    "pageSize": 0,
+
+                    "regions": this.region,
+                    "customers": this.customer,
+                    "siteCode":this.siteCode,
                     "startAccountPeriod": this.accountPeriod[0],
                     "endAccountPeriod": this.accountPeriod[1],
-
-                    "rebackStartReceivableDate": this.rebackReceivableDate[0],
-                    "rebackEndReceivableDate": this.rebackReceivableDate[1],
+                    "startRebackDate": this.rebackDate[0],
+                    "endRebackDate": this.rebackDate[1],
                 };
                 axios.post("/reback/export", querydata, {responseType: 'blob'}).then(function (response) {
                     loading.close();
@@ -423,58 +315,8 @@
                 });
 
             },
-            //扫描件上传
-            rebackScannedUpdate(row) {
-
-                this.rowId = row.id;
-                this.rowRebackNumber = row.huikuanbianhao;
-                this.updateScannedDialogVisible = true;
 
 
-            },
-            //扫描件下载
-            rebackScannedDownload(row) {
-
-                window.location.href = "/scanned/download?id=" + row.id;
-            },
-
-            //扫描件删除
-            rebackScannedDelete(row) {
-                this.deleteScannedId="";
-                this.deleteScannedRebackNumber="";
-                this.deleteScannedId=row.id;
-                this.deleteScannedRebackNumber=row.huikuanbianhao;
-                this.deleteScannedDialogVisible=true;
-            },
-
-            deleteScannedConfirm(){
-                this.deleteScannedDialogVisible=false;
-                this.deleteScannedRebackNumber="";
-                const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                var self = this;
-                axios.post("/scanned/delete?id=" + this.deleteScannedId).then((response) => {
-                    loading.close();
-                    if (response.data.flag) {
-
-                        this.$message({
-                            message: response.data.data.huikuanbianhao + ":  " + response.data.message,
-                            type: 'success'
-                        });
-                        this.findPage();
-
-                    } else {
-
-                        this.$message.error(response.data.message);
-                    }
-                });
-                this.deleteScannedId="";
-
-            },
 
             //打标
             rebackMark(row) {
@@ -485,12 +327,12 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 var self = this;
-                axios.post("/reback/remark?id=" + row.id).then((response) => {
+                axios.post("/reback/mark?id=" + row.id).then((response) => {
                     loading.close();
                     if (response.data.flag) {
 
                         this.$message({
-                            message: row.huikuanbianhao + ":  " + response.data.message,
+                            message: row.rebackCode + ":  " + response.data.message,
                             type: 'success'
                         });
                         self.findPage();
@@ -503,9 +345,9 @@
             //回款明细删除
             rebackDelete(row) {
                 this.deleteId=""
-                this.deleteRebackNumber="";
+                this.deleteRebackCode="";
                 this.deleteId=row.id;
-                this.deleteRebackNumber=row.huikuanbianhao;
+                this.deleteRebackCode=row.rebackCode;
 
                 this.deleteRebackDialogVisible=true;
 
@@ -516,7 +358,7 @@
             //回款明细确认删除
             deleteRebackConfirm(){
                 this.deleteRebackDialogVisible=false;
-                this.deleteRebackNumber="";
+                this.deleteRebackCode="";
                 const loading = this.$loading({
                     lock: true,
                     text: 'Loading...',
@@ -528,7 +370,7 @@
                     loading.close();
                     if (response.data.flag) {
                         this.$message({
-                            message: response.data.data.huikuanbianhao + ":  " + response.data.message,
+                            message: response.data.data.rebackCode + ":  " + response.data.message,
                             type: 'success'
                         });
                         self.findPage();
@@ -538,51 +380,9 @@
 
                 });
                 this.deleteId="";
-            },
-
-            // 使用后缀名，判断文件类型
-            beforeUpload(file) {
-                if (this.isImage(file.name)) {
-                    return true;
-                }
-                this.$message.error('请选择正确的文件类型(例如 *.png、 *.pdf、 *.jpg、 *.rar、 *.zip、 *.7z)');
-                return false;
-
-            },
-            //loading
-            handleUploading() {
-                this.updateScannedDialogVisible = false;
-                this.myloading = this.$loading({
-                    lock: true,
-                    text: 'Loading...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-            },
-            //接受服务器响应
-            handleSuccess(response) {
-                this.myloading.close();
-                if (response.flag) {
-                    this.$message({
-                        message: this.rowRebackNumber + ":  " + response.message,
-                        type: 'success'
-                    });
-                    this.findPage();
-
-                } else {
-
-
-                    this.$message.error(this.rowRebackNumber + ":  " + response.message);
-                }
-                this.rowRebackNumber = "";
-
-            },
-            // 封装一个判断图片文件后缀名的方法
-            isImage(fileName) {
-                if (typeof fileName !== 'string') return;
-                let name = fileName.toLowerCase();
-                return name.endsWith('.png') || name.endsWith('.pdf') || name.endsWith('.jpg') || name.endsWith('.7z') || name.endsWith('.zip') || name.endsWith('.rar');
             }
+
+
 
         }
     })

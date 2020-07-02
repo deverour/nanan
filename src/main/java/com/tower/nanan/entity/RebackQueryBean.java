@@ -12,7 +12,6 @@ public class RebackQueryBean implements Serializable {
 
 	private List<String> region;
 	private List<String> customer;
-	private String rebacked;
 	private String rebackCode;
 	private String startRebackDate;
 	private String endRebackDate;

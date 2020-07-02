@@ -9,10 +9,7 @@ import com.tower.nanan.service.RebackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -25,8 +22,8 @@ public class RebackController {
     private RebackService rebackService;
     
 
-    @PostMapping("/findPage")
-    public PageResult findPage(@RequestBody RebackQueryBean rebackQueryBean, HttpSession httpSession) {
+    @RequestMapping("/query")
+    public PageResult query(@RequestBody RebackQueryBean rebackQueryBean, HttpSession httpSession) {
         try {
             User user = (User)httpSession.getAttribute("user");
 
@@ -36,8 +33,33 @@ public class RebackController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return new PageResult(0l,new ArrayList());
+    }
+
+    @RequestMapping("mark")
+    public Result mark(@RequestParam("id") Integer id,HttpSession httpSession){
+        try {
+            return rebackService.mark(id);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new Result(false,"打标失败");
 
     }
+
+    @RequestMapping("delete")
+    public Result delete(@RequestParam("id") Integer id,HttpSession httpSession){
+        try {
+             rebackService.delete(id);
+             return new Result(true,"删除成功");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new Result(false,"删除失败，请稍后重试");
+    }
+
+
+
 }

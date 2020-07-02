@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class Verify {
     private String verifyCode;
-    private String noTaxMoney;
+    private String billId;
+    private String billState;
+    private String notaxMoney;
 }
