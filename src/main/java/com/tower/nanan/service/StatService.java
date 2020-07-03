@@ -37,11 +37,13 @@ public class StatService {
         List<Verify> verifies = verifyDao.selectAll();
         for (Verify verify : verifies) {
             String verifyCode = verify.getVerifyCode();
+            String customer = verify.getCustomer();
+            String verifyKey = verifyCode + "-" +customer;
             Double notaxMoney = NumberUtils.toDouble(verify.getNotaxMoney());
-            if (verifyMap.containsKey(verifyCode)){
-                verifyMap.put(verifyCode,notaxMoney+verifyMap.get(verifyCode));
+            if (verifyMap.containsKey(verifyKey)){
+                verifyMap.put(verifyKey,notaxMoney+verifyMap.get(verifyKey));
             }else {
-                verifyMap.put(verifyCode,notaxMoney);
+                verifyMap.put(verifyKey,notaxMoney);
             }
         }
 
@@ -49,11 +51,13 @@ public class StatService {
         List<Electric> electrics = electricDao.selectAll();
         for (Electric electric : electrics) {
             String verifyCode = electric.getVerifyCode();
+            String customer = electric.getCustomer();
+            String electricKey = verifyCode + "-" +customer;
             Double notaxMoney = NumberUtils.toDouble(electric.getNotaxMoney());
-            if (electricMap.containsKey(verifyCode)){
-                electricMap.put(verifyCode,notaxMoney+electricMap.get(verifyCode));
+            if (electricMap.containsKey(electricKey)){
+                electricMap.put(electricKey,notaxMoney+electricMap.get(electricKey));
             }else {
-                electricMap.put(verifyCode,notaxMoney);
+                electricMap.put(electricKey,notaxMoney);
             }
         }
 
@@ -61,8 +65,12 @@ public class StatService {
 
         for (Map.Entry<String, Double> entry : verifyMap.entrySet()) {
             System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+            String[] split = entry.getKey().split("-");
+
             RebackStat rebackStat = new RebackStat();
-            rebackStat.setVerifyCode(entry.getKey());
+
+            rebackStat.setVerifyCode(split[0]);
+            rebackStat.setCustomer(split[1]);
             rebackStat.setVerifyMoney(String.valueOf(MyUtils.to2Round(entry.getValue())));
 
             if (electricMap.containsKey(entry.getKey())){

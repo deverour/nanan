@@ -11,6 +11,7 @@ import javax.persistence.Table;
 public class RebackStat {
     @Id
     private String verifyCode;
+    private String customer;
     private String verifyMoney;
     private String rebackMoney;
     private String statDate;

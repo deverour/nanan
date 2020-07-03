@@ -89,6 +89,7 @@ public class ExcelColumns {
     public static ArrayList<String> getRebackStatTitle() {
         ArrayList<String> namelist = new ArrayList<String>() ;
         namelist.add("核销单号(唯一值)");
+        namelist.add("运营商");
         namelist.add("核销金额");
         namelist.add("已签认金额");
         namelist.add("统计时间");

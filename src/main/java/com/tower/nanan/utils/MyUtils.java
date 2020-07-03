@@ -63,6 +63,7 @@ public class MyUtils {
     public static ArrayList<String> getList(RebackStat rebackStat){
         ArrayList<String> list=new ArrayList<String>();
         list.add(rebackStat.getVerifyCode());
+        list.add(rebackStat.getCustomer());
         list.add(rebackStat.getVerifyMoney());
         list.add(rebackStat.getRebackMoney());
         list.add(rebackStat.getStatDate());
