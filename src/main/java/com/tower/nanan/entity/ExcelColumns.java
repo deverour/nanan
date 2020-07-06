@@ -27,11 +27,20 @@ public class ExcelColumns {
     public static final int INDEX_ELECTRIC_REBACKCODE = 17; //回款编号
     public static final int INDEX_ELECTRIC_UPLOADDATE = 18;//上传日期
 
+
     public static final int INDEX_PERCENTAGE_SITECODE = 0;
     public static final int INDEX_PERCENTAGE_AMMETERCODE = 1;
     public static final int INDEX_PERCENTAGE_NEWPERPORTION1 = 2;
     public static final int INDEX_PERCENTAGE_NEWPERPORTION2 = 3;
     public static final int INDEX_PERCENTAGE_NEWPERPORTION3 =4;
+
+
+    public static final int INDEX_VERIFY_REGION = 0;
+    public static final int INDEX_VERIFY_VERIFYCODE = 1;
+    public static final int INDEX_VERIFY_CUSTOMER = 2;
+    public static final int INDEX_VERIFY_BILLID = 3;
+    public static final int INDEX_VERIFY_BILLSTATE = 4;
+    public static final int INDEX_VERIFY_TAXMONEY =5;
 
 
 

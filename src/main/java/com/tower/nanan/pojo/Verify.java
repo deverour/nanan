@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Verify {
+    private String region;
     private String verifyCode;
     private String customer;
     private String billId;

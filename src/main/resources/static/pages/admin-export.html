@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>南岸电费管理系统 | 管理员</title>
+    <meta name="description" content="回款管理-OA系统">
+    <meta name="keywords" content="回款管理-OA系统">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- 引入组件库 -->
+    <script src="../js/vue.js"></script>
+    <script src="../plugins/elementui/index.js"></script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>导入导出<small>核销明细上传</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>管理员</el-breadcrumb-item>
+            <el-breadcrumb-item>物业数据导入</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <div class="app-container">
+        <!--代垫-->
+        <div class="box">
+            <h3><small>核销明细上传</small></h3>
+            <el-card class="box-card">
+                <div class="boxMain">
+
+                    <el-button  style="margin-bottom: 20px;margin-right: 20px" @click="verifyexport()"  type="primary">导出</el-button>
+                    <el-button  style="margin-bottom: 20px;margin-right: 20px" @click="percentageexport()"  type="primary">导出</el-button>
+                </div>
+               <!-- <div>
+                    请以电费签认表表二为数据来源制表，以免后期取数导致电量翻倍（电费签认表表一为系统分摊出账，直供电按票据数量会出两条电量一样的明细），目前三家运营商电费签认表均有新模板（类似电信）
+                </div>-->
+            </el-card>
+        </div>
+
+    </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            myloading:'',
+            updatamessage:"",
+            updataMessageDialogVisible: false,
+
+        },
+        created: function () {//在vue初始化时调用
+        },
+        methods: {
+            // 下载导入模板
+            downloadTemplateforverify(){
+                window.location.href="../templatefiles/核销明细导入模板.xlsx";
+            },
+            downloadTemplateforpercentage(){
+                window.location.href="../templatefiles/结算模式导入模板.xlsx";
+            },
+
+            verifyexport(){
+                axios({
+                    method: 'post',
+                    url: '/verify/export',
+                    responseType: 'blob'
+                }).then(function(response) {
+                    var blob = new Blob([response.data])
+                    var downloadElement = document.createElement('a');
+                    var href = window.URL.createObjectURL(blob); //创建下载的链接
+                    downloadElement.href = href;
+                    downloadElement.download = '核销明细.xlsx'; //下载后文件名
+                    document.body.appendChild(downloadElement);
+                    downloadElement.click(); //点击下载
+                    document.body.removeChild(downloadElement); //下载完成移除元素
+                    window.URL.revokeObjectURL(href); //释放掉blob对象
+                    loading.close();
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            },
+            percentageexport(){
+                axios({
+                    method: 'post',
+                    url: '/percentage/export',
+                    responseType: 'blob'
+                }).then(function(response) {
+                    var blob = new Blob([response.data])
+                    var downloadElement = document.createElement('a');
+                    var href = window.URL.createObjectURL(blob); //创建下载的链接
+                    downloadElement.href = href;
+                    downloadElement.download = '核销明细.xlsx'; //下载后文件名
+                    document.body.appendChild(downloadElement);
+                    downloadElement.click(); //点击下载
+                    document.body.removeChild(downloadElement); //下载完成移除元素
+                    window.URL.revokeObjectURL(href); //释放掉blob对象
+                    loading.close();
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            },
+            // 使用后缀名，判断文件类型
+            beforeUpload(file){
+
+                var fileName = file.name;
+                var fileType = fileName.substr(fileName.lastIndexOf("."));
+                const isXLSX = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                if (isXLSX) {
+                    return true;
+                }
+                this.$message.error('上传文件只能是xlsx格式!');
+
+                return false;
+            },
+            //loading
+            handleUploading(){
+                this.myloading= this.$loading({
+                    lock: true,
+                    text: 'Loading...',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+            },
+            //接受服务器响应
+            handleSuccess(response) {
+                this.updatamessage="";
+
+                this.myloading.close();
+                this.updataMessageDialogVisible = true;
+
+                this.updatamessage=response.message;
+
+            },
+
+        }
+    })
+</script>
+</html>

@@ -33,6 +33,7 @@ public class StatService {
 
     @Transactional
     public void rebackstat(){
+        System.out.println("开始统计");
         Map<String,Double> verifyMap = new HashMap<>();
         List<Verify> verifies = verifyDao.selectAll();
         for (Verify verify : verifies) {

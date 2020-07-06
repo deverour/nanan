@@ -98,10 +98,11 @@ public class PercentageService {
                 percentage.setNewProportion1(newPerportion1);
                 percentage.setNewProportion2(newPerportion2);
                 percentage.setNewProportion3(newPerportion3);
-
+                System.out.println(oldpercentage);
                 if (oldpercentage==null){
                     percentageDao.insertSelective(percentage);
                 }else {
+                    System.out.println("updateByExampleSelective");
                     percentageDao.updateByExampleSelective(percentage,example);
                 }
             }
