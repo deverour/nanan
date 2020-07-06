@@ -8,5 +8,5 @@ public class Verify {
     private String customer;
     private String billId;
     private String billState;
-    private String notaxMoney;
+    private String taxMoney;
 }

@@ -29,15 +29,14 @@ public class Electric {
     private String shareCustomer;//共享运营商
     private String proportion;//分摊比例
     private String settlement;//结算金额
-
-
     private String customer;//结算运营商
     private String verifyCode;//核销单号
     private String accountPeriod;//账期
     private String rebackCode;//回款编号
-    private String uploadDate;//上传日期
 
-    private String notaxMoney;//不含税
+    private String uploadDate;//上传日期
+    private String settlementModel;//结算模式
+
 
 
 }

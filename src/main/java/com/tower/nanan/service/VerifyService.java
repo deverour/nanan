@@ -44,16 +44,21 @@ public class VerifyService implements InitializingBean {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> verifys = excelRead.getMyDataList();
         Verify verify = new Verify();
+        int index = 1;
         for (List<String> ver : verifys) {
             String verifyCode = ver.get(0);
             String billId = ver.get(1);
             String billState = ver.get(2);
-            String notaxMoney = ver.get(3);
+            String customer = ver.get(3);
+            String taxMoney = ver.get(4);
             verify.setVerifyCode(verifyCode);
             verify.setBillId(billId);
             verify.setBillState(billState);
-            verify.setNotaxMoney(notaxMoney);
+            verify.setCustomer(customer);
+            verify.setTaxMoney(taxMoney);
 
+            index ++;
+            System.out.println("index"+index);
             if (Cache.billIdSet.contains(billId)){
                 Example example = new Example(Verify.class);
                 Example.Criteria criteria = example.createCriteria();
@@ -69,7 +74,7 @@ public class VerifyService implements InitializingBean {
     }
 
 
-
-
-
+    public List<Verify> findAll() {
+        return verifyDao.selectAll();
+    }
 }

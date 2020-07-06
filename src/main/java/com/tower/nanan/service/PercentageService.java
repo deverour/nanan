@@ -25,8 +25,8 @@ public class PercentageService {
     public void savePercentageByElectric(String siteCode, String ammeterCode, String customer, String lastDate, String proportion) {
         Example example = new Example(Percentage.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("siteCode",siteCode);
-        criteria.andEqualTo("ammeterCode",ammeterCode);
+        String indexs = siteCode + ammeterCode;
+        criteria.andEqualTo("indexs",indexs);
         Percentage percentage = percentageDao.selectOneByExample(example);
 
         Percentage newpercentage = new Percentage();
@@ -39,7 +39,6 @@ public class PercentageService {
                     newpercentage.setLastDate1(lastDate);
                     newpercentage.setLastProportion1(proportion);
                 }
-
             }
             if (customer.equals("联通")) {
                 if (NumberUtils.toDouble(lastDate) > NumberUtils.toDouble(percentage.getLastDate2())){
@@ -76,29 +75,31 @@ public class PercentageService {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> percentages = excelRead.getMyDataList();
         Result result = LogicCheck.percentageCheck(percentages);
-
+        int counts =1;
         if (result.isFlag()){
             for (List<String> per : percentages) {
-
+                System.out.println(counts);
+                counts++;
                 String siteCode = per.get(0);
                 String ammeterCode = per.get(1);
-                String newPerportion1 = per.get(2);
-                String newPerportion2 = per.get(3);
-                String newPerportion3 = per.get(4);
+                String newPerportion1 = MyUtils.percent(per.get(2));
+                String newPerportion2 = MyUtils.percent(per.get(3));
+                String newPerportion3 = MyUtils.percent(per.get(4));
+                String indexs = siteCode +ammeterCode;
                 Example example = new Example(Percentage.class);
                 Example.Criteria criteria = example.createCriteria();
-                criteria.andEqualTo("siteCode",siteCode);
-                criteria.andEqualTo("ammeterCode",ammeterCode);
+                criteria.andEqualTo("indexs",indexs);
                 Percentage oldpercentage = percentageDao.selectOneByExample(example);
-                System.out.println("oldpercentage"+oldpercentage);
+
                 Percentage percentage = new Percentage();
+                percentage.setIndexs(indexs);
                 percentage.setSiteCode(siteCode);
                 percentage.setAmmeterCode(ammeterCode);
                 percentage.setNewProportion1(newPerportion1);
                 percentage.setNewProportion2(newPerportion2);
                 percentage.setNewProportion3(newPerportion3);
 
-                if (oldpercentage.getSiteCode()==null){
+                if (oldpercentage==null){
                     percentageDao.insertSelective(percentage);
                 }else {
                     percentageDao.updateByExampleSelective(percentage,example);
@@ -113,5 +114,9 @@ public class PercentageService {
 
 
 
+    }
+
+    public List<Percentage> findAll() {
+        return percentageDao.selectAll();
     }
 }

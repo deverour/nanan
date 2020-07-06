@@ -39,7 +39,7 @@ public class StatService {
             String verifyCode = verify.getVerifyCode();
             String customer = verify.getCustomer();
             String verifyKey = verifyCode + "-" +customer;
-            Double notaxMoney = NumberUtils.toDouble(verify.getNotaxMoney());
+            Double notaxMoney = NumberUtils.toDouble(verify.getTaxMoney());
             if (verifyMap.containsKey(verifyKey)){
                 verifyMap.put(verifyKey,notaxMoney+verifyMap.get(verifyKey));
             }else {
@@ -53,7 +53,7 @@ public class StatService {
             String verifyCode = electric.getVerifyCode();
             String customer = electric.getCustomer();
             String electricKey = verifyCode + "-" +customer;
-            Double notaxMoney = NumberUtils.toDouble(electric.getNotaxMoney());
+            Double notaxMoney = NumberUtils.toDouble(electric.getSettlement());
             if (electricMap.containsKey(electricKey)){
                 electricMap.put(electricKey,notaxMoney+electricMap.get(electricKey));
             }else {

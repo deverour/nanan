@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExcelColumns {
-    //public static final int INDEX_ELECTRIC_BRANCH = 0;
+
     public static final int INDEX_ELECTRIC_REGION = 0;//区域
     public static final int INDEX_ELECTRIC_SITECODE = 1;//站点编码
     public static final int INDEX_ELECTRIC_AMMETERCODE = 2;//电表编码
@@ -82,17 +82,54 @@ public class ExcelColumns {
         namelist.add("账期");
         namelist.add("回款编号");
         namelist.add("上传日期");
+        namelist.add("结算模式");
         return namelist;
     }
 
 
     public static ArrayList<String> getRebackStatTitle() {
         ArrayList<String> namelist = new ArrayList<String>() ;
-        namelist.add("核销单号(唯一值)");
+        namelist.add("核销/支付单号(唯一值)");
         namelist.add("运营商");
         namelist.add("核销金额");
         namelist.add("已签认金额");
         namelist.add("统计时间");
+        return namelist;
+    }
+
+    public static ArrayList<String> getVerifyTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("核销/支付单号(唯一值)");
+        namelist.add("分摊编号");
+        namelist.add("分摊状态");
+        namelist.add("客户");
+        namelist.add("分摊金额（含税）");
+        return namelist;
+    }
+
+    public static ArrayList<String> getRebackTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("区域");
+        namelist.add("账期");
+        namelist.add("结算运营商");
+        namelist.add("回款编号");
+        namelist.add("结算金额");
+        namelist.add("回款日期");
+        namelist.add("是否回款");
+        namelist.add("上传日期");
+        namelist.add("结算模式");
+
+        return namelist;
+    }
+
+    public static ArrayList<String> getPercentageTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("站址编码");
+        namelist.add("电表编码");
+        namelist.add("移动分摊");
+        namelist.add("联通分摊");
+        namelist.add("电信分摊");
+
         return namelist;
     }
 }

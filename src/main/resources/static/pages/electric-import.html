@@ -41,9 +41,9 @@
                         <el-button type="primary">上传文件</el-button>
                     </el-upload>
                 </div>
-                <div>
+                <!--<div>
                     请以电费签认表表二为数据来源制表，以免后期取数导致电量翻倍（电费签认表表一为系统分摊出账，直供电按票据数量会出两条电量一样的明细），目前三家运营商电费签认表均有新模板（类似电信）
-                </div>
+                </div>-->
             </el-card>
         </div>
         <!--核销单-->
@@ -110,7 +110,11 @@
         methods: {
             // 下载导入模板
             downloadTemplate(){
-                window.location.href="../templatefiles/代垫签认表导入模板.xlsx";
+                window.location.href="../templatefiles/代垫明细导入模板.xlsx";
+            },
+            // 下载导入模板
+            downloadTemplate(){
+                window.location.href="../templatefiles/包干明细导入模板.xlsx";
             },
             // 使用后缀名，判断文件类型
             beforeUpload(file){

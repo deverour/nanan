@@ -32,8 +32,6 @@ public class ElectricService {
     @Autowired
     private RebackDao rebackDao;
 
-
-
     @Autowired
     private PercentageService percentageService;
 
@@ -49,6 +47,7 @@ public class ElectricService {
             for (List<String> elect : electricList) {
                 electric = ExcelColumns.getElectric(elect);
                 electric.setUploadDate(MyUtils.getExcelDate(new Date()));
+                electric.setSettlementModel("代垫");
                 electricDao.insertSelective(electric);
                 percentageService.savePercentageByElectric(
                         electric.getSiteCode(),

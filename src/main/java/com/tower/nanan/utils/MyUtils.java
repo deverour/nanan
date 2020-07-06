@@ -1,8 +1,7 @@
 package com.tower.nanan.utils;
 
 import com.tower.nanan.entity.ErrorMessage;
-import com.tower.nanan.pojo.Electric;
-import com.tower.nanan.pojo.RebackStat;
+import com.tower.nanan.pojo.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 
@@ -35,6 +34,14 @@ public class MyUtils {
         return format.format(new BigDecimal(numStr));
     }
 
+    public static String percent(String numStr){
+        double doubleNum = NumberUtils.toDouble(numStr)/100;
+        String newNumStr = String.valueOf(doubleNum);
+
+
+        return to6Round(newNumStr);
+    }
+
 
     public static ArrayList<String> getList(Electric electric){
         ArrayList<String> list=new ArrayList<String>();
@@ -58,6 +65,7 @@ public class MyUtils {
         list.add(electric.getAccountPeriod());
         list.add(electric.getRebackCode());
         list.add(electric.getUploadDate());
+        list.add(electric.getSettlementModel());
         return list;
     }
     public static ArrayList<String> getList(RebackStat rebackStat){
@@ -67,6 +75,43 @@ public class MyUtils {
         list.add(rebackStat.getVerifyMoney());
         list.add(rebackStat.getRebackMoney());
         list.add(rebackStat.getStatDate());
+
+        return list;
+    }
+
+    public static ArrayList<String> getList(Verify verify){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(verify.getVerifyCode());
+        list.add(verify.getBillId());
+        list.add(verify.getBillState());
+        list.add(verify.getCustomer());
+        list.add(verify.getTaxMoney());
+        return list;
+    }
+
+    public static ArrayList<String> getList(Reback reback){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(reback.getRegion());
+        list.add(reback.getAccountPeriod());
+        list.add(reback.getCustomer());
+        list.add(reback.getRebackCode());
+        list.add(reback.getSettlement());
+        list.add(reback.getRebackDate());
+        list.add(reback.getRebacked());
+        list.add(reback.getUploadDate());
+        list.add(reback.getSettlement());
+
+        return list;
+    }
+
+    public static ArrayList<String> getList(Percentage percentage){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(percentage.getSiteCode());
+        list.add(percentage.getAmmeterCode());
+        list.add(percentage.getNewProportion1());
+        list.add(percentage.getNewProportion2());
+        list.add(percentage.getNewProportion3());
+      ;
 
         return list;
     }

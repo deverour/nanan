@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Percentage {
+    private String indexs;
     private String siteCode;//
     private String ammeterCode;//
     private String lastDate1;
