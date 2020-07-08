@@ -1,6 +1,5 @@
 package com.tower.nanan.utils;
 
-import com.tower.nanan.entity.ErrorMessage;
 import com.tower.nanan.pojo.*;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
@@ -68,13 +67,13 @@ public class MyUtils {
         list.add(electric.getSettlementModel());
         return list;
     }
-    public static ArrayList<String> getList(RebackStat rebackStat){
+    public static ArrayList<String> getList(RebackStatWithCustomer rebackStatWithCustomer){
         ArrayList<String> list=new ArrayList<String>();
-        list.add(rebackStat.getVerifyCode());
-        list.add(rebackStat.getCustomer());
-        list.add(rebackStat.getVerifyMoney());
-        list.add(rebackStat.getRebackMoney());
-        list.add(rebackStat.getStatDate());
+        list.add(rebackStatWithCustomer.getVerifyCode());
+        list.add(rebackStatWithCustomer.getCustomer());
+        list.add(rebackStatWithCustomer.getVerifyMoney());
+        list.add(rebackStatWithCustomer.getRebackMoney());
+        list.add(rebackStatWithCustomer.getStatDate());
 
         return list;
     }

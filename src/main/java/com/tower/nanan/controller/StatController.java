@@ -3,8 +3,7 @@ package com.tower.nanan.controller;
 
 import com.tower.nanan.entity.ElectricQueryBean;
 import com.tower.nanan.poi.ExcelWrite;
-import com.tower.nanan.pojo.Electric;
-import com.tower.nanan.pojo.RebackStat;
+import com.tower.nanan.pojo.RebackStatWithCustomer;
 import com.tower.nanan.pojo.User;
 import com.tower.nanan.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,8 @@ public class StatController {
     public ResponseEntity<byte[]> export(@RequestBody ElectricQueryBean electricQueryBean, HttpSession httpSession){
         try {
             User user = (User)httpSession.getAttribute("user");
-            List<RebackStat> rebackStats = statService.findRebackStat();
-            InputStream is = ExcelWrite.WriteRebackStats(rebackStats);
+            List<RebackStatWithCustomer> rebackStatWithCustomers = statService.findRebackStat();
+            InputStream is = ExcelWrite.WriteRebackStats(rebackStatWithCustomers);
             byte[] body = new byte[is.available()];
             is.read(body);
             HttpHeaders httpHeaders = new HttpHeaders();

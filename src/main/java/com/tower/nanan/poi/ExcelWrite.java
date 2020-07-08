@@ -81,7 +81,7 @@ public class ExcelWrite {
         return in;
     }
 
-    public static InputStream WriteRebackStats(List<RebackStat> list) {
+    public static InputStream WriteRebackStats(List<RebackStatWithCustomer> list) {
         int pages= list.size()/PAGE_COUNTS+1;
         System.out.println("共： "+pages+"页");
         ArrayList<String> sheetName = new ArrayList<String>();

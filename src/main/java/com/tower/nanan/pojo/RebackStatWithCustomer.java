@@ -8,11 +8,13 @@ import javax.persistence.Table;
 
 @Data
 @Table(name = "rebackstat")
-public class RebackStat {
-    @Id
+public class RebackStatWithCustomer {
+    private String region;
     private String verifyCode;
+    private String payDate;
     private String customer;
     private String verifyMoney;
     private String rebackMoney;
+    private String difference;
     private String statDate;
 }
