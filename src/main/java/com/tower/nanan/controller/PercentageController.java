@@ -49,8 +49,7 @@ public class PercentageController {
                 file.mkdir();
             }
             multipartFile.transferTo(file);
-            percentageService.savePercentage(file);
-            return new Result(true,"物业系统分摊比例导入成功");
+            return percentageService.savePercentage(file);
         }catch (Exception e){
             e.printStackTrace();
             return new Result(false,"读取表格失败,请检查导入表模板后重试");

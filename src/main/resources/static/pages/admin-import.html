@@ -136,7 +136,7 @@
                     var downloadElement = document.createElement('a');
                     var href = window.URL.createObjectURL(blob); //创建下载的链接
                     downloadElement.href = href;
-                    downloadElement.download = '核销明细.xlsx'; //下载后文件名
+                    downloadElement.download = '分摊比例(结算模式).xlsx'; //下载后文件名
                     document.body.appendChild(downloadElement);
                     downloadElement.click(); //点击下载
                     document.body.removeChild(downloadElement); //下载完成移除元素
@@ -165,7 +165,7 @@
                     lock: true,
                     text: 'Loading...',
                     spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
+                    background: 'rgba(0,0,0,0.7)'
                 });
             },
             //接受服务器响应

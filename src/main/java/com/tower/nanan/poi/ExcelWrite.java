@@ -152,7 +152,7 @@ public class ExcelWrite {
         }
 
         SXSSFWorkbook wb=new SXSSFWorkbook();
-        ArrayList<String> namelist = ExcelColumns.getElectricTitle();
+        ArrayList<String> namelist = ExcelColumns.getVerifyTitle();
 
         long ta =0;
         long tb =0;

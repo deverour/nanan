@@ -36,11 +36,12 @@ public class VerifyController {
 
     @RequestMapping("upload")
     public Result upload(@RequestParam("verifyFile") MultipartFile multipartFile, HttpSession httpSession) {
-        System.out.println("1111111111111");
         try {
-            //User user = (User) httpSession.getAttribute("user");
-            User user = new User();
-            user.setRegion("南岸");
+            User user = (User) httpSession.getAttribute("user");
+           /* if (!user.getGroup().equals("admin")){
+                return new Result(false,"对不起，你的账号没有该权限");
+            }*/
+
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
             String filename = uuid + MyUtils.getRealName(multipartFile.getOriginalFilename());
@@ -49,12 +50,9 @@ public class VerifyController {
                 file.mkdir();
             }
             multipartFile.transferTo(file);
-            verifyService.saveVerify(file, user);
-            System.out.println("支付/核销明细导入成功");
-            return new Result(true,"支付/核销明细导入成功");
+            return verifyService.saveVerify(file, user);
         }catch (Exception e){
             e.printStackTrace();
-            System.out.println("读取表格失败,请检查导入表模板后重试");
             return new Result(false,"读取表格失败,请检查导入表模板后重试");
         }
     }

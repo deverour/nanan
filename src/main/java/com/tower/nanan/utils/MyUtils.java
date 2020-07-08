@@ -81,6 +81,7 @@ public class MyUtils {
 
     public static ArrayList<String> getList(Verify verify){
         ArrayList<String> list=new ArrayList<String>();
+        list.add(verify.getRegion());
         list.add(verify.getVerifyCode());
         list.add(verify.getBillId());
         list.add(verify.getBillState());

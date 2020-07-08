@@ -108,7 +108,8 @@ public class ExcelColumns {
 
     public static ArrayList<String> getVerifyTitle() {
         ArrayList<String> namelist = new ArrayList<String>() ;
-        namelist.add("核销/支付单号(唯一值)");
+        namelist.add("区域");
+        namelist.add("核销/支付单号");
         namelist.add("分摊编号");
         namelist.add("分摊状态");
         namelist.add("客户");

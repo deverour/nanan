@@ -75,11 +75,10 @@ public class PercentageService {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> percentages = excelRead.getMyDataList();
         Result result = LogicCheck.percentageCheck(percentages);
-        int counts =1;
+
         if (result.isFlag()){
             for (List<String> per : percentages) {
-                System.out.println(counts);
-                counts++;
+
                 String siteCode = per.get(0);
                 String ammeterCode = per.get(1);
                 String newPerportion1 = MyUtils.percent(per.get(2));
