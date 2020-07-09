@@ -89,7 +89,7 @@ public class RebackService implements InitializingBean {
         Reback reback_db = rebackDao.selectOne(reback);
         String rebacked = reback_db.getRebacked();
 
-        if (rebacked.equals("是")){
+        if (rebacked != null && rebacked.equals("是")){
             reback_db.setRebacked("否");
             reback_db.setRebackDate("");
             rebackDao.updateByPrimaryKey(reback_db);

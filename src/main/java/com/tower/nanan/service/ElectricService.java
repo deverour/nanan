@@ -65,6 +65,7 @@ public class ElectricService {
             reback.setRebackCode(electricR.getRebackCode());
             reback.setSettlement(result.getData().toString());
             reback.setUploadDate(MyUtils.getExcelDate(new Date()));
+            reback.setRebacked("否");
             rebackDao.insertSelective(reback);
             Cache.rebackCodeSet.add(electricR.getRebackCode());
             return new Result(true,"签认明细导入成功");
