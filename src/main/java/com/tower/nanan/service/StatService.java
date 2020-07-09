@@ -15,6 +15,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -39,10 +40,13 @@ public class StatService {
 
 
     @Transactional
-    public void rebackStat(){
+    public void rebackStatForCustomer(){
         System.out.println("开始统计");
         Map<String, StatTempWithCustomer> verifyMap = new HashMap<>();
-        List<Verify> verifies = verifyDao.selectAll();
+        Example example = new Example(Verify.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("billState","已分摊");
+        List<Verify> verifies = verifyDao.selectByExample(example);
         for (Verify verify : verifies) {
             String region = verify.getRegion();
             String verifyCode = verify.getVerifyCode();
@@ -89,7 +93,12 @@ public class StatService {
             rebackStatWithCustomer.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithCustomer.getTaxMoney())));
 
             if (electricMap.containsKey(entry.getKey())){
+                Double difference = electricMap.get(entry.getKey()) - statTempWithCustomer.getTaxMoney();
                 rebackStatWithCustomer.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithCustomer.setDifference(String.valueOf(Math.abs(difference)));
+            }else {
+                rebackStatWithCustomer.setRebackMoney("0");
+                rebackStatWithCustomer.setDifference(String.valueOf(MyUtils.to2Round(statTempWithCustomer.getTaxMoney())));
             }
 
             rebackStatWithCustomer.setStatDate(MyUtils.getExcelDate(new Date()));
@@ -99,10 +108,13 @@ public class StatService {
     }
 
     @Transactional
-    public void rebackStatWithSite(){
+    public void rebackStatForSite(){
         System.out.println("开始统计");
         Map<String,StatTempWithSite> verifyMap = new HashMap<>();
-        List<Verify> verifies = verifyDao.selectAll();
+        Example example = new Example(Verify.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("billState","已分摊");
+        List<Verify> verifies = verifyDao.selectByExample(example);
         for (Verify verify : verifies) {
             String region = verify.getRegion();
             String verifyCode = verify.getVerifyCode();
@@ -142,18 +154,26 @@ public class StatService {
             //String[] split = entry.getKey().split("-");
             StatTempWithSite statTempWithSite = entry.getValue();
             RebackStatWithSite rebackStatWithSite = new RebackStatWithSite();
+
             rebackStatWithSite.setRegion(statTempWithSite.getRegion());
             rebackStatWithSite.setVerifyCode(statTempWithSite.getVerifyCode());
             rebackStatWithSite.setPayDate(statTempWithSite.getPayDate());
-            rebackStatWithSite.setStatDate(statTempWithSite.getSiteCode());
+            rebackStatWithSite.setSiteCode(statTempWithSite.getSiteCode());
             rebackStatWithSite.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithSite.getTaxMoney())));
+            rebackStatWithSite.setStatDate(statTempWithSite.getSiteCode());
+
 
             if (electricMap.containsKey(entry.getKey())){
+                Double difference = electricMap.get(entry.getKey()) - statTempWithSite.getTaxMoney();
                 rebackStatWithSite.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithSite.setDifference(MyUtils.to2Round(String.valueOf(Math.abs(difference))));
+            }else {
+                rebackStatWithSite.setRebackMoney("0");
+                rebackStatWithSite.setDifference(String.valueOf(MyUtils.to2Round(statTempWithSite.getTaxMoney())));
             }
 
             rebackStatWithSite.setStatDate(MyUtils.getExcelDate(new Date()));
-
+            System.out.println(rebackStatWithSite);
             rebackStatWithSiteDao.insertSelective(rebackStatWithSite);
         }
     }

@@ -7,8 +7,12 @@ import com.tower.nanan.entity.ExcelColumns;
 import com.tower.nanan.entity.Group;
 import com.tower.nanan.entity.Result;
 import com.tower.nanan.poi.ExcelRead;
+import com.tower.nanan.poi.LogicCheck;
 import com.tower.nanan.pojo.User;
 import com.tower.nanan.pojo.Verify;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,9 @@ public class VerifyService implements InitializingBean {
 
     @Autowired
     private VerifyDao verifyDao;
+
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
 
 
 
@@ -37,36 +44,51 @@ public class VerifyService implements InitializingBean {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> verifys = excelRead.getMyDataList();
         Verify verify = new Verify();
-
+        Result result = LogicCheck.verifyCheck(verifys, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
+        if (!result.isFlag()){
+            System.out.println("1>>>>"+result.getMessage());
+            return  result;
+        }
+        SqlSession sqlSession = sqlSessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+        VerifyDao verifyMapper = sqlSession.getMapper(VerifyDao.class);
+        long t =0;
+        long t1 = System.currentTimeMillis();
         for (List<String> ver : verifys) {
             String region =ver.get(ExcelColumns.INDEX_VERIFY_REGION);
-            if (!Group.regionSet.contains(region)){
-                return new Result(false,"【区域】错误,请参导入模板表二限定字段");
-            }
             String verifyCode = ver.get(ExcelColumns.INDEX_VERIFY_VERIFYCODE);
-            String customer = ver.get(ExcelColumns.INDEX_VERIFY_CUSTOMER);
             String billId = ver.get(ExcelColumns.INDEX_VERIFY_BILLID);
             String billState = ver.get(ExcelColumns.INDEX_VERIFY_BILLSTATE);
+            String payDate = ver.get(ExcelColumns.INDEX_VERIFY_PAYDATE);
+            String siteCode = ver.get(ExcelColumns.INDEX_VERIFY_SITECODE);
+            String customer = ver.get(ExcelColumns.INDEX_VERIFY_CUSTOMER);
             String taxMoney = ver.get(ExcelColumns.INDEX_VERIFY_TAXMONEY);
+
             verify.setRegion(region);
             verify.setVerifyCode(verifyCode);
             verify.setBillId(billId);
             verify.setBillState(billState);
+            verify.setPayDate(payDate);
+            verify.setSiteCode(siteCode);
             verify.setCustomer(customer);
             verify.setTaxMoney(taxMoney);
+
             Example example = new Example(Verify.class);
-            Example.Criteria criteria = example.createCriteria();
-            criteria.andEqualTo("billId",billId);
-            Verify oldVerify = verifyDao.selectOneByExample(example);
-            System.out.println(oldVerify);
+            long l1 = System.currentTimeMillis();
+            Verify oldVerify = verifyDao.selectByPrimaryKey(billId);
+            t=t+ System.currentTimeMillis()-l1;
             if (oldVerify != null){
-                verifyDao.updateByExample(verify,example);
+                verifyDao.updateByPrimaryKey(verify);
             }else {
-                verifyDao.insertSelective(verify);
+                verifyMapper.insertSelective(verify);
                 Cache.verifyCodeSet.add(verifyCode);
                 Cache.billIdSet.add(billId);
             }
+            sqlSession.commit();
+            sqlSession.clearCache();
         }
+        long t2 = System.currentTimeMillis();
+        System.out.println("2>>>>"+t);
+        System.out.println("总耗时"+(t2-t1)/1000);
         return new Result(true,"核销明细导入成功");
     }
 

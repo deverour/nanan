@@ -36,7 +36,7 @@ public class CpyService {
 
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> electricList = excelRead.getMyDataList();
-        Result result = LogicCheck.electricCheck(electricList, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
+        Result result = LogicCheck.cpyCheck(electricList, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
         if (result.isFlag()){
             Electric electric;
 

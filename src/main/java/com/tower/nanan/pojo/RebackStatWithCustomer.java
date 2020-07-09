@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
-@Table(name = "rebackstat")
+@Table(name = "rebackstat_customer")
 public class RebackStatWithCustomer {
     private String region;
     private String verifyCode;

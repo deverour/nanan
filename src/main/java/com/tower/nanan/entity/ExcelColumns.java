@@ -37,10 +37,12 @@ public class ExcelColumns {
 
     public static final int INDEX_VERIFY_REGION = 0;
     public static final int INDEX_VERIFY_VERIFYCODE = 1;
-    public static final int INDEX_VERIFY_CUSTOMER = 2;
-    public static final int INDEX_VERIFY_BILLID = 3;
-    public static final int INDEX_VERIFY_BILLSTATE = 4;
-    public static final int INDEX_VERIFY_TAXMONEY =5;
+    public static final int INDEX_VERIFY_BILLID = 2;
+    public static final int INDEX_VERIFY_BILLSTATE = 3;
+    public static final int INDEX_VERIFY_PAYDATE = 4;
+    public static final int INDEX_VERIFY_SITECODE = 5;
+    public static final int INDEX_VERIFY_CUSTOMER = 6;
+    public static final int INDEX_VERIFY_TAXMONEY =7;
 
 
 

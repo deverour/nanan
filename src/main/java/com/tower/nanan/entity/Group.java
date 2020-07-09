@@ -38,6 +38,8 @@ public class Group {
             add("移动");
             add("联通");
             add("电信");
+            add("其他");
+            add("拓展用户");
         }
     };
 }

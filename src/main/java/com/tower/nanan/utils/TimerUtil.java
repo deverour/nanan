@@ -12,7 +12,8 @@ public class TimerUtil {
     private StatService statService;
     @Scheduled(cron = "0 0 12 * * ?")
     public void mytask(){
-        statService.rebackStat();
+        statService.rebackStatForCustomer();
+        statService.rebackStatForSite();
 
     }
 
