@@ -10,11 +10,13 @@ import com.tower.nanan.poi.ExcelRead;
 import com.tower.nanan.poi.LogicCheck;
 import com.tower.nanan.pojo.User;
 import com.tower.nanan.pojo.Verify;
+import com.tower.nanan.utils.MyUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 import java.io.File;
@@ -29,6 +31,10 @@ public class VerifyService implements InitializingBean {
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
 
 
 
@@ -70,7 +76,7 @@ public class VerifyService implements InitializingBean {
             verify.setPayDate(payDate);
             verify.setSiteCode(siteCode);
             verify.setCustomer(customer);
-            verify.setTaxMoney(taxMoney);
+            verify.setTaxMoney(MyUtils.to2Round(taxMoney));
 
             Example example = new Example(Verify.class);
             long l1 = System.currentTimeMillis();

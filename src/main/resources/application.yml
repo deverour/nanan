@@ -13,3 +13,9 @@ spring:
   http:
     multipart:
       enabled: false
+logging:
+  level:
+    com:
+      tower:
+        nanan:
+          dao: debug

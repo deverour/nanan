@@ -144,4 +144,32 @@ public class ExcelColumns {
 
         return namelist;
     }
+
+    public static ArrayList<String> getRebackStatWithCustomerTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("区域");
+        namelist.add("核销单号");
+        namelist.add("付款完成时间");
+        namelist.add("客户");
+        namelist.add("核销金额");
+        namelist.add("回款金额");
+        namelist.add("差异绝对值");
+        namelist.add("统计时间");
+        return namelist;
+    }
+
+    public static ArrayList<String> getRebackStatWithSiteTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("区域");
+        namelist.add("核销单号");
+        namelist.add("付款完成时间");
+        namelist.add("站址编码");
+        namelist.add("核销金额");
+        namelist.add("回款金额");
+        namelist.add("差异绝对值");
+        namelist.add("统计时间");
+
+        return namelist;
+
+    }
 }

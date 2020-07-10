@@ -1,151 +1,292 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>南岸电费管理系统 | 管理员</title>
-    <meta name="description" content="回款管理-OA系统">
-    <meta name="keywords" content="回款管理-OA系统">
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-    <!-- 引入样式 -->
-    <link rel="stylesheet" href="../plugins/elementui/index.css">
-    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+	<head>
+		<!-- 页面meta -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>南岸电费管理系统 | 管理分析</title>
+		<meta name="description" content="传智健康">
+		<meta name="keywords" content="传智健康">
+		<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="../plugins/elementui/index.css">
+		<link rel="stylesheet" href="../css/style.css">
+		<!-- <link rel="stylesheet" href="../css/orderset.css">
+		<link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css"> -->
+		<!-- 引入组件库 -->
+		<script src="../js/vue.js"></script>
+		<script src="../plugins/elementui/index.js"></script>
+		<!-- import Vue before Element -->
+		<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
+		<!-- import JavaScript -->
+		<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
 
-    <!-- 引入组件库 -->
-    <script src="../js/vue.js"></script>
-    <script src="../plugins/elementui/index.js"></script>
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script src="../js/axios-0.18.0.js"></script>
-</head>
-<body class="hold-transition">
-<div id="app">
-    <div class="content-header">
-        <h1>导入导出<small>核销明细上传</small></h1>
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>管理员</el-breadcrumb-item>
-            <el-breadcrumb-item>物业数据导入</el-breadcrumb-item>
-        </el-breadcrumb>
-    </div>
-    <div class="app-container">
-        <!--代垫-->
-        <div class="box">
-            <h3><small>核销明细上传</small></h3>
-            <el-card class="box-card">
-                <div class="boxMain">
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script src="../js/axios-0.18.0.js"></script>
+	</head>
+	<body class="hold-transition">
+		<div id="app">
 
-                    <el-button  style="margin-bottom: 20px;margin-right: 20px" @click="verifyexport()"  type="primary">导出</el-button>
-                    <el-button  style="margin-bottom: 20px;margin-right: 20px" @click="percentageexport()"  type="primary">导出</el-button>
-                </div>
-               <!-- <div>
-                    请以电费签认表表二为数据来源制表，以免后期取数导致电量翻倍（电费签认表表一为系统分摊出账，直供电按票据数量会出两条电量一样的明细），目前三家运营商电费签认表均有新模板（类似电信）
-                </div>-->
-            </el-card>
-        </div>
+			<div class="content-header">
+				<h1>管理分析<small>查询导出</small></h1>
+				<el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+					<el-breadcrumb-item>电费明细</el-breadcrumb-item>
+					<el-breadcrumb-item>查询</el-breadcrumb-item>
+				</el-breadcrumb>
+			</div>
+			<div class="app-container">
 
-    </div>
-</div>
-</body>
-<!-- 引入组件库 -->
-<script src="../js/vue.js"></script>
-<script src="../plugins/elementui/index.js"></script>
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script>
-    new Vue({
-        el: '#app',
-        data:{
-            myloading:'',
-            updatamessage:"",
-            updataMessageDialogVisible: false,
+				<div class="box">
+					<h3><small>支付-回款统计分析</small></h3>
+					<el-card class="box-card">
+						<el-row>
 
-        },
-        created: function () {//在vue初始化时调用
-        },
-        methods: {
-            // 下载导入模板
-            downloadTemplateforverify(){
-                window.location.href="../templatefiles/核销明细导入模板.xlsx";
-            },
-            downloadTemplateforpercentage(){
-                window.location.href="../templatefiles/结算模式导入模板.xlsx";
-            },
 
-            verifyexport(){
-                axios({
-                    method: 'post',
-                    url: '/verify/export',
-                    responseType: 'blob'
-                }).then(function(response) {
-                    var blob = new Blob([response.data])
-                    var downloadElement = document.createElement('a');
-                    var href = window.URL.createObjectURL(blob); //创建下载的链接
-                    downloadElement.href = href;
-                    downloadElement.download = '核销明细.xlsx'; //下载后文件名
-                    document.body.appendChild(downloadElement);
-                    downloadElement.click(); //点击下载
-                    document.body.removeChild(downloadElement); //下载完成移除元素
-                    window.URL.revokeObjectURL(href); //释放掉blob对象
-                    loading.close();
-                }).catch(function(error) {
-                    console.log(error);
-                });
-            },
-            percentageexport(){
-                axios({
-                    method: 'post',
-                    url: '/percentage/export',
-                    responseType: 'blob'
-                }).then(function(response) {
-                    var blob = new Blob([response.data])
-                    var downloadElement = document.createElement('a');
-                    var href = window.URL.createObjectURL(blob); //创建下载的链接
-                    downloadElement.href = href;
-                    downloadElement.download = '核销明细.xlsx'; //下载后文件名
-                    document.body.appendChild(downloadElement);
-                    downloadElement.click(); //点击下载
-                    document.body.removeChild(downloadElement); //下载完成移除元素
-                    window.URL.revokeObjectURL(href); //释放掉blob对象
-                    loading.close();
-                }).catch(function(error) {
-                    console.log(error);
-                });
-            },
-            // 使用后缀名，判断文件类型
-            beforeUpload(file){
+							<!--区域-->
+							<el-col :span="8">
+								<div class="grid-content bg-purple">
+									&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域&ensp;
+									<el-select v-model="region" multiple placeholder="请选择" size="small">
+										<el-option v-for="item in regionlist" :key="item" :label="item" :value="item"></el-option>
+									</el-select>
+								</div>
+							</el-col>
 
-                var fileName = file.name;
-                var fileType = fileName.substr(fileName.lastIndexOf("."));
-                const isXLSX = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                if (isXLSX) {
-                    return true;
-                }
-                this.$message.error('上传文件只能是xlsx格式!');
 
-                return false;
-            },
-            //loading
-            handleUploading(){
-                this.myloading= this.$loading({
-                    lock: true,
-                    text: 'Loading...',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-            },
-            //接受服务器响应
-            handleSuccess(response) {
-                this.updatamessage="";
+							<el-col :span="8">
+								<div class="grid-content bg-purple">
+									&ensp;&ensp;&ensp;&ensp;运&ensp;营&ensp;商&ensp;
+									<el-select v-model="customer" multiple placeholder="请选择" size="small">
+										<el-option v-for="item in customerlist" :key="item" :label="item" :value="item"></el-option>
+									</el-select>
+								</div>
+							</el-col>
+						</el-row><br />
 
-                this.myloading.close();
-                this.updataMessageDialogVisible = true;
+						<el-row type="flex" class="row-bg" align="middle">
 
-                this.updatamessage=response.message;
+							<!--站址编码-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;站址编码</el-col>
+							<el-col :span="5">
+								<el-input v-model="siteCode" size="small" placeholder="请输入内容"></el-input>
+							</el-col>
 
-            },
 
-        }
-    })
-</script>
+							<!--核销单号-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;核销单号</el-col>
+							<el-col :span="5">
+								<el-input v-model="verifyCode" size="small" placeholder="请输入内容"></el-input>
+							</el-col>
+
+						</el-row><br />
+						<el-row type="flex" class="row-bg" align="middle">
+							<!--账期-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;付款完成时间&ensp;</el-col>
+							<el-col :span="5">
+								<el-date-picker v-model="payDate" type="daterange" value-format="yyyy/MM/dd"
+												range-separator="至"
+												start-placeholder="开始日期"
+												end-placeholder="结束日期"  size="small">
+								</el-date-picker>
+							</el-col>
+							<!--差额-->
+							<el-col :span="2">&ensp;&ensp;&ensp;&ensp;差额&ensp;</el-col>
+							<el-col :span="5">
+								<el-input v-model="difference" size="small" placeholder="请输入内容"></el-input>
+							</el-col>
+						</el-row>
+						<br />
+
+						<el-row type="flex" class="row-bg" justify="space-around">
+							<el-col :span="6" ></el-col>
+							<el-col :span="6" >
+								<div class="grid-content bg-purple">
+									<el-button @click="stat_reset()">重置</el-button>
+									<el-button @click="customer_export()">按客户导出</el-button>
+									<el-button @click="site_export()" type="primary" >按站址导出</el-button>
+								</div>
+							</el-col>
+							<el-col :span="6" ></el-col>
+						</el-row>
+
+
+					</el-card>
+
+				</div>
+				<div class="box">
+					<h3><small>分摊比例一致性分析</small></h3>
+					<el-card class="box-card">
+
+
+						<el-row type="flex" class="row-bg" align="middle">
+
+							<!--站址编码-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;站址编码</el-col>
+							<el-col :span="5">
+								<el-input v-model="psiteCode" size="small" placeholder="请输入内容"></el-input>
+							</el-col>
+
+
+
+						</el-row><br />
+
+						<br />
+
+						<el-row type="flex" class="row-bg" justify="space-around">
+							<el-col :span="6" ></el-col>
+							<el-col :span="6" >
+								<div class="grid-content bg-purple">
+									<el-button @click="percentage_reset()">重置</el-button>
+									<el-button @click="percentage_export()">导出</el-button>
+								</div>
+							</el-col>
+							<el-col :span="6" ></el-col>
+						</el-row>
+
+
+					</el-card>
+
+				</div>
+
+			</div>
+		</div>
+	</body>
+	
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+
+				group: '',
+				regionlist: [],
+				customerlist: ["移动", "联通", "电信"],
+
+				region: [],
+				customer: [],
+				siteCode: '',
+				verifyCode: '',
+				payDate: [],
+				difference:'',
+
+				psiteCode:'',
+				
+			},
+			created: function() { //在vue初始化时调用
+				axios.get("/user/group").then((response) => {
+					if (response.data.flag) {
+						this.group = response.data.data.group;
+						if (this.group == "admin") {
+							this.regionlist = ["南岸", "綦江", "江津", "巴南"];
+						} else {
+							this.regionlist = [this.region];
+						}
+					}
+				})
+
+
+			},
+			methods: {
+				stat_reset(){
+					this.region = [];
+					this.customer = [];
+					this.siteCode = '';
+					this.verifyCode = '';
+					this.payDate = [];
+					this.difference = '';
+				},
+				percentage_reset(){
+					this.psiteCode = '';
+				},
+
+				customer_export(){
+					const loading = this.$loading({
+						lock: true,
+						text: 'Loading...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+
+					var querydata = {
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startPayDate": this.payDate[0],
+						"endPayDate": this.payDate[1],
+						"difference":this.difference,
+					};
+					axios.post("/rebackstat/exportforcustomer", querydata,{responseType: 'blob'}).then(function(response) {
+						var blob = new Blob([response.data])
+						var downloadElement = document.createElement('a');
+						var href = window.URL.createObjectURL(blob); //创建下载的链接
+						downloadElement.href = href;
+						downloadElement.download = '回款统计分析按客户导出.xlsx'; //下载后文件名
+						document.body.appendChild(downloadElement);
+						downloadElement.click(); //点击下载
+						document.body.removeChild(downloadElement); //下载完成移除元素
+						window.URL.revokeObjectURL(href); //释放掉blob对象
+						loading.close();
+					}).catch(function(error) {
+						console.log(error);
+					});
+				},
+				site_export(){
+					const loading = this.$loading({
+						lock: true,
+						text: 'Loading...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+
+					var querydata = {
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startPayDate": this.payDate[0],
+						"endPayDate": this.payDate[1],
+						"difference":this.difference,
+					};
+					axios.post("/rebackstat/exportforsite", querydata,{responseType: 'blob'}).then(function(response) {
+						var blob = new Blob([response.data])
+						var downloadElement = document.createElement('a');
+						var href = window.URL.createObjectURL(blob); //创建下载的链接
+						downloadElement.href = href;
+						downloadElement.download = '回款统计分析按站址导出.xlsx'; //下载后文件名
+						document.body.appendChild(downloadElement);
+						downloadElement.click(); //点击下载
+						document.body.removeChild(downloadElement); //下载完成移除元素
+						window.URL.revokeObjectURL(href); //释放掉blob对象
+						loading.close();
+					}).catch(function(error) {
+						console.log(error);
+					});
+				},
+				percentage_export(){
+					siteCode = this.siteCode;
+					axios({
+						method: 'post',
+						url: '/percentage/export?siteCode='+siteCode ,
+						responseType: 'blob'
+					}).then(function(response) {
+						var blob = new Blob([response.data])
+						var downloadElement = document.createElement('a');
+						var href = window.URL.createObjectURL(blob); //创建下载的链接
+						downloadElement.href = href;
+						downloadElement.download = '分摊比例一致性统计.xlsx'; //下载后文件名
+						document.body.appendChild(downloadElement);
+						downloadElement.click(); //点击下载
+						document.body.removeChild(downloadElement); //下载完成移除元素
+						window.URL.revokeObjectURL(href); //释放掉blob对象
+						loading.close();
+					}).catch(function(error) {
+						console.log(error);
+					});
+				}
+
+
+			}
+		})
+	</script>
 </html>

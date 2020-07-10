@@ -2,11 +2,15 @@ package com.tower.nanan.utils;
 
 import com.tower.nanan.pojo.*;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MyUtils {
@@ -27,6 +31,10 @@ public class MyUtils {
     public static Double to2Round(Double numStr){
         DecimalFormat format = new DecimalFormat("#0.##");
         return NumberUtils.toDouble(format.format(numStr));
+    }
+    public static String to0Round(Double numStr){
+        DecimalFormat format = new DecimalFormat("#0.##");
+        return String.valueOf(format.format(numStr));
     }
     public static String to6Round(String numStr){
         DecimalFormat format = new DecimalFormat("#0.######");
@@ -69,12 +77,27 @@ public class MyUtils {
     }
     public static ArrayList<String> getList(RebackStatWithCustomer rebackStatWithCustomer){
         ArrayList<String> list=new ArrayList<String>();
+        list.add(rebackStatWithCustomer.getRegion());
         list.add(rebackStatWithCustomer.getVerifyCode());
+        list.add(rebackStatWithCustomer.getPayDate());
         list.add(rebackStatWithCustomer.getCustomer());
         list.add(rebackStatWithCustomer.getVerifyMoney());
         list.add(rebackStatWithCustomer.getRebackMoney());
+        list.add(rebackStatWithCustomer.getDifference().toString());
         list.add(rebackStatWithCustomer.getStatDate());
+        return list;
+    }
 
+    public static ArrayList<String> getList(RebackStatWithSite rebackStatWithSite){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(rebackStatWithSite.getRegion());
+        list.add(rebackStatWithSite.getVerifyCode());
+        list.add(rebackStatWithSite.getPayDate());
+        list.add(rebackStatWithSite.getSiteCode());
+        list.add(rebackStatWithSite.getVerifyMoney());
+        list.add(rebackStatWithSite.getRebackMoney());
+        list.add(rebackStatWithSite.getDifference().toString());
+        list.add(rebackStatWithSite.getStatDate());
         return list;
     }
 
@@ -116,6 +139,8 @@ public class MyUtils {
         return list;
     }
 
+
+
     public static String getExcelDate(Date date){
         return FastDateFormat.getInstance("yyyy/MM/dd").format(date);
     }
@@ -127,12 +152,34 @@ public class MyUtils {
         return FastDateFormat.getInstance("yyyy/MM/dd").format(newDate);
     }
 
+    public static String toExcelDate(String dateStr) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat( "yyyy/MM/dd");
+        Date endDate = formatter.parse(dateStr);
+        Date startDate = formatter.parse("1900/1/1");
+        int day = daysBetween(startDate, endDate)+2;
+        System.out.println("day>>"+day);
+        return String.valueOf(day);
+
+    }
+
     public static Date addDate(Date date,long day) {
         long time = date.getTime(); // 得到指定日期的毫秒数
         day = day*24*60*60*1000; // 要加上的天数转换成毫秒数
         time+=day; // 相加得到新的毫秒数
         return new Date(time); // 将毫秒数转换成日期
     }
+
+    public static int daysBetween(Date date1,Date date2){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date1);
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(date2);
+        long time2 = cal.getTimeInMillis();
+        long between_days=(time2-time1)/(1000*3600*24);
+
+        return Integer.parseInt(String.valueOf(between_days));
+    }
+
 
 
 

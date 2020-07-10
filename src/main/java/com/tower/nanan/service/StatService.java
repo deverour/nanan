@@ -4,6 +4,7 @@ import com.tower.nanan.dao.ElectricDao;
 import com.tower.nanan.dao.RebackStatWithCustomerDao;
 import com.tower.nanan.dao.RebackStatWithSiteDao;
 import com.tower.nanan.dao.VerifyDao;
+import com.tower.nanan.entity.RebackStatQueryBean;
 import com.tower.nanan.entity.StatTempWithSite;
 import com.tower.nanan.pojo.Electric;
 import com.tower.nanan.pojo.RebackStatWithCustomer;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,6 @@ public class StatService {
 
     @Autowired
     private RebackStatWithSiteDao rebackStatWithSiteDao;
-
 
     @Transactional
     public void rebackStatForCustomer(){
@@ -93,12 +94,12 @@ public class StatService {
             rebackStatWithCustomer.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithCustomer.getTaxMoney())));
 
             if (electricMap.containsKey(entry.getKey())){
-                Double difference = electricMap.get(entry.getKey()) - statTempWithCustomer.getTaxMoney();
+                Double difference =Math.abs(electricMap.get(entry.getKey()) - statTempWithCustomer.getTaxMoney()) ;
                 rebackStatWithCustomer.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
-                rebackStatWithCustomer.setDifference(String.valueOf(Math.abs(difference)));
+                rebackStatWithCustomer.setDifference(difference);
             }else {
                 rebackStatWithCustomer.setRebackMoney("0");
-                rebackStatWithCustomer.setDifference(String.valueOf(MyUtils.to2Round(statTempWithCustomer.getTaxMoney())));
+                rebackStatWithCustomer.setDifference(Math.abs((statTempWithCustomer.getTaxMoney())));
             }
 
             rebackStatWithCustomer.setStatDate(MyUtils.getExcelDate(new Date()));
@@ -166,10 +167,10 @@ public class StatService {
             if (electricMap.containsKey(entry.getKey())){
                 Double difference = electricMap.get(entry.getKey()) - statTempWithSite.getTaxMoney();
                 rebackStatWithSite.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
-                rebackStatWithSite.setDifference(MyUtils.to2Round(String.valueOf(Math.abs(difference))));
+                rebackStatWithSite.setDifference(Math.abs(difference));
             }else {
                 rebackStatWithSite.setRebackMoney("0");
-                rebackStatWithSite.setDifference(String.valueOf(MyUtils.to2Round(statTempWithSite.getTaxMoney())));
+                rebackStatWithSite.setDifference(statTempWithSite.getTaxMoney());
             }
 
             rebackStatWithSite.setStatDate(MyUtils.getExcelDate(new Date()));
@@ -178,13 +179,83 @@ public class StatService {
         }
     }
 
+    public List<RebackStatWithCustomer> findRebackStatWithCustomerByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
+        Example example = new Example(Electric.class);
+        Example.Criteria criteria = example.createCriteria();
+        System.out.println(rebackStatQueryBean);
+        if (rebackStatQueryBean.getRegions() != null && !rebackStatQueryBean.getRegions().isEmpty()){
+            for (String region : rebackStatQueryBean.getRegions()) {
+                criteria.orEqualTo("region",region);
+            }
+        }
+
+        if (rebackStatQueryBean.getCustomers() != null && !rebackStatQueryBean.getCustomers().isEmpty()){
+            for (String customer : rebackStatQueryBean.getCustomers()) {
+                criteria.orEqualTo("customer",customer);
+            }
+        }
+
+        if (!rebackStatQueryBean.getVerifyCode().isEmpty()){
+            String verifyCode = rebackStatQueryBean.getVerifyCode();
+            criteria.andEqualTo("verifyCode",verifyCode);
+        }
+
+        if (rebackStatQueryBean.getStartPayDate() != null && !rebackStatQueryBean.getStartPayDate().isEmpty()){
+            String startPayDate = MyUtils.toExcelDate(rebackStatQueryBean.getStartPayDate());
+            criteria.andCondition("pay_date >=",startPayDate);
+        }
+
+        if (rebackStatQueryBean.getEndPayDate() != null && !rebackStatQueryBean.getEndPayDate().isEmpty()){
+            String endPayDate = MyUtils.toExcelDate(rebackStatQueryBean.getEndPayDate());
+            criteria.andCondition("pay_date <=",endPayDate);
+        }
+
+        if (rebackStatQueryBean.getDifference() != null && !rebackStatQueryBean.getDifference().isEmpty()){
+            String difference = rebackStatQueryBean.getDifference();
+            criteria.andCondition("difference <=",difference);
+        }
+
+        return rebackStatWithCustomerDao.selectByExample(example);
+    }
+
+    public List<RebackStatWithSite> findRebackStatWithSiteByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
+        Example example = new Example(Electric.class);
+        Example.Criteria criteria = example.createCriteria();
+        System.out.println(rebackStatQueryBean);
+        if (rebackStatQueryBean.getRegions() != null && !rebackStatQueryBean.getRegions().isEmpty()){
+            for (String region : rebackStatQueryBean.getRegions()) {
+                criteria.orEqualTo("region",region);
+            }
+        }
 
 
+        if (!rebackStatQueryBean.getSiteCode().isEmpty()){
 
+            String siteCode = rebackStatQueryBean.getSiteCode();
+            criteria.andEqualTo("siteCode",siteCode);
+        }
+        if (!rebackStatQueryBean.getVerifyCode().isEmpty()){
+            String verifyCode = rebackStatQueryBean.getVerifyCode();
+            criteria.andEqualTo("verifyCode",verifyCode);
+        }
 
+        if (rebackStatQueryBean.getStartPayDate() != null && !rebackStatQueryBean.getStartPayDate().isEmpty()){
+            String startPayDate = MyUtils.toExcelDate(rebackStatQueryBean.getStartPayDate());
+            criteria.andCondition("pay_date >=",startPayDate);
+        }
 
-    public List<RebackStatWithCustomer> findRebackStat() {
-        return rebackStatWithCustomerDao.selectAll();
+        if (rebackStatQueryBean.getEndPayDate() != null && !rebackStatQueryBean.getEndPayDate().isEmpty()){
+            String endPayDate = MyUtils.toExcelDate(rebackStatQueryBean.getEndPayDate());
+            criteria.andCondition("pay_date <=",endPayDate);
+        }
+
+        if (rebackStatQueryBean.getDifference() != null && !rebackStatQueryBean.getDifference().isEmpty()){
+            String difference = rebackStatQueryBean.getDifference();
+            criteria.andCondition("difference <=",difference);
+        }
+
+        return rebackStatWithSiteDao.selectByExample(example);
+
     }
 }
 

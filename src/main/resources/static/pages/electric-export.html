@@ -44,19 +44,20 @@
 
 
 							<!--区域-->
-							<el-col :span="8">
+							<el-col :span="3">	&ensp;&ensp;&ensp;&ensp;区域&ensp;</el-col>
+							<el-col :span="5">
 								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域&ensp;
+
 									<el-select v-model="region" multiple placeholder="请选择" size="small">
 										<el-option v-for="item in regionlist" :key="item" :label="item" :value="item"></el-option>
 									</el-select>
 								</div>
 							</el-col>
 
-
-							<el-col :span="8">
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;&ensp;运&ensp;营&ensp;商&ensp;</el-col>
+							<el-col :span="5">
 								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;运&ensp;营&ensp;商&ensp;
+									&ensp;&ensp;&ensp;
 									<el-select v-model="customer" multiple placeholder="请选择" size="small">
 										<el-option v-for="item in customerlist" :key="item" :label="item" :value="item"></el-option>
 									</el-select>

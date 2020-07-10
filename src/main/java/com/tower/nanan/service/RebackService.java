@@ -34,6 +34,7 @@ public class RebackService implements InitializingBean {
 
 
     public List<Reback> findByCondition(RebackQueryBean rebackQueryBean, User user) {
+        System.out.println(rebackQueryBean);
         Example example = new Example(Reback.class);
         Example.Criteria criteria = example.createCriteria();
         if (rebackQueryBean.getRegion() != null && !rebackQueryBean.getRegion().isEmpty()){

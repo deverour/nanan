@@ -119,4 +119,17 @@ public class PercentageService {
     public List<Percentage> findAll() {
         return percentageDao.selectAll();
     }
+
+    public List<Percentage> findBySiteCode(String siteCode) {
+        System.out.println("siteCode>>>>>>>>>>>"+siteCode);
+        if (siteCode != null && siteCode.length()>0){
+            Example example = new Example(Percentage.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("siteCode",siteCode);
+            return percentageDao.selectByExample(example);
+        }
+        System.out.println("return percentageDao.selectAll()");
+        return percentageDao.selectAll();
+
+    }
 }

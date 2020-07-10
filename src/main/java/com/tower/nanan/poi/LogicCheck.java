@@ -588,7 +588,7 @@ public class LogicCheck {
     }
 
     public static Result percentageCheck(List<List<String>> percentages) {
-        StringBuilder errorMessage = null;
+        StringBuilder errorMessage = new StringBuilder();
         HashSet<String> keySet = new HashSet();
         boolean flag = true;
         //列数
@@ -599,7 +599,7 @@ public class LogicCheck {
         }
         int col=2;
         for (List<String> percentage : percentages) {
-            StringBuilder colMessage = null;
+            StringBuilder colMessage = new StringBuilder();
 
             //key
             String key =percentage.get(ExcelColumns.INDEX_PERCENTAGE_SITECODE)+percentage.get(ExcelColumns.INDEX_PERCENTAGE_AMMETERCODE);
@@ -633,28 +633,30 @@ public class LogicCheck {
             String proportion2=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION2);
 
             String proportion3=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION3);
-
+            System.out.println("proportion1"+proportion1);
+            System.out.println("proportion2"+proportion2);
+            System.out.println("proportion3"+proportion3);
             if (!NumberUtils.isNumber(proportion1)){
                 flag=false;
                 colMessage.append("【移动分摊比例】错误,请检查是否大于0且小于等于100");
-            }else if (Double.parseDouble(proportion1)<=0 || Double.parseDouble(proportion1)>100){
+            }else if (Double.parseDouble(proportion1)<0 || Double.parseDouble(proportion1)>100){
                 flag=false;
                 colMessage.append("【移动分摊比例】错误,请检查是否大于0且小于等于100");
             }else if (!NumberUtils.isNumber(proportion2)){
                 flag=false;
                 colMessage.append("【联通分摊比例】错误,请检查是否大于0且小于等于100");
-            }else if (Double.parseDouble(proportion2)<=0 || Double.parseDouble(proportion2)>100){
+            }else if (Double.parseDouble(proportion2)<0 || Double.parseDouble(proportion2)>100){
                 flag=false;
                 colMessage.append("【联通分摊比例】错误,请检查是否大于0且小于等于100");
             }else if (!NumberUtils.isNumber(proportion3)){
                 flag=false;
                 colMessage.append("【电信分摊比例】错误,请检查是否大于0且小于等于100");
-            }else if (Double.parseDouble(proportion3)<=0 || Double.parseDouble(proportion3)>100){
+            }else if (Double.parseDouble(proportion3)<0 || Double.parseDouble(proportion3)>100){
                 flag=false;
                 colMessage.append("【电信分摊比例】错误,请检查是否大于0且小于等于100");
             }
-            if (colMessage != null){
-                errorMessage.append("【【第"+col+"列】】>>>").append(colMessage.toString());
+            if (colMessage.length() !=0 ){
+                errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
 
