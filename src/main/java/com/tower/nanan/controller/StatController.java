@@ -33,7 +33,10 @@ public class StatController {
     @RequestMapping("/exportforcustomer")
     public ResponseEntity<byte[]> exportForRebackStatWithCustomer(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
         try {
-            User user = (User)httpSession.getAttribute("user");
+            User user = (User) httpSession.getAttribute("user");
+            if (!user.getNgroup().equals("admin")){
+                return null;
+            }
             List<RebackStatWithCustomer> rebackStatWithCustomers = statService.findRebackStatWithCustomerByCondition(rebackStatQueryBean);
             InputStream is = ExcelWrite.WriteRebackStatWithCustomer(rebackStatWithCustomers);
             byte[] body = new byte[is.available()];
@@ -53,7 +56,10 @@ public class StatController {
     @RequestMapping("/exportforsite")
     public ResponseEntity<byte[]> exportForRebackStatWithSite(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
         try {
-            User user = (User)httpSession.getAttribute("user");
+            User user = (User) httpSession.getAttribute("user");
+            if (!user.getNgroup().equals("admin")){
+                return null;
+            }
             List<RebackStatWithSite> rebackStatWithSites = statService.findRebackStatWithSiteByCondition(rebackStatQueryBean);
             InputStream is = ExcelWrite.WriteRebackStatWithSite(rebackStatWithSites);
             byte[] body = new byte[is.available()];
