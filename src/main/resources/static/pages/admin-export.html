@@ -38,7 +38,7 @@
 			<div class="app-container">
 
 				<div class="box">
-					<h3><small>支付-回款统计分析</small></h3>
+					<h3><small>支付-回款统计</small></h3>
 					<el-card class="box-card">
 						<el-row>
 
@@ -103,7 +103,7 @@
 							<el-col :span="6" >
 								<div class="grid-content bg-purple">
 									<el-button @click="stat_reset()">重置</el-button>
-									<el-button @click="customer_export()">按客户导出</el-button>
+									<el-button @click="customer_export()" type="primary">按客户导出</el-button>
 									<el-button @click="site_export()" type="primary" >按站址导出</el-button>
 								</div>
 							</el-col>
@@ -115,7 +115,7 @@
 
 				</div>
 				<div class="box">
-					<h3><small>分摊比例一致性分析</small></h3>
+					<h3><small>分摊比例一致性统计</small></h3>
 					<el-card class="box-card">
 
 
@@ -138,7 +138,7 @@
 							<el-col :span="6" >
 								<div class="grid-content bg-purple">
 									<el-button @click="percentage_reset()">重置</el-button>
-									<el-button @click="percentage_export()">导出</el-button>
+									<el-button @click="percentage_export()" type="primary">导出</el-button>
 								</div>
 							</el-col>
 							<el-col :span="6" ></el-col>
@@ -196,6 +196,7 @@
 					this.difference = '';
 				},
 				percentage_reset(){
+					consol.log("this.psiteCode1"+this.psiteCode);
 					this.psiteCode = '';
 				},
 
@@ -264,7 +265,8 @@
 					});
 				},
 				percentage_export(){
-					siteCode = this.siteCode;
+					siteCode = this.psiteCode;
+
 					axios({
 						method: 'post',
 						url: '/percentage/export?siteCode='+siteCode ,
@@ -274,7 +276,7 @@
 						var downloadElement = document.createElement('a');
 						var href = window.URL.createObjectURL(blob); //创建下载的链接
 						downloadElement.href = href;
-						downloadElement.download = '分摊比例一致性统计.xlsx'; //下载后文件名
+						downloadElement.download = '分摊比例一致性明细导出.xlsx'; //下载后文件名
 						document.body.appendChild(downloadElement);
 						downloadElement.click(); //点击下载
 						document.body.removeChild(downloadElement); //下载完成移除元素

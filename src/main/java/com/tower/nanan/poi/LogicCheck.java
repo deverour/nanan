@@ -56,7 +56,7 @@ public class LogicCheck {
             }
 
             //区域region
-            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION);
+            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION).replace("区","");
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
@@ -295,7 +295,7 @@ public class LogicCheck {
             }
 
             //区域region
-            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION);
+            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION).replace("区","");
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
@@ -510,7 +510,7 @@ public class LogicCheck {
 
 
             //区域region
-            String region = verify.get(ExcelColumns.INDEX_VERIFY_REGION);
+            String region = verify.get(ExcelColumns.INDEX_VERIFY_REGION).replace("区","");
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
