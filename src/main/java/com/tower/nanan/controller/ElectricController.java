@@ -85,7 +85,7 @@ public class ElectricController {
             httpHeaders.add("Content-Disposition", "attchement;filename=" + URLEncoder.encode("代垫签认明细","UTF-8")+".xlsx");
             HttpStatus status = HttpStatus.OK;
             ResponseEntity<byte[]> entity = new ResponseEntity<>(body,httpHeaders,status);
-            System.out.println("查询成功,开始下载");
+
             return entity;
         } catch (IOException e) {
             e.printStackTrace();

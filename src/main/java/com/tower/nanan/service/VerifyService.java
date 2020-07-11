@@ -52,7 +52,7 @@ public class VerifyService implements InitializingBean {
         Verify verify = new Verify();
         Result result = LogicCheck.verifyCheck(verifys, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
         if (!result.isFlag()){
-            System.out.println("1>>>>"+result.getMessage());
+
             return  result;
         }
         SqlSession sqlSession = sqlSessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
@@ -93,7 +93,7 @@ public class VerifyService implements InitializingBean {
             sqlSession.clearCache();
         }
         long t2 = System.currentTimeMillis();
-        System.out.println("2>>>>"+t);
+        System.out.println("2>>>>"+t/1000);
         System.out.println("总耗时"+(t2-t1)/1000);
         return new Result(true,"核销明细导入成功");
     }

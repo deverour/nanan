@@ -161,7 +161,6 @@ public class MyUtils {
         Date endDate = formatter.parse(dateStr);
         Date startDate = formatter.parse("1900/1/1");
         int day = daysBetween(startDate, endDate)+2;
-        System.out.println("day>>"+day);
         return String.valueOf(day);
 
     }

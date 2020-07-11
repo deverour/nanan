@@ -25,8 +25,6 @@ public class LogicCheck {
         double total=0.0;
         boolean flag = true;
 
-
-        System.out.println("electrics.get(0).size()>>>"+electrics.get(0).size());
         if (electrics.get(0).size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
             errorMessage.append("第【"+(electrics.get(0).size()+1)+"】列不能为空\n");
             flag=false;
@@ -257,7 +255,7 @@ public class LogicCheck {
     }
 
     public static Result cpyCheck(List<List<String>> electrics, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
-        System.out.println("cpyCheck");
+
         StringBuilder errorMessage = new StringBuilder();
         HashMap<String,String> map = new HashMap();
 
@@ -267,7 +265,7 @@ public class LogicCheck {
         boolean flag = true;
 
 
-        System.out.println("electrics.get(0).size()>>>"+electrics.get(0).size());
+
         if (electrics.get(0).size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
             errorMessage.append("第【"+(electrics.get(0).size()+1)+"】列不能为空\n");
             flag=false;
@@ -281,7 +279,7 @@ public class LogicCheck {
 
                 return new Result(false,"请检查第"+col+"行是否在除户号以外有没有完善的信息");
             }
-            System.out.println(electric);
+
 
             StringBuilder colMessage = new StringBuilder();
             //key
@@ -504,7 +502,6 @@ public class LogicCheck {
         boolean flag = true;
         if (verifys.get(0).size() < ExcelColumns.INDEX_VERIFY_TAXMONEY+1){
             errorMessage.append("第【"+(ExcelColumns.INDEX_VERIFY_TAXMONEY+1)+"】列不能为空\n");
-            System.out.println("第【"+(ExcelColumns.INDEX_VERIFY_TAXMONEY+1)+"】列不能为空\n");
             flag=false;
             return new Result(flag,errorMessage.toString());
         }
@@ -518,7 +515,6 @@ public class LogicCheck {
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
-                System.out.println("区域"+colMessage.toString());
             }
 
             //站址编码siteCode
@@ -526,11 +522,9 @@ public class LogicCheck {
             if (!NumberUtils.isNumber(siteCode)){
                 flag=false;
                 colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
-                System.out.println("站址编码】错误,请检查是否有空格或非数字");
             }else if (siteCode.contains(".")){
                 flag=false;
                 colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
-                System.out.println("站址编码】错误,请检查是否有空格或非数字");
             }
 
             //分摊编号
@@ -637,9 +631,6 @@ public class LogicCheck {
             String proportion2=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION2);
 
             String proportion3=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION3);
-            System.out.println("proportion1"+proportion1);
-            System.out.println("proportion2"+proportion2);
-            System.out.println("proportion3"+proportion3);
             if (!NumberUtils.isNumber(proportion1)){
                 flag=false;
                 colMessage.append("【移动分摊比例】错误,请检查是否大于0且小于等于100");

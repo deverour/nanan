@@ -21,7 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/login")
+    /*@RequestMapping("/login")
     public void login(User user, HttpSession httpSession, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -47,6 +47,38 @@ public class UserController {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }*/
+
+    @RequestMapping("/login")
+    public Result login(@RequestBody User user, HttpSession httpSession, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            User loginUser = userService.findByUserAndPassword(user.getUsername(),user.getPassword());
+            if(loginUser != null){
+                //登录成功
+                //将用户存入session
+
+                httpServletRequest.setAttribute("login_msg","");
+                httpSession.setAttribute("user",loginUser);
+                System.out.println(user.getRegion()+" 登录成功  |   " +formatter.format(new Date()) );
+                //httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/pages/main.html");
+                return new Result(true,"登录成功");
+                //跳转页面
+
+            }else{
+                //登录失败
+                //提示信息
+                httpServletRequest.setAttribute("login_msg","用户名或密码错误！");
+                return new Result(false,"用户名或密码错误,请重试！");
+                //跳转登录页面
+                //httpServletResponse.sendRedirect(httpServletRequest.getContextPath());
+                //request.getRequestDispatcher(request.getContextPath()+"/bills/login.html").forward(request,response);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false,e.getMessage());
+        }
     }
 
     @RequestMapping("/group")
@@ -63,7 +95,7 @@ public class UserController {
 
     @RequestMapping("/change")
     public Result change(@RequestBody User user){
-        System.out.println("user:>>>>"+user);
+
         try {
             int count = userService.change(user);
             if (count>0){

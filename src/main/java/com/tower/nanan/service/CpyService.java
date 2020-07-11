@@ -33,7 +33,6 @@ public class CpyService {
 
     @Transactional
     public Result saveCpys(File file, User user) throws Exception {
-        System.out.println("saveCpys");
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> electricList = excelRead.getMyDataList();
         Result result = LogicCheck.cpyCheck(electricList, user, Cache.rebackCodeSet, Cache.verifyCodeSet);

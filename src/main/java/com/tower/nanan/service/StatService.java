@@ -82,9 +82,7 @@ public class StatService {
         rebackStatWithCustomerDao.truncate();
 
         for (Map.Entry<String, StatTempWithCustomer> entry : verifyMap.entrySet()) {
-            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
 
-            //String[] split = entry.getKey().split("-");
             StatTempWithCustomer statTempWithCustomer = entry.getValue();
             RebackStatWithCustomer rebackStatWithCustomer = new RebackStatWithCustomer();
             rebackStatWithCustomer.setRegion(statTempWithCustomer.getRegion());
@@ -106,6 +104,7 @@ public class StatService {
 
             rebackStatWithCustomerDao.insertSelective(rebackStatWithCustomer);
         }
+        System.out.println("支付-回款按客户统计完成");
     }
 
     @Transactional
@@ -150,7 +149,7 @@ public class StatService {
         rebackStatWithSiteDao.truncate();
 
         for (Map.Entry<String, StatTempWithSite> entry : verifyMap.entrySet()) {
-            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+
 
             //String[] split = entry.getKey().split("-");
             StatTempWithSite statTempWithSite = entry.getValue();
@@ -174,15 +173,14 @@ public class StatService {
             }
 
             rebackStatWithSite.setStatDate(MyUtils.getExcelDate(new Date()));
-            System.out.println(rebackStatWithSite);
             rebackStatWithSiteDao.insertSelective(rebackStatWithSite);
         }
+        System.out.println("支付-回款按站址统计完成");
     }
 
     public List<RebackStatWithCustomer> findRebackStatWithCustomerByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
-        System.out.println(rebackStatQueryBean);
         if (rebackStatQueryBean.getRegions() != null && !rebackStatQueryBean.getRegions().isEmpty()){
             for (String region : rebackStatQueryBean.getRegions()) {
                 criteria.orEqualTo("region",region);
@@ -221,7 +219,6 @@ public class StatService {
     public List<RebackStatWithSite> findRebackStatWithSiteByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
-        System.out.println(rebackStatQueryBean);
         if (rebackStatQueryBean.getRegions() != null && !rebackStatQueryBean.getRegions().isEmpty()){
             for (String region : rebackStatQueryBean.getRegions()) {
                 criteria.orEqualTo("region",region);

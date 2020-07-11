@@ -34,7 +34,6 @@ public class RebackService implements InitializingBean {
 
 
     public List<Reback> findByCondition(RebackQueryBean rebackQueryBean, User user) {
-        System.out.println(rebackQueryBean);
         Example example = new Example(Reback.class);
         Example.Criteria criteria = example.createCriteria();
         if (rebackQueryBean.getRegion() != null && !rebackQueryBean.getRegion().isEmpty()){
@@ -116,7 +115,6 @@ public class RebackService implements InitializingBean {
     public void delete(Integer id) {
         Reback reback = new Reback();
         reback = rebackDao.selectByPrimaryKey(id);
-        System.out.println("reback>>>>"+reback);
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("rebackCode",reback.getRebackCode());

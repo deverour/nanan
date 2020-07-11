@@ -14,7 +14,6 @@ public class UserService {
 
     public User findByUserAndPassword(String username, String password){
         Example example = new Example(User.class);
-        System.out.println("username"+username+"password"+password);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("username",username);
         criteria.andEqualTo("password",password);

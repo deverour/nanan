@@ -10,7 +10,7 @@ public class TimerUtil {
 
     @Autowired
     private StatService statService;
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void mytask(){
         statService.rebackStatForCustomer();
         statService.rebackStatForSite();
