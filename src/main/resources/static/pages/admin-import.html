@@ -4,7 +4,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>南岸电费管理系统 | 管理员</title>
+    <title>南岸电费管理系统 | 数据导入</title>
     <meta name="description" content="回款管理-OA系统">
     <meta name="keywords" content="回款管理-OA系统">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -25,8 +25,8 @@
         <h1>导入导出<small>核销明细上传</small></h1>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>管理员</el-breadcrumb-item>
-            <el-breadcrumb-item>物业数据导入</el-breadcrumb-item>
+            <el-breadcrumb-item>管理分析</el-breadcrumb-item>
+            <el-breadcrumb-item>数据导入</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
     <div class="app-container">
@@ -70,11 +70,11 @@
 		</div>
         <!--包干-->
         <div class="box">
-            <h3><small>包干电费签认表上传</small></h3>
+            <h3><small>包干电费明细上传</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
                     <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
-                    <el-upload action="/cpy/upload" name="excelFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    <el-upload action="/cpy/upload" name="cpyFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
                     </el-upload>

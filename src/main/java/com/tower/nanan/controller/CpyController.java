@@ -40,11 +40,9 @@ public class CpyController {
     @RequestMapping("/upload")
     public Result upload(@RequestParam("cpyFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
-            //User user = (User) httpSession.getAttribute("user");
-            User user = new User();
-            user.setRegion("南岸");
-            if (!user.getGroup().equals("南岸")){
-                return new Result(false,"对不起,你没有导入包干明细的权限");
+            User user = (User) httpSession.getAttribute("user");
+            if (!user.getNgroup().equals("admin")){
+                return new Result(false,"对不起,你没有导入包干电费明细的权限");
             }
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");

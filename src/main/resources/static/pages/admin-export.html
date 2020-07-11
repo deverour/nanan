@@ -4,7 +4,7 @@
 		<!-- 页面meta -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>南岸电费管理系统 | 管理分析</title>
+		<title>南岸电费管理系统 | 数据导入</title>
 		<meta name="description" content="传智健康">
 		<meta name="keywords" content="传智健康">
 		<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -16,10 +16,7 @@
 		<!-- 引入组件库 -->
 		<script src="../js/vue.js"></script>
 		<script src="../plugins/elementui/index.js"></script>
-		<!-- import Vue before Element -->
-		<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
-		<!-- import JavaScript -->
-		<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+
 
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
 		<script src="../js/axios-0.18.0.js"></script>
@@ -31,8 +28,8 @@
 				<h1>管理分析<small>查询导出</small></h1>
 				<el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-					<el-breadcrumb-item>电费明细</el-breadcrumb-item>
-					<el-breadcrumb-item>查询</el-breadcrumb-item>
+					<el-breadcrumb-item>管理分析</el-breadcrumb-item>
+					<el-breadcrumb-item>查询导出</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
 			<div class="app-container">
@@ -175,11 +172,11 @@
 			created: function() { //在vue初始化时调用
 				axios.get("/user/group").then((response) => {
 					if (response.data.flag) {
-						this.group = response.data.data.group;
+						this.group = response.data.data.ngroup;
 						if (this.group == "admin") {
 							this.regionlist = ["南岸", "綦江", "江津", "巴南"];
 						} else {
-							this.regionlist = [this.region];
+							this.regionlist[0] = response.data.data.region;
 						}
 					}
 				})

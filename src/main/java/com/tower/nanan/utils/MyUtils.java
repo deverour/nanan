@@ -32,6 +32,10 @@ public class MyUtils {
         DecimalFormat format = new DecimalFormat("#0.##");
         return NumberUtils.toDouble(format.format(numStr));
     }
+    public static String to4Round(String numStr){
+        DecimalFormat format = new DecimalFormat("#0.####");
+        return format.format(new BigDecimal(numStr));
+    }
     public static String to0Round(Double numStr){
         DecimalFormat format = new DecimalFormat("#0.##");
         return String.valueOf(format.format(numStr));

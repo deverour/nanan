@@ -77,6 +77,10 @@ public class ElectricService {
         System.out.println(electricQueryBean);
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
+        if (!electricQueryBean.getId().isEmpty()){
+            String id = electricQueryBean.getId();
+            criteria.andEqualTo("id",id);
+        }
         if (electricQueryBean.getRegions() != null && !electricQueryBean.getRegions().isEmpty()){
             for (String region : electricQueryBean.getRegions()) {
                 criteria.orEqualTo("region",region);
@@ -123,9 +127,15 @@ public class ElectricService {
         for (Electric electric : pageData) {
             electric.setStartDate(MyUtils.getExcelDate(electric.getStartDate()));
             electric.setEndDate(MyUtils.getExcelDate(electric.getEndDate()));
+            if (electric.getDirectSupply().equals("是")){
+                electric.setDirectSupply("直供");
+            }else {
+                electric.setDirectSupply("转供");
+            }
             pageDataResult.add(electric);
         }
-        return new PageResult(pageDataResult.getTotal(),pageDataResult.getResult());
+
+        return new PageResult(pageData.getTotal(),pageDataResult.getResult());
     }
 
 
@@ -141,6 +151,9 @@ public class ElectricService {
                 System.out.println(electric);
                 if (electric == null){
                     throw new RuntimeException("第"+index+"行,电费编号："+list.get(0)+"不存在,请下载最新的电费明细后重试");
+                }
+                if (!user.getRegion().equals(electric.getRegion()) || !user.getNgroup().equals("admin")){
+                    throw new RuntimeException("第"+index+"行,电费编号："+list.get(0)+"  ,区域为:【"+electric.getRegion()+"】,本账号没有补录该区域的权限");
                 }
                 if (!electric.getVerifyCode().equals("待补录")){
                     throw new RuntimeException("第"+index+"行,电费编号："+list.get(0)+"  ,系统已存在核销单号，无需补录，如需更改请删除后重新导入");

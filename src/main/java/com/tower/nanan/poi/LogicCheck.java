@@ -16,7 +16,6 @@ import java.util.Set;
 public class LogicCheck {
 
     public static Result electricCheck(List<List<String>> electrics, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
-        //ErrorMessage errorMessage = new ErrorMessage(new StringBuilder(),1);
         StringBuilder errorMessage = new StringBuilder();
         HashMap<String,String> map = new HashMap();
 
@@ -35,9 +34,12 @@ public class LogicCheck {
         }
 
         soleRebackCode = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_REBACKCODE);
-        soleCustomer = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_CUSTOMER);
         int col=2;
         for (List<String> electric : electrics) {
+            if (electric.size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
+
+                return new Result(false,"请检查第"+col+"行是否在除户号以外有没有完善的信息");
+            }
             StringBuilder colMessage = new StringBuilder();
             //key
             String key =electric.get(ExcelColumns.INDEX_ELECTRIC_SITECODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_AMMETERCODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_ENDDATE);
@@ -60,7 +62,7 @@ public class LogicCheck {
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
-            }else if (!user.getRegion().equals(region)){
+            }else if (!user.getRegion().equals(region) || !user.getNgroup().equals("admin")){
                 flag=false;
                 colMessage.append("【区域】错误,本账号没有录入【"+region+"】区域的权限");
             }
@@ -244,7 +246,7 @@ public class LogicCheck {
 
                 total=total+NumberUtils.toDouble(settlement);
             }
-            if (colMessage.length() ==0 ){
+            if (colMessage.length() > 0 ){
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -255,12 +257,11 @@ public class LogicCheck {
     }
 
     public static Result cpyCheck(List<List<String>> electrics, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
-        //ErrorMessage errorMessage = new ErrorMessage(new StringBuilder(),1);
+        System.out.println("cpyCheck");
         StringBuilder errorMessage = new StringBuilder();
         HashMap<String,String> map = new HashMap();
 
         String soleRebackCode = "";
-        String soleCustomer = "";
         HashSet<String> keySet = new HashSet();
         double total=0.0;
         boolean flag = true;
@@ -274,9 +275,14 @@ public class LogicCheck {
         }
 
         soleRebackCode = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_REBACKCODE);
-        soleCustomer = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_CUSTOMER);
         int col=2;
         for (List<String> electric : electrics) {
+            if (electric.size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
+
+                return new Result(false,"请检查第"+col+"行是否在除户号以外有没有完善的信息");
+            }
+            System.out.println(electric);
+
             StringBuilder colMessage = new StringBuilder();
             //key
             String key =electric.get(ExcelColumns.INDEX_ELECTRIC_SITECODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_AMMETERCODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_ENDDATE);
@@ -296,12 +302,9 @@ public class LogicCheck {
 
             //区域region
             String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION).replace("区","");
-            if (!Group.regionSet.contains(region)){
+            if (!region.equals("包干")){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
-            }else if (!user.getRegion().equals(region)){
-                flag=false;
-                colMessage.append("【区域】错误,本账号没有录入【"+region+"】区域的权限");
             }
 
             //站址编码siteCode
@@ -483,7 +486,8 @@ public class LogicCheck {
 
                 total=total+NumberUtils.toDouble(settlement);
             }
-            if (colMessage.length() ==0 ){
+            if (colMessage.length() > 0 ){
+
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -577,7 +581,7 @@ public class LogicCheck {
             }
 
 
-            if (colMessage.length() !=0 ){
+            if (colMessage.length() > 0 ){
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -655,7 +659,7 @@ public class LogicCheck {
                 flag=false;
                 colMessage.append("【电信分摊比例】错误,请检查是否大于0且小于等于100");
             }
-            if (colMessage.length() !=0 ){
+            if (colMessage.length() > 0 ){
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;

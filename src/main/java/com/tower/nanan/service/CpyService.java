@@ -33,7 +33,7 @@ public class CpyService {
 
     @Transactional
     public Result saveCpys(File file, User user) throws Exception {
-
+        System.out.println("saveCpys");
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> electricList = excelRead.getMyDataList();
         Result result = LogicCheck.cpyCheck(electricList, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
@@ -54,6 +54,9 @@ public class CpyService {
             }
             Electric electricR = ExcelColumns.getElectric(electricList.get(0));
             Reback reback = new Reback();
+            reback.setRebacked("是");
+            String rebackDate = MyUtils.getExcelDate(new Date());
+            reback.setRebackDate(rebackDate);
             reback.setRegion(electricR.getRegion());
             reback.setAccountPeriod(electricR.getAccountPeriod());
             reback.setCustomer(electricR.getCustomer());

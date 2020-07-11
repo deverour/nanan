@@ -38,9 +38,7 @@ public class ElectricController {
     @RequestMapping("/upload")
     public Result upload(@RequestParam("electricFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
-            //User user = (User) httpSession.getAttribute("user");
-            User user = new User();
-            user.setRegion("南岸");
+            User user = (User) httpSession.getAttribute("user");
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
             String filename = uuid+ MyUtils.getRealName(multipartFile.getOriginalFilename());
@@ -60,9 +58,8 @@ public class ElectricController {
     @RequestMapping("update")
     public Result update(@RequestParam("electricFile") MultipartFile multipartFile,HttpSession httpSession){
         try {
-            //User user = (User) httpSession.getAttribute("user");
-            User user = new User();
-            user.setRegion("南岸");
+            User user = (User) httpSession.getAttribute("user");
+
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
             String filename = uuid+ MyUtils.getRealName(multipartFile.getOriginalFilename());

@@ -38,9 +38,10 @@ public class PercentageController {
 
         try {
             User user = (User) httpSession.getAttribute("user");
-           /* if (!user.getGroup().equals("admin")){
-                return new Result(false,"对不起，你的账号没有该权限");
-            }*/
+            if (!user.getNgroup().equals("admin")){
+                return new Result(false,"对不起,你没有导入分摊比例明细的权限");
+            }
+
 
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
