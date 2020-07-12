@@ -40,8 +40,11 @@ public class VerifyService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        System.out.println("开始缓存核销单号");
         Cache.verifyCodeSet = verifyDao.getVerifyCodeSet();
+        System.out.println("开始缓存分摊编号");
         Cache.billIdSet = verifyDao.getBillIdSet();
+        System.out.println("缓存结束");
     }
 
 
