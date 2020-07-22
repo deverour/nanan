@@ -1,11 +1,8 @@
 package com.tower.nanan.service;
 
 import com.tower.nanan.dao.*;
-import com.tower.nanan.entity.RebackStatQueryBean;
-import com.tower.nanan.entity.StatTemp;
-import com.tower.nanan.entity.StatTempWithSite;
+import com.tower.nanan.entity.*;
 import com.tower.nanan.pojo.*;
-import com.tower.nanan.entity.StatTempWithCustomer;
 import com.tower.nanan.utils.MyUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,9 @@ public class StatService {
 
     @Autowired
     private RebackStatDao rebackStatDao;
+
+    @Autowired
+    private RebackStatWithReportDao rebackStatWithReportDao;
 
     @Transactional
     public void rebackStatForCustomer(){
@@ -136,11 +136,11 @@ public class StatService {
             String verifyCode = electric.getVerifyCode();
             String siteCode = electric.getSiteCode();
             String electricKey = verifyCode + "-" +siteCode;
-            Double notaxMoney = NumberUtils.toDouble(electric.getSettlement());
+            Double taxMoney = NumberUtils.toDouble(electric.getSettlement());
             if (electricMap.containsKey(electricKey)){
-                electricMap.put(electricKey,notaxMoney+electricMap.get(electricKey));
+                electricMap.put(electricKey,taxMoney+electricMap.get(electricKey));
             }else {
-                electricMap.put(electricKey,notaxMoney);
+                electricMap.put(electricKey,taxMoney);
             }
         }
 
@@ -158,7 +158,7 @@ public class StatService {
             rebackStatWithSite.setPayDate(statTempWithSite.getPayDate());
             rebackStatWithSite.setSiteCode(statTempWithSite.getSiteCode());
             rebackStatWithSite.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithSite.getTaxMoney())));
-            rebackStatWithSite.setStatDate(statTempWithSite.getSiteCode());
+
 
 
             if (electricMap.containsKey(entry.getKey())){
@@ -174,6 +174,74 @@ public class StatService {
             rebackStatWithSiteDao.insertSelective(rebackStatWithSite);
         }
         System.out.println("支付-回款按站址统计完成");
+    }
+
+    @Transactional
+    public void rebackStatWithReport(){
+        System.out.println("开始统计");
+        Map<String,Double> verifyMap = new HashMap<>();
+        Example example = new Example(Verify.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("billState","已分摊");
+        List<Verify> verifies = verifyDao.selectByExample(example);
+        for (Verify verify : verifies) {
+            String region = verify.getRegion();
+            String accountPeriod = MyUtils.getaccountPeriodFromExcelDate(verify.getPayDate());
+            String customer = verify.getCustomer();
+            String verifyKey = region + "-" + accountPeriod + "-" + customer;
+            Double taxMoney = NumberUtils.toDouble(verify.getTaxMoney());
+            if (verifyMap.containsKey(verifyKey)){
+                taxMoney = taxMoney + verifyMap.get(verifyKey);
+                verifyMap.put(verifyKey,taxMoney);
+            }else {
+                verifyMap.put(verifyKey,taxMoney);
+            }
+        }
+
+        Map<String,Double> electricMap = new HashMap<>();
+        List<Electric> electrics = electricDao.selectAll();
+        for (Electric electric : electrics) {
+            String region = electric.getRegion();
+            String accountPeriod = electric.getAccountPeriod();
+            String customer =electric.getCustomer();
+            String electricKey = region + "-" + accountPeriod + "-" + customer;
+            Double taxMoney = NumberUtils.toDouble(electric.getSettlement());
+            if (electricMap.containsKey(electricKey)){
+                electricMap.put(electricKey,taxMoney+electricMap.get(electricKey));
+            }else {
+                electricMap.put(electricKey,taxMoney);
+            }
+        }
+
+        rebackStatWithReportDao.truncate();
+
+        for (Map.Entry<String, Double> entry : verifyMap.entrySet()) {
+
+
+            String[] split = entry.getKey().split("-");
+            Double taxMoney = entry.getValue();
+            RebackStatWithReport rebackStatWithReport = new RebackStatWithReport();
+
+            rebackStatWithReport.setRegion(split[0]);
+            rebackStatWithReport.setAccountPeriod(split[1]);
+            rebackStatWithReport.setCustomer(split[2]);
+            rebackStatWithReport.setVerifyMoney(String.valueOf(MyUtils.to2Round(taxMoney)));
+
+
+
+            if (electricMap.containsKey(entry.getKey())){
+                Double difference = electricMap.get(entry.getKey()) -taxMoney;
+                rebackStatWithReport.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithReport.setDifference(difference);
+            }else {
+                rebackStatWithReport.setRebackMoney("0");
+                rebackStatWithReport.setDifference(taxMoney);
+            }
+
+            rebackStatWithReport.setStatDate(MyUtils.getExcelDate(new Date()));
+            rebackStatWithReportDao.insertSelective(rebackStatWithReport);
+        }
+        System.out.println("支付-回款报表统计完成");
     }
 
     @Transactional
@@ -232,7 +300,7 @@ public class StatService {
             rebackStat.setSiteCode(statTemp.getSiteCode());
             rebackStat.setCustomer(statTemp.getCustomer());
             rebackStat.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTemp.getTaxMoney())));
-            rebackStat.setStatDate(statTemp.getSiteCode());
+
 
 
             if (electricMap.containsKey(entry.getKey())){
@@ -247,7 +315,7 @@ public class StatService {
             rebackStat.setStatDate(MyUtils.getExcelDate(new Date()));
             rebackStatDao.insertSelective(rebackStat);
         }
-        System.out.println("支付-回款统计完成");
+        System.out.println("支付-回款按明细统计完成");
     }
 
     public List<RebackStatWithCustomer> findRebackStatWithCustomerByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
@@ -366,6 +434,13 @@ public class StatService {
         }
 
         return rebackStatDao.selectByExample(example);
+
+    }
+
+    public List<RebackStatWithReport> findRebackStatWithReport() throws ParseException {
+
+
+        return rebackStatWithReportDao.selectAll();
 
     }
 }

@@ -102,7 +102,7 @@
 									<el-button @click="stat_reset()">重置</el-button>
 									<el-button @click="customer_export()" type="primary">按客户导出</el-button>
 									<el-button @click="site_export()" type="primary" >按站址导出</el-button>
-									<el-button @click="export()" type="primary" >按站址导出</el-button>
+									<el-button @click="all_export()" type="primary" >导出</el-button>
 								</div>
 							</el-col>
 							<el-col :span="6" ></el-col>
@@ -262,7 +262,7 @@
 						console.log(error);
 					});
 				},
-				export(){
+				all_export(){
 					const loading = this.$loading({
 						lock: true,
 						text: 'Loading...',
@@ -279,12 +279,44 @@
 						"endPayDate": this.payDate[1],
 						"difference":this.difference,
 					};
-					axios.post("/rebackstat/exportforsite", querydata,{responseType: 'blob'}).then(function(response) {
+					axios.post("/rebackstat/export", querydata,{responseType: 'blob'}).then(function(response) {
 						var blob = new Blob([response.data])
 						var downloadElement = document.createElement('a');
 						var href = window.URL.createObjectURL(blob); //创建下载的链接
 						downloadElement.href = href;
-						downloadElement.download = '回款统计分析导出.xlsx'; //下载后文件名
+						downloadElement.download = '回款统计分析按站址导出.xlsx'; //下载后文件名
+						document.body.appendChild(downloadElement);
+						downloadElement.click(); //点击下载
+						document.body.removeChild(downloadElement); //下载完成移除元素
+						window.URL.revokeObjectURL(href); //释放掉blob对象
+						loading.close();
+					}).catch(function(error) {
+						console.log(error);
+					});
+				},
+				report_export(){
+					const loading = this.$loading({
+						lock: true,
+						text: 'Loading...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+
+					var querydata = {
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startPayDate": this.payDate[0],
+						"endPayDate": this.payDate[1],
+						"difference":this.difference,
+					};
+					axios.post("/rebackstat/reportexport", querydata,{responseType: 'blob'}).then(function(response) {
+						var blob = new Blob([response.data])
+						var downloadElement = document.createElement('a');
+						var href = window.URL.createObjectURL(blob); //创建下载的链接
+						downloadElement.href = href;
+						downloadElement.download = '回款统计分析按站址导出.xlsx'; //下载后文件名
 						document.body.appendChild(downloadElement);
 						downloadElement.click(); //点击下载
 						document.body.removeChild(downloadElement); //下载完成移除元素

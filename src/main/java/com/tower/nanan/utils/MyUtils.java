@@ -106,6 +106,18 @@ public class MyUtils {
         return list;
     }
 
+    public static ArrayList<String> getList(RebackStatWithReport rebackStatWithReport){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(rebackStatWithReport.getRegion());
+        list.add(rebackStatWithReport.getAccountPeriod());
+        list.add(rebackStatWithReport.getCustomer());
+        list.add(rebackStatWithReport.getVerifyMoney());
+        list.add(rebackStatWithReport.getRebackMoney());
+        list.add(rebackStatWithReport.getDifference().toString());
+        list.add(rebackStatWithReport.getStatDate());
+        return list;
+    }
+
     public static List<String> getList(RebackStat rebackStat) {
         ArrayList<String> list=new ArrayList<String>();
         list.add(rebackStat.getRegion());
@@ -171,6 +183,13 @@ public class MyUtils {
         Date date0 = new Date(Date.parse("1/1/1900"));
         Date newDate = addDate(date0, dateInt);
         return FastDateFormat.getInstance("yyyy/MM/dd").format(newDate);
+    }
+
+    public static String getaccountPeriodFromExcelDate(String dateStr){
+        int dateInt = NumberUtils.toInt(dateStr)-1;
+        Date date0 = new Date(Date.parse("1/1/1900"));
+        Date newDate = addDate(date0, dateInt);
+        return FastDateFormat.getInstance("yyyyMM").format(newDate);
     }
 
     public static String toExcelDate(String dateStr) throws ParseException {

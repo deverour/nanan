@@ -172,6 +172,19 @@ public class ExcelColumns {
 
     }
 
+    public static ArrayList<String> getRebackStatWithReportTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("区域");
+        namelist.add("账期");
+        namelist.add("客户");
+        namelist.add("核销金额");
+        namelist.add("回款金额");
+        namelist.add("差异");
+        namelist.add("统计时间");
+
+        return namelist;
+    }
+
     public static ArrayList<String> getRebackStatTitle() {
         ArrayList<String> namelist = new ArrayList<String>() ;
         namelist.add("区域");
@@ -186,4 +199,6 @@ public class ExcelColumns {
 
         return namelist;
     }
+
+
 }
