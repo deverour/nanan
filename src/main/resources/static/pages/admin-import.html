@@ -70,11 +70,28 @@
 		</div>
         <!--包干-->
         <div class="box">
-            <h3><small>包干电费明细上传</small></h3>
+            <h3><small>包干成本上传</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
                     <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
-                    <el-upload action="/cpy/upload" name="cpyFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    <el-upload action="/cpy/costupload" name="cpycostFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                               :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
+                        <el-button type="primary">上传文件</el-button>
+                    </el-upload>
+                </div>
+
+                <div>
+                    <!-- 操作说明：请点击"模板下载"按钮获取模板文件，在模板文件中录入预约设置数据后点击"上传文件"按钮上传模板文件。-->
+                    </br>
+                </div>
+            </el-card>
+        </div>
+        <div class="box">
+            <h3><small>包干收入上传</small></h3>
+            <el-card class="box-card">
+                <div class="boxMain">
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
+                    <el-upload action="/cpy/incomeupload" name="cpyincomeFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
                     </el-upload>
@@ -125,7 +142,7 @@
             },
             // 下载导入模板
             cpyTemplate(){
-                window.location.href="../templatefiles/包干电费明细导入模板.xlsx";
+                window.location.href="../templatefiles/包干成本导入模板.xlsx";
             },
 
             verifyexport(){

@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MyUtils {
     public static String getRealName(String name){
@@ -105,6 +106,21 @@ public class MyUtils {
         return list;
     }
 
+    public static List<String> getList(RebackStat rebackStat) {
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(rebackStat.getRegion());
+        list.add(rebackStat.getVerifyCode());
+        list.add(rebackStat.getPayDate());
+        list.add(rebackStat.getCustomer());
+        list.add(rebackStat.getSiteCode());
+        list.add(rebackStat.getVerifyMoney());
+        list.add(rebackStat.getRebackMoney());
+        list.add(rebackStat.getDifference().toString());
+        list.add(rebackStat.getStatDate());
+        return list;
+    }
+
+
     public static ArrayList<String> getList(Verify verify){
         ArrayList<String> list=new ArrayList<String>();
         list.add(verify.getRegion());
@@ -138,10 +154,11 @@ public class MyUtils {
         list.add(percentage.getNewProportion1());
         list.add(percentage.getNewProportion2());
         list.add(percentage.getNewProportion3());
-      ;
+
 
         return list;
     }
+
 
 
 
@@ -182,7 +199,6 @@ public class MyUtils {
 
         return Integer.parseInt(String.valueOf(between_days));
     }
-
 
 
 

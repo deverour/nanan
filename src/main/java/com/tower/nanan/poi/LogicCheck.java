@@ -662,4 +662,67 @@ public class LogicCheck {
     }
 
 
+    public static Result IncomeCpyCheck(List<List<String>> cpyList) {
+        StringBuilder errorMessage = new StringBuilder();
+        HashSet<String> keySet = new HashSet();
+        boolean flag = true;
+        //列数
+        if (cpyList.get(0).size() < ExcelColumns.INDEX_CPY_ACCOUNTPERIOD+1){
+            errorMessage.append("第【"+(cpyList.get(0).size()+1)+"】列不能为空\n");
+            flag=false;
+            return new Result(flag,errorMessage.toString());
+        }
+        String soleDate = "";
+        soleDate = cpyList.get(0).get(ExcelColumns.INDEX_CPY_ACCOUNTPERIOD);
+        int col=2;
+        for (List<String> cpy : cpyList) {
+            StringBuilder colMessage = new StringBuilder();
+
+            //站址名称
+            String region=cpy.get(ExcelColumns.INDEX_CPY_REGION);
+            if (region==null){
+                flag=false;
+                colMessage.append("【区域】不能为空");
+            }
+
+            //站址编码siteCode
+            String siteCode = cpy.get(ExcelColumns.INDEX_CPY_SITECODE);
+            if (!NumberUtils.isNumber(siteCode)){
+                flag=false;
+                colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
+            }else if (siteCode.contains(".")){
+                flag=false;
+                colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
+            }
+
+            //站址名称
+            String siteName=cpy.get(ExcelColumns.INDEX_CPY_SITENAME);
+            if (siteName==null){
+                flag=false;
+                colMessage.append("【站点名称】不能为空");
+            }
+
+            //结算金额
+            String notaxMoney=cpy.get(ExcelColumns.INDEX_CPY_NOTAXMONEY);
+            if (!NumberUtils.isNumber(notaxMoney)){
+                flag=false;
+                colMessage.append("【结算金额】错误,请检查是否有空格或非数字");
+            }
+            if (colMessage.length() > 0 ){
+                errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
+            }
+
+            //开票编号
+            String accountperiod=cpy.get(ExcelColumns.INDEX_CPY_ACCOUNTPERIOD);
+
+            if(!accountperiod.equals(soleDate)){
+                flag=false;
+                colMessage.append("【账期】错误,同一导入表账期应当一致");
+            }
+            col++;
+
+
+        }
+        return new Result(flag,errorMessage.toString());
+    }
 }

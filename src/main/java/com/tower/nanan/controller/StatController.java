@@ -4,6 +4,7 @@ package com.tower.nanan.controller;
 import com.tower.nanan.entity.ElectricQueryBean;
 import com.tower.nanan.entity.RebackStatQueryBean;
 import com.tower.nanan.poi.ExcelWrite;
+import com.tower.nanan.pojo.RebackStat;
 import com.tower.nanan.pojo.RebackStatWithCustomer;
 import com.tower.nanan.pojo.RebackStatWithSite;
 import com.tower.nanan.pojo.User;
@@ -62,6 +63,30 @@ public class StatController {
             }
             List<RebackStatWithSite> rebackStatWithSites = statService.findRebackStatWithSiteByCondition(rebackStatQueryBean);
             InputStream is = ExcelWrite.WriteRebackStatWithSite(rebackStatWithSites);
+            byte[] body = new byte[is.available()];
+            is.read(body);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.add("Content-Disposition", "attchement;filename=" + URLEncoder.encode("回款统计表","UTF-8")+".xlsx");
+            HttpStatus status = HttpStatus.OK;
+            ResponseEntity<byte[]> entity = new ResponseEntity<>(body,httpHeaders,status);
+            System.out.println("查询成功,开始下载");
+            return entity;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    @RequestMapping("/export")
+    public ResponseEntity<byte[]> exportForRebackStat(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
+        try {
+            User user = (User) httpSession.getAttribute("user");
+            if (!user.getNgroup().equals("admin")){
+                return null;
+            }
+            List<RebackStat> rebackStats = statService.findRebackStatByCondition(rebackStatQueryBean);
+            InputStream is = ExcelWrite.WriteRebackStats(rebackStats);
             byte[] body = new byte[is.available()];
             is.read(body);
             HttpHeaders httpHeaders = new HttpHeaders();
