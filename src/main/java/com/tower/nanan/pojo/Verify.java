@@ -8,6 +8,7 @@ public class Verify {
     private String verifyCode;
     private String payDate;
     private String siteCode;
+    private String siteName;
     private String customer;
     private String billId;
     private String billState;

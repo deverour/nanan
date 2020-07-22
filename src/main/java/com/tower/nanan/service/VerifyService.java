@@ -16,7 +16,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 import java.io.File;
@@ -31,11 +30,6 @@ public class VerifyService implements InitializingBean {
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-
 
 
     @Override
@@ -66,6 +60,7 @@ public class VerifyService implements InitializingBean {
             String billState = ver.get(ExcelColumns.INDEX_VERIFY_BILLSTATE);
             String payDate = ver.get(ExcelColumns.INDEX_VERIFY_PAYDATE);
             String siteCode = ver.get(ExcelColumns.INDEX_VERIFY_SITECODE);
+            String siteName = ver.get(ExcelColumns.INDEX_VERIFY_SITENAME);
             String customer = ver.get(ExcelColumns.INDEX_VERIFY_CUSTOMER);
             String taxMoney = ver.get(ExcelColumns.INDEX_VERIFY_TAXMONEY);
 
@@ -75,6 +70,7 @@ public class VerifyService implements InitializingBean {
             verify.setBillState(billState);
             verify.setPayDate(payDate);
             verify.setSiteCode(siteCode);
+            verify.setSiteName(siteName);
             verify.setCustomer(customer);
             verify.setTaxMoney(MyUtils.to2Round(taxMoney));
 
@@ -97,6 +93,8 @@ public class VerifyService implements InitializingBean {
         System.out.println("总耗时"+(t2-t1)/1000);
         return new Result(true,"核销明细导入成功");
     }
+
+
 
 
     public List<Verify> findAll() {
