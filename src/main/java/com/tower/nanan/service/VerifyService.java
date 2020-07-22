@@ -69,6 +69,7 @@ public class VerifyService implements InitializingBean {
             String billState = ver.get(ExcelColumns.INDEX_VERIFY_BILLSTATE);
             String payDate = ver.get(ExcelColumns.INDEX_VERIFY_PAYDATE);
             String siteCode = ver.get(ExcelColumns.INDEX_VERIFY_SITECODE);
+            String siteName = ver.get(ExcelColumns.INDEX_VERIFY_SITENAME);
             String customer = ver.get(ExcelColumns.INDEX_VERIFY_CUSTOMER);
             String taxMoney = ver.get(ExcelColumns.INDEX_VERIFY_TAXMONEY);
 
@@ -78,6 +79,7 @@ public class VerifyService implements InitializingBean {
             verify.setBillState(billState);
             verify.setPayDate(payDate);
             verify.setSiteCode(siteCode);
+            verify.setSiteName(siteName);
             verify.setCustomer(customer);
             verify.setTaxMoney(MyUtils.to2Round(taxMoney));
 

@@ -41,8 +41,9 @@ public class ExcelColumns {
     public static final int INDEX_VERIFY_BILLSTATE = 3;
     public static final int INDEX_VERIFY_PAYDATE = 4;
     public static final int INDEX_VERIFY_SITECODE = 5;
-    public static final int INDEX_VERIFY_CUSTOMER = 6;
-    public static final int INDEX_VERIFY_TAXMONEY =7;
+    public static final int INDEX_VERIFY_SITENAME = 6;
+    public static final int INDEX_VERIFY_CUSTOMER = 7;
+    public static final int INDEX_VERIFY_TAXMONEY =8;
 
 
 
