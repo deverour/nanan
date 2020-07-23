@@ -13,6 +13,7 @@ import com.tower.nanan.pojo.IncomeCpy;
 import com.tower.nanan.pojo.Reback;
 import com.tower.nanan.pojo.User;
 import com.tower.nanan.utils.MyUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +68,7 @@ public class CpyService {
             reback.setCustomer(electricR.getCustomer());
             reback.setSettlementModel("包干");
             reback.setRebackCode(electricR.getRebackCode());
-            reback.setSettlement(result.getData().toString());
+            reback.setSettlement(result.getTotal());
             reback.setUploadDate(MyUtils.getExcelDate(new Date()));
             rebackDao.insertSelective(reback);
             Cache.rebackCodeSet.add(electricR.getRebackCode());
@@ -87,12 +88,10 @@ public class CpyService {
             for (List<String> cpy : cpyList) {
                String region = cpy.get(ExcelColumns.INDEX_CPY_REGION);
                String siteCode = cpy.get(ExcelColumns.INDEX_CPY_SITECODE);
-               String siteName = cpy.get(ExcelColumns.INDEX_CPY_SITENAME);
-               String notaxMoney = cpy.get(ExcelColumns.INDEX_CPY_NOTAXMONEY);
+               Double notaxMoney = NumberUtils.toDouble(cpy.get(ExcelColumns.INDEX_CPY_NOTAXMONEY));
                String accountPeriod = cpy.get(ExcelColumns.INDEX_CPY_ACCOUNTPERIOD);
                incomeCpy.setRegion(region);
                incomeCpy.setSiteCode(siteCode);
-               incomeCpy.setSiteName(siteName);
                incomeCpy.setNotaxMoney(notaxMoney);
                incomeCpy.setAccountPeriod(accountPeriod);
 

@@ -251,7 +251,7 @@ public class LogicCheck {
 
         }
 
-        return new Result(flag,errorMessage.toString(),MyUtils.to2Round(total));
+        return new Result(flag,errorMessage.toString(),null,MyUtils.to2Round(total));
     }
 
     public static Result cpyCheck(List<List<String>> electrics, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
@@ -492,7 +492,7 @@ public class LogicCheck {
 
         }
 
-        return new Result(flag,errorMessage.toString(),MyUtils.to2Round(total));
+        return new Result(flag,errorMessage.toString(),null,MyUtils.to2Round(total));
     }
 
     public static Result verifyCheck(List<List<String>> verifys, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){

@@ -20,9 +20,12 @@ public class Result {
 		this.message = message;
 	}
 
-	public Result(boolean flag, String message, Double total) {
+
+	public Result(boolean flag, String message, Object data) {
 		this.flag = flag;
 		this.message = message;
-		this.total = total;
+		this.data = data;
 	}
+
+
 }
