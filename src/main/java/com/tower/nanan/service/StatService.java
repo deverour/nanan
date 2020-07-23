@@ -24,6 +24,9 @@ public class StatService {
     private VerifyDao verifyDao;
 
     @Autowired
+    private CpyDao cpyDao;
+
+    @Autowired
     private ElectricDao electricDao;
 
     @Autowired
@@ -37,6 +40,12 @@ public class StatService {
 
     @Autowired
     private RebackStatWithReportDao rebackStatWithReportDao;
+
+    @Autowired
+    private RebackStatWithCpyDao rebackStatWithCpyDao;
+
+    @Autowired
+    private NameCodeDao nameCodeDao;
 
     @Transactional
     public void rebackStatForCustomer(){
@@ -158,7 +167,10 @@ public class StatService {
             rebackStatWithSite.setPayDate(statTempWithSite.getPayDate());
             rebackStatWithSite.setSiteCode(statTempWithSite.getSiteCode());
             rebackStatWithSite.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithSite.getTaxMoney())));
-
+            NameCode nameCode = nameCodeDao.selectByPrimaryKey(statTempWithSite.getSiteCode());
+            if (nameCode != null){
+                rebackStatWithSite.setSiteName(nameCode.getSiteName());
+            }
 
 
             if (electricMap.containsKey(entry.getKey())){
@@ -312,10 +324,90 @@ public class StatService {
                 rebackStat.setDifference(statTemp.getTaxMoney());
             }
 
+            NameCode nameCode = nameCodeDao.selectByPrimaryKey(rebackStat.getSiteCode());
+            if (nameCode != null){
+                rebackStat.setSiteName(nameCode.getSiteName());
+            }
             rebackStat.setStatDate(MyUtils.getExcelDate(new Date()));
             rebackStatDao.insertSelective(rebackStat);
         }
         System.out.println("支付-回款按明细统计完成");
+    }
+
+    @Transactional
+    public void rebackStatWithCpy(){
+        System.out.println("开始统计");
+        Map<String,StatTempWithCpy> verifyMap = new HashMap<>();
+        Example example = new Example(Electric.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("settlementModel","包干");
+        List<Electric> electrics = electricDao.selectByExample(example);
+        for (Electric electric : electrics) {
+            String region = electric.getRegion();
+            String accountPeriod = electric.getAccountPeriod();
+            String siteCode = electric.getSiteCode();
+            Double taxMoney = NumberUtils.toDouble(electric.getSettlement());
+            StatTempWithCpy statTempWithCpy = new StatTempWithCpy(region,accountPeriod,taxMoney);
+            if (verifyMap.containsKey(siteCode)){
+                taxMoney = taxMoney + verifyMap.get(siteCode).getNotaxMoney();
+                statTempWithCpy.setNotaxMoney(taxMoney);
+                String accountPeriodOld = verifyMap.get(siteCode).getAccountPeriod();
+                if (NumberUtils.toDouble(accountPeriod)<NumberUtils.toDouble(accountPeriodOld)){
+                    statTempWithCpy.setAccountPeriod(accountPeriodOld);
+                }
+                verifyMap.put(siteCode,statTempWithCpy);
+            }else {
+                verifyMap.put(siteCode,statTempWithCpy);
+            }
+        }
+
+        Map<String,Double> electricMap = new HashMap<>();
+        List<IncomeCpy> incomeCpies = cpyDao.selectAll();
+        for (IncomeCpy incomeCpy : incomeCpies) {
+
+            String siteCode = incomeCpy.getSiteCode();
+
+            Double notaxMoney = NumberUtils.toDouble(incomeCpy.getNotaxMoney());
+            if (electricMap.containsKey(siteCode)){
+                electricMap.put(siteCode,notaxMoney+electricMap.get(siteCode));
+            }else {
+                electricMap.put(siteCode,notaxMoney);
+            }
+        }
+
+        rebackStatWithReportDao.truncate();
+
+        for (Map.Entry<String, StatTempWithCpy> entry : verifyMap.entrySet()) {
+
+
+
+            StatTempWithCpy statTempWithCpy = entry.getValue();
+            RebackStatWithCpy rebackStatWithCpy = new RebackStatWithCpy();
+
+            rebackStatWithCpy.setSiteCode(entry.getKey());
+            rebackStatWithCpy.setRegion(statTempWithCpy.getRegion());
+            rebackStatWithCpy.setPayDate(statTempWithCpy.getAccountPeriod());
+            rebackStatWithCpy.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithCpy.getNotaxMoney())));
+
+
+            Double notaxMoney = statTempWithCpy.getNotaxMoney();
+            if (electricMap.containsKey(entry.getKey())){
+
+                Double difference = electricMap.get(entry.getKey()) -notaxMoney;
+                rebackStatWithCpy.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithCpy.setDifference(difference);
+            }else {
+                rebackStatWithCpy.setRebackMoney("0");
+                rebackStatWithCpy.setDifference(notaxMoney);
+            }
+            NameCode nameCode = nameCodeDao.selectByPrimaryKey(rebackStatWithCpy.getSiteCode());
+            if (nameCode != null){
+                rebackStatWithCpy.setSiteName(nameCode.getSiteName());
+            }
+            rebackStatWithCpy.setStatDate(MyUtils.getExcelDate(new Date()));
+            rebackStatWithCpyDao.insertSelective(rebackStatWithCpy);
+        }
+        System.out.println("包干收支统计完成");
     }
 
     public List<RebackStatWithCustomer> findRebackStatWithCustomerByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
@@ -394,6 +486,7 @@ public class StatService {
         return rebackStatWithSiteDao.selectByExample(example);
 
     }
+
     public List<RebackStat> findRebackStatByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();

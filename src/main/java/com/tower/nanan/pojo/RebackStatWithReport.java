@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.persistence.Table;
 
 @Data
-@Table(name = "rebackstat_site")
+@Table(name = "rebackstat_report")
 public class RebackStatWithReport {
     private String region;
     private String accountPeriod;

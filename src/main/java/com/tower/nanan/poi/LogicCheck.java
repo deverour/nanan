@@ -300,7 +300,7 @@ public class LogicCheck {
 
             //区域region
             String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION).replace("区","");
-            if (!region.equals("包干")){
+            if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
             }
@@ -459,9 +459,9 @@ public class LogicCheck {
                 if(rebackCodeStr.length!=4){
                     flag=false;
                     colMessage.append("【回款编号】格式错误");
-                }else if (!rebackCodeStr[0].equals(region)){
+                }else if (!rebackCodeStr[0].equals("包干")){
                     flag=false;
-                    colMessage.append("【回款编号】错误,第一部分应等于区域");
+                    colMessage.append("【回款编号】错误,第一部分应等于‘包干’");
                 }else if(!rebackCodeStr[1].equals(customer)){
                     flag=false;
                     colMessage.append("【回款编号】错误,第二部分应等于结算运营商");

@@ -25,7 +25,7 @@ public class ExcelColumns {
     public static final int INDEX_ELECTRIC_VERIFYCODE = 15;//核销单号
     public static final int INDEX_ELECTRIC_ACCOUNTPERIOD =16;//账期
     public static final int INDEX_ELECTRIC_REBACKCODE = 17; //回款编号
-    public static final int INDEX_ELECTRIC_UPLOADDATE = 18;//上传日期
+    //public static final int INDEX_ELECTRIC_UPLOADDATE = 18;//上传日期
 
 
     public static final int INDEX_PERCENTAGE_SITECODE = 0;
@@ -36,10 +36,8 @@ public class ExcelColumns {
 
     public static final int INDEX_CPY_REGION = 0;
     public static final int INDEX_CPY_SITECODE = 1;
-    public static final int INDEX_CPY_SITENAME = 2;
-    public static final int INDEX_CPY_NOTAXMONEY = 3;
-    public static final int INDEX_CPY_ACCOUNTPERIOD = 4;
-
+    public static final int INDEX_CPY_NOTAXMONEY = 2;
+    public static final int INDEX_CPY_ACCOUNTPERIOD = 3;
 
     public static final int INDEX_VERIFY_REGION = 0;
     public static final int INDEX_VERIFY_VERIFYCODE = 1;
@@ -47,9 +45,8 @@ public class ExcelColumns {
     public static final int INDEX_VERIFY_BILLSTATE = 3;
     public static final int INDEX_VERIFY_PAYDATE = 4;
     public static final int INDEX_VERIFY_SITECODE = 5;
-    public static final int INDEX_VERIFY_SITENAME = 6;
-    public static final int INDEX_VERIFY_CUSTOMER = 7;
-    public static final int INDEX_VERIFY_TAXMONEY =8;
+    public static final int INDEX_VERIFY_CUSTOMER = 6;
+    public static final int INDEX_VERIFY_TAXMONEY =7;
 
 
 

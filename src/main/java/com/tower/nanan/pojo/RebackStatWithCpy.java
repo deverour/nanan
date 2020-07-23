@@ -3,14 +3,12 @@ package com.tower.nanan.pojo;
 
 import lombok.Data;
 
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
-@Table(name = "rebackstat_site")
-public class RebackStatWithSite {
+@Table(name = "rebackstat_cpy")
+public class RebackStatWithCpy {
     private String region;
-    private String verifyCode;
     private String payDate;
     private String siteCode;
     private String siteName;
