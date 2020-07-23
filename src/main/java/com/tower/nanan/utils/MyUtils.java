@@ -190,7 +190,7 @@ public class MyUtils {
     }
 
     public static String getaccountPeriodFromExcelDate(String dateStr){
-        int dateInt = NumberUtils.toInt(dateStr)-1;
+        int dateInt = NumberUtils.toInt(dateStr)-2;
         Date date0 = new Date(Date.parse("1/1/1900"));
         Date newDate = addDate(date0, dateInt);
         return FastDateFormat.getInstance("yyyyMM").format(newDate);

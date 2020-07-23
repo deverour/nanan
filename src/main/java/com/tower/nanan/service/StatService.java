@@ -49,7 +49,7 @@ public class StatService {
 
     @Transactional
     public void rebackStatForCustomer(){
-        System.out.println("开始统计");
+        System.out.println("rebackStatForCustomer");
         Map<String, StatTempWithCustomer> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -116,7 +116,7 @@ public class StatService {
 
     @Transactional
     public void rebackStatForSite(){
-        System.out.println("开始统计");
+        System.out.println("rebackStatForSite");
         Map<String,StatTempWithSite> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -190,7 +190,7 @@ public class StatService {
 
     @Transactional
     public void rebackStatWithReport(){
-        System.out.println("开始统计");
+        System.out.println("rebackStatWithReport");
         Map<String,Double> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -226,7 +226,7 @@ public class StatService {
         }
 
         rebackStatWithReportDao.truncate();
-
+        System.out.println("verifyMap.size()"+verifyMap.size());
         for (Map.Entry<String, Double> entry : verifyMap.entrySet()) {
 
 
@@ -258,7 +258,7 @@ public class StatService {
 
     @Transactional
     public void rebackStat(){
-        System.out.println("开始统计");
+        System.out.println("rebackStat");
         Map<String,StatTemp> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -336,7 +336,7 @@ public class StatService {
 
     @Transactional
     public void rebackStatWithCpy(){
-        System.out.println("开始统计");
+        System.out.println("rebackStatWithCpy");
         Map<String,StatTempWithCpy> verifyMap = new HashMap<>();
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();

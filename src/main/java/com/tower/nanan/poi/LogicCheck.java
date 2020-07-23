@@ -661,7 +661,6 @@ public class LogicCheck {
 
     }
 
-
     public static Result IncomeCpyCheck(List<List<String>> cpyList) {
         StringBuilder errorMessage = new StringBuilder();
         HashSet<String> keySet = new HashSet();
@@ -719,5 +718,55 @@ public class LogicCheck {
 
         }
         return new Result(flag,errorMessage.toString());
+    }
+
+    public static Result nameCodeCheck(List<List<String>> nameCodeList) {
+        StringBuilder errorMessage = new StringBuilder();
+
+
+
+        boolean flag = true;
+
+        if (nameCodeList.get(0).size() < 2){
+            errorMessage.append("第【"+(nameCodeList.get(0).size()+1)+"】列不能为空\n");
+            flag=false;
+            return new Result(flag,errorMessage.toString());
+        }
+
+        int col=2;
+        for (List<String> nameCode : nameCodeList) {
+
+            StringBuilder colMessage = new StringBuilder();
+
+
+
+
+
+
+            //站址编码siteCode
+            String siteCode = nameCode.get(0);
+            if (!NumberUtils.isNumber(siteCode)){
+                flag=false;
+                colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
+            }else if (siteCode.contains(".")){
+                flag=false;
+                colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
+            }
+
+            //
+            String sitename=nameCode.get(1);
+            if (sitename==null){
+                flag=false;
+                colMessage.append("【站点名称】不能为空");
+            }
+
+            if (colMessage.length() > 0 ){
+                errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
+            }
+            col++;
+
+        }
+
+        return new Result(flag,errorMessage.toString(),null);
     }
 }

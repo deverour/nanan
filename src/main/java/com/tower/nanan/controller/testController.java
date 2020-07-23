@@ -13,7 +13,11 @@ public class testController {
 
     @RequestMapping("/1")
     public void test1(){
+
+        //statService.rebackStatForSite();
+        //statService.rebackStat();
         //statService.rebackStatForCustomer();
-        statService.rebackStatForSite();
+        statService.rebackStatWithReport();
+        //statService.rebackStatWithCpy();
     }
 }
