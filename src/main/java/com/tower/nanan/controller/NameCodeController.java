@@ -22,7 +22,7 @@ public class NameCodeController {
     private NameCodeService nameCodeService;
 
     @RequestMapping("upload")
-    public Result upload(@RequestParam MultipartFile multipartFile, HttpSession httpSession){
+    public Result upload(@RequestParam("namecodeFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
             User user = (User) httpSession.getAttribute("user");
             String path = FilePath.UPLOAD_TEMP;

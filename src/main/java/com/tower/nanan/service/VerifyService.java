@@ -32,6 +32,8 @@ public class VerifyService implements InitializingBean {
     private SqlSessionTemplate sqlSessionTemplate;
 
 
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("开始缓存核销单号");
