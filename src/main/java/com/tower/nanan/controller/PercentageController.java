@@ -38,9 +38,10 @@ public class PercentageController {
 
         try {
             User user = (User) httpSession.getAttribute("user");
-           /* if (!user.getGroup().equals("admin")){
-                return new Result(false,"对不起，你的账号没有该权限");
-            }*/
+            if (!user.getNgroup().equals("admin")){
+                return new Result(false,"对不起,你没有导入分摊比例明细的权限");
+            }
+
 
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -60,8 +61,10 @@ public class PercentageController {
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestParam("siteCode") String siteCode, HttpSession httpSession){
         try {
-            System.out.println("siteCode>>>>>>>>>>>>>:"+siteCode);
-            User user = (User)httpSession.getAttribute("user");
+            User user = (User) httpSession.getAttribute("user");
+            if (!user.getNgroup().equals("admin")){
+                return null;
+            }
             List<Percentage> percentages = percentageService.findBySiteCode(siteCode);
             InputStream is = ExcelWrite.WritePercentages(percentages);
             byte[] body = new byte[is.available()];
@@ -79,25 +82,6 @@ public class PercentageController {
         }
     }
 
-    @RequestMapping("/export1")
-    public ResponseEntity<byte[]> exportall( HttpSession httpSession){
-        try {
 
-            User user = (User)httpSession.getAttribute("user");
-            List<Percentage> percentages = percentageService.findAll();
-            InputStream is = ExcelWrite.WritePercentages(percentages);
-            byte[] body = new byte[is.available()];
-            is.read(body);
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Content-Disposition", "attchement;filename=" + URLEncoder.encode("代垫签认明细","UTF-8")+".xlsx");
-            HttpStatus status = HttpStatus.OK;
-            ResponseEntity<byte[]> entity = new ResponseEntity<>(body,httpHeaders,status);
-            System.out.println("查询成功,开始下载");
-            return entity;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 }

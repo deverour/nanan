@@ -34,6 +34,12 @@ public class ExcelColumns {
     public static final int INDEX_PERCENTAGE_NEWPERPORTION2 = 3;
     public static final int INDEX_PERCENTAGE_NEWPERPORTION3 =4;
 
+    public static final int INDEX_CPY_REGION = 0;
+    public static final int INDEX_CPY_SITECODE = 1;
+    public static final int INDEX_CPY_SITENAME = 2;
+    public static final int INDEX_CPY_NOTAXMONEY = 3;
+    public static final int INDEX_CPY_ACCOUNTPERIOD = 4;
+
 
     public static final int INDEX_VERIFY_REGION = 0;
     public static final int INDEX_VERIFY_VERIFYCODE = 1;
@@ -99,15 +105,7 @@ public class ExcelColumns {
     }
 
 
-    public static ArrayList<String> getRebackStatTitle() {
-        ArrayList<String> namelist = new ArrayList<String>() ;
-        namelist.add("核销/支付单号(唯一值)");
-        namelist.add("运营商");
-        namelist.add("核销金额");
-        namelist.add("已签认金额");
-        namelist.add("统计时间");
-        return namelist;
-    }
+
 
     public static ArrayList<String> getVerifyTitle() {
         ArrayList<String> namelist = new ArrayList<String>() ;
@@ -173,4 +171,34 @@ public class ExcelColumns {
         return namelist;
 
     }
+
+    public static ArrayList<String> getRebackStatWithReportTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("区域");
+        namelist.add("账期");
+        namelist.add("客户");
+        namelist.add("核销金额");
+        namelist.add("回款金额");
+        namelist.add("差异");
+        namelist.add("统计时间");
+
+        return namelist;
+    }
+
+    public static ArrayList<String> getRebackStatTitle() {
+        ArrayList<String> namelist = new ArrayList<String>() ;
+        namelist.add("区域");
+        namelist.add("核销单号");
+        namelist.add("付款完成时间");
+        namelist.add("客户");
+        namelist.add("站址编码");
+        namelist.add("核销金额");
+        namelist.add("回款金额");
+        namelist.add("差异绝对值");
+        namelist.add("统计时间");
+
+        return namelist;
+    }
+
+
 }

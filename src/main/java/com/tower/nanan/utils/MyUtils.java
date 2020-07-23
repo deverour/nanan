@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MyUtils {
     public static String getRealName(String name){
@@ -31,6 +32,10 @@ public class MyUtils {
     public static Double to2Round(Double numStr){
         DecimalFormat format = new DecimalFormat("#0.##");
         return NumberUtils.toDouble(format.format(numStr));
+    }
+    public static String to4Round(String numStr){
+        DecimalFormat format = new DecimalFormat("#0.####");
+        return format.format(new BigDecimal(numStr));
     }
     public static String to0Round(Double numStr){
         DecimalFormat format = new DecimalFormat("#0.##");
@@ -101,6 +106,33 @@ public class MyUtils {
         return list;
     }
 
+    public static ArrayList<String> getList(RebackStatWithReport rebackStatWithReport){
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(rebackStatWithReport.getRegion());
+        list.add(rebackStatWithReport.getAccountPeriod());
+        list.add(rebackStatWithReport.getCustomer());
+        list.add(rebackStatWithReport.getVerifyMoney());
+        list.add(rebackStatWithReport.getRebackMoney());
+        list.add(rebackStatWithReport.getDifference().toString());
+        list.add(rebackStatWithReport.getStatDate());
+        return list;
+    }
+
+    public static List<String> getList(RebackStat rebackStat) {
+        ArrayList<String> list=new ArrayList<String>();
+        list.add(rebackStat.getRegion());
+        list.add(rebackStat.getVerifyCode());
+        list.add(rebackStat.getPayDate());
+        list.add(rebackStat.getCustomer());
+        list.add(rebackStat.getSiteCode());
+        list.add(rebackStat.getVerifyMoney());
+        list.add(rebackStat.getRebackMoney());
+        list.add(rebackStat.getDifference().toString());
+        list.add(rebackStat.getStatDate());
+        return list;
+    }
+
+
     public static ArrayList<String> getList(Verify verify){
         ArrayList<String> list=new ArrayList<String>();
         list.add(verify.getRegion());
@@ -134,10 +166,11 @@ public class MyUtils {
         list.add(percentage.getNewProportion1());
         list.add(percentage.getNewProportion2());
         list.add(percentage.getNewProportion3());
-      ;
+
 
         return list;
     }
+
 
 
 
@@ -152,12 +185,18 @@ public class MyUtils {
         return FastDateFormat.getInstance("yyyy/MM/dd").format(newDate);
     }
 
+    public static String getaccountPeriodFromExcelDate(String dateStr){
+        int dateInt = NumberUtils.toInt(dateStr)-1;
+        Date date0 = new Date(Date.parse("1/1/1900"));
+        Date newDate = addDate(date0, dateInt);
+        return FastDateFormat.getInstance("yyyyMM").format(newDate);
+    }
+
     public static String toExcelDate(String dateStr) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat( "yyyy/MM/dd");
         Date endDate = formatter.parse(dateStr);
         Date startDate = formatter.parse("1900/1/1");
         int day = daysBetween(startDate, endDate)+2;
-        System.out.println("day>>"+day);
         return String.valueOf(day);
 
     }
@@ -179,7 +218,6 @@ public class MyUtils {
 
         return Integer.parseInt(String.valueOf(between_days));
     }
-
 
 
 

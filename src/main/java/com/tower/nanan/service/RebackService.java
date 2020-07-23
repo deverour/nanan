@@ -34,7 +34,6 @@ public class RebackService implements InitializingBean {
 
 
     public List<Reback> findByCondition(RebackQueryBean rebackQueryBean, User user) {
-        System.out.println(rebackQueryBean);
         Example example = new Example(Reback.class);
         Example.Criteria criteria = example.createCriteria();
         if (rebackQueryBean.getRegion() != null && !rebackQueryBean.getRegion().isEmpty()){
@@ -81,6 +80,7 @@ public class RebackService implements InitializingBean {
             PageHelper.startPage(rebackQueryBean.getCurrentPage(), rebackQueryBean.getPageSize());
         }
         Page<Reback> pageData = (Page<Reback>) findByCondition(rebackQueryBean,user);
+
         return new PageResult(pageData.getTotal(),pageData.getResult());
     }
 
@@ -97,8 +97,8 @@ public class RebackService implements InitializingBean {
             return new Result(true,"撤销打标成功");
         }else {
             reback_db.setRebacked("是");
-            String rebackCode = MyUtils.getExcelDate(new Date());
-            reback_db.setRebackDate(rebackCode);
+            String rebackDate = MyUtils.getExcelDate(new Date());
+            reback_db.setRebackDate(rebackDate);
             rebackDao.updateByPrimaryKey(reback_db);
             return new Result(true,"回款打标成功");
         }
@@ -115,7 +115,6 @@ public class RebackService implements InitializingBean {
     public void delete(Integer id) {
         Reback reback = new Reback();
         reback = rebackDao.selectByPrimaryKey(id);
-        System.out.println("reback>>>>"+reback);
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("rebackCode",reback.getRebackCode());

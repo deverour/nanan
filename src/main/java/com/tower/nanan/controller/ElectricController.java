@@ -14,10 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +23,6 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -38,9 +35,7 @@ public class ElectricController {
     @RequestMapping("/upload")
     public Result upload(@RequestParam("electricFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
-            //User user = (User) httpSession.getAttribute("user");
-            User user = new User();
-            user.setRegion("南岸");
+            User user = (User) httpSession.getAttribute("user");
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
             String filename = uuid+ MyUtils.getRealName(multipartFile.getOriginalFilename());
@@ -60,9 +55,8 @@ public class ElectricController {
     @RequestMapping("update")
     public Result update(@RequestParam("electricFile") MultipartFile multipartFile,HttpSession httpSession){
         try {
-            //User user = (User) httpSession.getAttribute("user");
-            User user = new User();
-            user.setRegion("南岸");
+            User user = (User) httpSession.getAttribute("user");
+
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
             String filename = uuid+ MyUtils.getRealName(multipartFile.getOriginalFilename());
@@ -91,7 +85,7 @@ public class ElectricController {
             httpHeaders.add("Content-Disposition", "attchement;filename=" + URLEncoder.encode("代垫签认明细","UTF-8")+".xlsx");
             HttpStatus status = HttpStatus.OK;
             ResponseEntity<byte[]> entity = new ResponseEntity<>(body,httpHeaders,status);
-            System.out.println("查询成功,开始下载");
+
             return entity;
         } catch (IOException e) {
             e.printStackTrace();

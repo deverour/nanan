@@ -99,7 +99,7 @@
         created: function () {//在vue初始化时调用
         },
         methods: {
-            login() {
+            /*login() {
                 var self = this;
                 this.dologin("/user/login",this.form);
 
@@ -120,7 +120,33 @@
                     }
                     form.appendTo('body').submit().remove();
                 };
-            },
+            },*/
+            login(){
+                console.log("username"+this.form.username);
+                console.log("password"+this.form.password);
+                var logindata = {
+                    "username": this.form.username,
+                    "password": this.form.password,
+
+                };
+                axios.post("/user/login", logindata).then((response) => {
+                    if (response.data.flag) {
+
+                        this.$message({
+                            message: response.data.message,
+                            type: 'success'
+                        });
+                        //this.$router.push({ path:'/pages/main.html'  })
+                        setTimeout(() =>{
+                            window.location.href = 'pages/main.html';
+                        },500);
+
+
+                    }else {
+                        this.$message.error(response.data.message);
+                    }
+                });
+            }
         }
     })
 </script>

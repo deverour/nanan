@@ -5,21 +5,14 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>南岸电费管理系统 | 电费查询</title>
-		<meta name="description" content="传智健康">
-		<meta name="keywords" content="传智健康">
 		<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
 		<!-- 引入样式 -->
 		<link rel="stylesheet" href="../plugins/elementui/index.css">
 		<link rel="stylesheet" href="../css/style.css">
-		<!-- <link rel="stylesheet" href="../css/orderset.css">
-		<link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css"> -->
 		<!-- 引入组件库 -->
 		<script src="../js/vue.js"></script>
 		<script src="../plugins/elementui/index.js"></script>
-		<!-- import Vue before Element -->
-		<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
-		<!-- import JavaScript -->
-		<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+
 
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
 		<script src="../js/axios-0.18.0.js"></script>
@@ -66,13 +59,7 @@
 						</el-row><br />
 
 						<el-row type="flex" class="row-bg" align="middle">
-							<!--<el-col :span="8">
 
-								<div class="grid-content bg-purple">
-									&ensp;&ensp;&ensp;&ensp;支付单号
-									<el-input v-model="verifyCode" size="small" placeholder="请输入内容"></el-input>
-								</div>
-							</el-col>-->
 							<!--站址编码-->
 							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;站址编码</el-col>
 							<el-col :span="5">
@@ -97,6 +84,12 @@
 												end-placeholder="结束月份"  size="small">
 								</el-date-picker>
 							</el-col>
+
+							<!--核销单号-->
+							<el-col :span="3">&ensp;&ensp;&ensp;&ensp;电费ID</el-col>
+							<el-col :span="5">
+								<el-input v-model="id" size="small" placeholder="请输入内容"></el-input>
+							</el-col>
 						</el-row>
 						<br />
 
@@ -116,11 +109,12 @@
 					<el-card class="box-card">
 						<el-table border :data="dataList" style="width: 100%" size='small' current-row-key="id">
 
-							<!--<el-table-column prop="fengongsi" label="分公司" min-width="45"></el-table-column>-->
-							<el-table-column prop="region" label="区域" ></el-table-column>
+
+							<el-table-column prop="id" label="电费编号"  min-width="30" ></el-table-column>
+							<el-table-column prop="rebackCode" label="回款编号" ></el-table-column>
 							<el-table-column prop="siteCode" label="站点编码"></el-table-column>
 							<el-table-column prop="ammeterCode" label="电表编码" ></el-table-column>
-							<el-table-column prop="directSupply" label="是否直供电"></el-table-column>
+							<el-table-column prop="directSupply" label="供电类型"></el-table-column>
 							<el-table-column prop="startDegrees" label="起度" ></el-table-column>
 							<el-table-column prop="endDegrees" label="止度"></el-table-column>
 							<el-table-column prop="electricQuantity" label="电量" ></el-table-column>
@@ -129,8 +123,7 @@
 							<el-table-column prop="payMoney" label="垫资总额"></el-table-column>
 							<el-table-column prop="proportion" label="分摊比例" ></el-table-column>
 							<el-table-column prop="settlement" label="结算金额" ></el-table-column>
-							<el-table-column prop="customer" label="运营商" ></el-table-column>
-							<el-table-column prop="accountPeriod" label="账期"></el-table-column>
+							<el-table-column prop="verifyCode" label="核销单号" min-width="110" ></el-table-column>
 
 						</el-table>
 						<div class="pagination-container">
@@ -150,7 +143,7 @@
 			</div>
 		</div>
 	</body>
-	
+
 	<script>
 		new Vue({
 			el: '#app',
@@ -171,20 +164,21 @@
 				siteCode: '',
 				verifyCode: '',
 				accountPeriod: [],
+				id:'',
 
-			
-				
-				
-				
+
+
+
+
 			},
 			created: function() { //在vue初始化时调用
 				axios.get("/user/group").then((response) => {
 					if (response.data.flag) {
-						this.group = response.data.data.group;
+						this.group = response.data.data.ngroup;
 						if (this.group == "admin") {
 							this.regionlist = ["南岸", "綦江", "江津", "巴南"];
 						} else {
-							this.regionlist = [this.region];
+							this.regionlist[0] = response.data.data.region;
 						}
 					}
 				})
@@ -198,6 +192,7 @@
 					this.siteCode = '';
 					this.verifyCode = '';
 					this.accountPeriod = [];
+					this.id = '';
 				},
 				findPage() {
 					var querydata = {
@@ -209,6 +204,7 @@
 						"verifyCode":this.verifyCode,
 						"startAccountPeriod": this.accountPeriod[0],
 						"endAccountPeriod": this.accountPeriod[1],
+						"id": this.id,
 					}
 					axios.post("/electric/query", querydata).then((response) => {
 						this.dataList = response.data.rows;
@@ -253,13 +249,14 @@
 						"verifyCode":this.verifyCode,
 						"startAccountPeriod": this.accountPeriod[0],
 						"endAccountPeriod": this.accountPeriod[1],
+						"id": this.id,
 					};
 					axios.post("/electric/export", querydata,{responseType: 'blob'}).then(function(response) {
 						var blob = new Blob([response.data])
 						var downloadElement = document.createElement('a');
 						var href = window.URL.createObjectURL(blob); //创建下载的链接
 						downloadElement.href = href;
-						downloadElement.download = '代垫签认明细.xlsx'; //下载后文件名
+						downloadElement.download = '电费明细导出.xlsx'; //下载后文件名
 						document.body.appendChild(downloadElement);
 						downloadElement.click(); //点击下载
 						document.body.removeChild(downloadElement); //下载完成移除元素

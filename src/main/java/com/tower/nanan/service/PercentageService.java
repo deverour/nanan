@@ -97,11 +97,9 @@ public class PercentageService {
                 percentage.setNewProportion1(newPerportion1);
                 percentage.setNewProportion2(newPerportion2);
                 percentage.setNewProportion3(newPerportion3);
-                System.out.println(oldpercentage);
                 if (oldpercentage==null){
                     percentageDao.insertSelective(percentage);
                 }else {
-                    System.out.println("updateByExampleSelective");
                     percentageDao.updateByExampleSelective(percentage,example);
                 }
             }
@@ -121,14 +119,12 @@ public class PercentageService {
     }
 
     public List<Percentage> findBySiteCode(String siteCode) {
-        System.out.println("siteCode>>>>>>>>>>>"+siteCode);
         if (siteCode != null && siteCode.length()>0){
             Example example = new Example(Percentage.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("siteCode",siteCode);
             return percentageDao.selectByExample(example);
         }
-        System.out.println("return percentageDao.selectAll()");
         return percentageDao.selectAll();
 
     }

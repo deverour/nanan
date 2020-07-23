@@ -4,7 +4,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>南岸电费管理系统 | 管理员</title>
+    <title>南岸电费管理系统 | 数据导入</title>
     <meta name="description" content="回款管理-OA系统">
     <meta name="keywords" content="回款管理-OA系统">
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -22,26 +22,26 @@
 <body class="hold-transition">
 <div id="app">
     <div class="content-header">
-        <h1>导入导出<small>核销明细上传</small></h1>
+        <h1>管理分析<small>数据导入</small></h1>
         <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>管理员</el-breadcrumb-item>
-            <el-breadcrumb-item>物业数据导入</el-breadcrumb-item>
+            <el-breadcrumb-item>管理分析</el-breadcrumb-item>
+            <el-breadcrumb-item>数据导入</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
     <div class="app-container">
-        <!--代垫-->
+        <!--核销-->
         <div class="box">
-            <h3><small>核销明细上传</small></h3>
+            <h3><small>核销明细(分摊出账)上传</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
-                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="downloadTemplateforverify()">模板下载</el-button>
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="verifyTemplate()">模板下载</el-button>
                     <el-upload action="/verify/upload" name="verifyFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
                     </el-upload>
 
-                    <el-button  style="margin-bottom: 20px;margin-right: 20px" @click="verifyexport()"  type="primary">导出</el-button>
+
 
                 </div>
                <!-- <div>
@@ -51,15 +51,15 @@
         </div>
         <!--包干-->
 		<div class="box">
-            <h3><small>结算模式导入</small></h3>
+            <h3><small>分摊比例(结算模式)导入</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
-                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="downloadTemplateforpercentage()" href="">模板下载</el-button>
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="percentageTemplate()" href="">模板下载</el-button>
                     <el-upload action="/percentage/upload" name="percentageFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
                     </el-upload>
-                    <el-button  style="margin-bottom: 20px;margin-right: 20px" @click="percentageexport()"  type="primary">导出</el-button>
+
                 </div>
 
                 <div>
@@ -68,6 +68,41 @@
                 </div>
             </el-card>
 		</div>
+        <!--包干-->
+        <div class="box">
+            <h3><small>包干成本上传</small></h3>
+            <el-card class="box-card">
+                <div class="boxMain">
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
+                    <el-upload action="/cpy/costupload" name="cpycostFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                               :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
+                        <el-button type="primary">上传文件</el-button>
+                    </el-upload>
+                </div>
+
+                <div>
+                    <!-- 操作说明：请点击"模板下载"按钮获取模板文件，在模板文件中录入预约设置数据后点击"上传文件"按钮上传模板文件。-->
+                    </br>
+                </div>
+            </el-card>
+        </div>
+        <div class="box">
+            <h3><small>包干收入上传</small></h3>
+            <el-card class="box-card">
+                <div class="boxMain">
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
+                    <el-upload action="/cpy/incomeupload" name="cpyincomeFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                               :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
+                        <el-button type="primary">上传文件</el-button>
+                    </el-upload>
+                </div>
+
+                <div>
+                    <!-- 操作说明：请点击"模板下载"按钮获取模板文件，在模板文件中录入预约设置数据后点击"上传文件"按钮上传模板文件。-->
+                    </br>
+                </div>
+            </el-card>
+        </div>
         <el-dialog
                 title="提示"
                 :visible.sync="updataMessageDialogVisible"
@@ -99,11 +134,15 @@
         },
         methods: {
             // 下载导入模板
-            downloadTemplateforverify(){
-                window.location.href="../templatefiles/核销明细导入模板.xlsx";
+            verifyTemplate(){
+                window.location.href="../templatefiles/核销明细(分摊出账)导入模板.xlsx";
             },
-            downloadTemplateforpercentage(){
-                window.location.href="../templatefiles/结算模式导入模板.xlsx";
+            percentageTemplate(){
+                window.location.href="../templatefiles/分摊比例(结算模式)导入模板.xlsx";
+            },
+            // 下载导入模板
+            cpyTemplate(){
+                window.location.href="../templatefiles/包干成本导入模板.xlsx";
             },
 
             verifyexport(){

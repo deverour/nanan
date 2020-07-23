@@ -50,7 +50,7 @@
                     <el-col :span="8">
                         <div class="grid-content bg-purple-light">
                             &ensp;&ensp;&ensp;&ensp;区&ensp;&ensp;&ensp;&ensp;域&ensp;
-                            <el-select v-model="region" multiple placeholder="请选择" size="small" @focus="getarea()">
+                            <el-select v-model="region" multiple placeholder="请选择" size="small" >
                                 <el-option v-for="item in regionlist" :key="item" :label="item"
                                            :value="item"></el-option>
                             </el-select>
@@ -124,14 +124,12 @@
             <el-card class="box-card">
                 <el-table border :data="dataList" style="width: 100%" size='small' current-row-key="id">
 
-                    <!--<el-table-column prop="fengongsi" label="分公司" min-width="45"></el-table-column>-->
                     <el-table-column prop="region" label="区域" ></el-table-column>
                     <el-table-column prop="accountPeriod" label="账期" ></el-table-column>
                     <el-table-column prop="customer" label="运营商" ></el-table-column>
                     <el-table-column prop="settlementModel" label="结算模式" ></el-table-column>
                     <el-table-column prop="rebackCode" label="回款编号" ></el-table-column>
                     <el-table-column prop="settlement" label="结算金额" ></el-table-column>
-                    <el-table-column prop="settlementModel" label="结算模式" ></el-table-column>
                     <el-table-column prop="uploadDate" label="上传日期" ></el-table-column>
                     <el-table-column prop="rebacked" label="是否回款" ></el-table-column>
                     <el-table-column prop="rebackDate" label="回款日期"></el-table-column>
@@ -220,11 +218,11 @@
         created: function () { //在vue初始化时调用
             axios.get("/user/group").then((response) => {
                 if (response.data.flag) {
-                    this.group = response.data.data.group;
+                    this.group = response.data.data.ngroup;
                     if (this.group == "admin") {
                         this.regionlist = ["南岸", "綦江", "江津", "巴南"];
                     } else {
-                        this.regionlist = [this.region];
+                        this.regionlist[0] = response.data.data.region;
                     }
                 }
             })

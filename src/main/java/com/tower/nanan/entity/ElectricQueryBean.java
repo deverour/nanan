@@ -10,6 +10,7 @@ public class ElectricQueryBean implements Serializable {
     private Integer currentPage;//页码
     private Integer pageSize;//每页记录数
 
+    private String id;
     private List<String> regions;
     private List<String> customers;
     private String siteCode;

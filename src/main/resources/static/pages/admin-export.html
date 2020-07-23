@@ -4,7 +4,7 @@
 		<!-- 页面meta -->
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>南岸电费管理系统 | 管理分析</title>
+		<title>南岸电费管理系统 | 数据导入</title>
 		<meta name="description" content="传智健康">
 		<meta name="keywords" content="传智健康">
 		<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
@@ -16,10 +16,7 @@
 		<!-- 引入组件库 -->
 		<script src="../js/vue.js"></script>
 		<script src="../plugins/elementui/index.js"></script>
-		<!-- import Vue before Element -->
-		<!--<script src="https://unpkg.com/vue/dist/vue.js"></script>-->
-		<!-- import JavaScript -->
-		<!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+
 
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
 		<script src="../js/axios-0.18.0.js"></script>
@@ -31,14 +28,14 @@
 				<h1>管理分析<small>查询导出</small></h1>
 				<el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
 					<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-					<el-breadcrumb-item>电费明细</el-breadcrumb-item>
-					<el-breadcrumb-item>查询</el-breadcrumb-item>
+					<el-breadcrumb-item>管理分析</el-breadcrumb-item>
+					<el-breadcrumb-item>查询导出</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
 			<div class="app-container">
 
 				<div class="box">
-					<h3><small>支付-回款统计分析</small></h3>
+					<h3><small>支付-回款统计</small></h3>
 					<el-card class="box-card">
 						<el-row>
 
@@ -103,8 +100,9 @@
 							<el-col :span="6" >
 								<div class="grid-content bg-purple">
 									<el-button @click="stat_reset()">重置</el-button>
-									<el-button @click="customer_export()">按客户导出</el-button>
+									<el-button @click="customer_export()" type="primary">按客户导出</el-button>
 									<el-button @click="site_export()" type="primary" >按站址导出</el-button>
+									<el-button @click="all_export()" type="primary" >导出</el-button>
 								</div>
 							</el-col>
 							<el-col :span="6" ></el-col>
@@ -115,7 +113,7 @@
 
 				</div>
 				<div class="box">
-					<h3><small>分摊比例一致性分析</small></h3>
+					<h3><small>分摊比例一致性统计</small></h3>
 					<el-card class="box-card">
 
 
@@ -138,7 +136,7 @@
 							<el-col :span="6" >
 								<div class="grid-content bg-purple">
 									<el-button @click="percentage_reset()">重置</el-button>
-									<el-button @click="percentage_export()">导出</el-button>
+									<el-button @click="percentage_export()" type="primary">导出</el-button>
 								</div>
 							</el-col>
 							<el-col :span="6" ></el-col>
@@ -175,11 +173,11 @@
 			created: function() { //在vue初始化时调用
 				axios.get("/user/group").then((response) => {
 					if (response.data.flag) {
-						this.group = response.data.data.group;
+						this.group = response.data.data.ngroup;
 						if (this.group == "admin") {
 							this.regionlist = ["南岸", "綦江", "江津", "巴南"];
 						} else {
-							this.regionlist = [this.region];
+							this.regionlist[0] = response.data.data.region;
 						}
 					}
 				})
@@ -196,6 +194,7 @@
 					this.difference = '';
 				},
 				percentage_reset(){
+					consol.log("this.psiteCode1"+this.psiteCode);
 					this.psiteCode = '';
 				},
 
@@ -263,8 +262,73 @@
 						console.log(error);
 					});
 				},
+				all_export(){
+					const loading = this.$loading({
+						lock: true,
+						text: 'Loading...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+
+					var querydata = {
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startPayDate": this.payDate[0],
+						"endPayDate": this.payDate[1],
+						"difference":this.difference,
+					};
+					axios.post("/rebackstat/export", querydata,{responseType: 'blob'}).then(function(response) {
+						var blob = new Blob([response.data])
+						var downloadElement = document.createElement('a');
+						var href = window.URL.createObjectURL(blob); //创建下载的链接
+						downloadElement.href = href;
+						downloadElement.download = '回款统计分析按站址导出.xlsx'; //下载后文件名
+						document.body.appendChild(downloadElement);
+						downloadElement.click(); //点击下载
+						document.body.removeChild(downloadElement); //下载完成移除元素
+						window.URL.revokeObjectURL(href); //释放掉blob对象
+						loading.close();
+					}).catch(function(error) {
+						console.log(error);
+					});
+				},
+				report_export(){
+					const loading = this.$loading({
+						lock: true,
+						text: 'Loading...',
+						spinner: 'el-icon-loading',
+						background: 'rgba(0, 0, 0, 0.7)'
+					});
+
+					var querydata = {
+						"regions": this.region,
+						"customers": this.customer,
+						"siteCode":this.siteCode,
+						"verifyCode":this.verifyCode,
+						"startPayDate": this.payDate[0],
+						"endPayDate": this.payDate[1],
+						"difference":this.difference,
+					};
+					axios.post("/rebackstat/reportexport", querydata,{responseType: 'blob'}).then(function(response) {
+						var blob = new Blob([response.data])
+						var downloadElement = document.createElement('a');
+						var href = window.URL.createObjectURL(blob); //创建下载的链接
+						downloadElement.href = href;
+						downloadElement.download = '回款统计分析按站址导出.xlsx'; //下载后文件名
+						document.body.appendChild(downloadElement);
+						downloadElement.click(); //点击下载
+						document.body.removeChild(downloadElement); //下载完成移除元素
+						window.URL.revokeObjectURL(href); //释放掉blob对象
+						loading.close();
+					}).catch(function(error) {
+						console.log(error);
+					});
+				},
 				percentage_export(){
-					siteCode = this.siteCode;
+					siteCode = this.psiteCode;
+
 					axios({
 						method: 'post',
 						url: '/percentage/export?siteCode='+siteCode ,
@@ -274,7 +338,7 @@
 						var downloadElement = document.createElement('a');
 						var href = window.URL.createObjectURL(blob); //创建下载的链接
 						downloadElement.href = href;
-						downloadElement.download = '分摊比例一致性统计.xlsx'; //下载后文件名
+						downloadElement.download = '分摊比例一致性明细导出.xlsx'; //下载后文件名
 						document.body.appendChild(downloadElement);
 						downloadElement.click(); //点击下载
 						document.body.removeChild(downloadElement); //下载完成移除元素

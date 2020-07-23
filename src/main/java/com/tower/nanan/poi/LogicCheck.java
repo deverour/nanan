@@ -16,7 +16,6 @@ import java.util.Set;
 public class LogicCheck {
 
     public static Result electricCheck(List<List<String>> electrics, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
-        //ErrorMessage errorMessage = new ErrorMessage(new StringBuilder(),1);
         StringBuilder errorMessage = new StringBuilder();
         HashMap<String,String> map = new HashMap();
 
@@ -26,8 +25,6 @@ public class LogicCheck {
         double total=0.0;
         boolean flag = true;
 
-
-        System.out.println("electrics.get(0).size()>>>"+electrics.get(0).size());
         if (electrics.get(0).size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
             errorMessage.append("第【"+(electrics.get(0).size()+1)+"】列不能为空\n");
             flag=false;
@@ -35,9 +32,12 @@ public class LogicCheck {
         }
 
         soleRebackCode = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_REBACKCODE);
-        soleCustomer = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_CUSTOMER);
         int col=2;
         for (List<String> electric : electrics) {
+            if (electric.size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
+
+                return new Result(false,"请检查第"+col+"行是否在除户号以外有没有完善的信息");
+            }
             StringBuilder colMessage = new StringBuilder();
             //key
             String key =electric.get(ExcelColumns.INDEX_ELECTRIC_SITECODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_AMMETERCODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_ENDDATE);
@@ -56,11 +56,11 @@ public class LogicCheck {
             }
 
             //区域region
-            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION);
+            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION).replace("区","");
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
-            }else if (!user.getRegion().equals(region)){
+            }else if (!user.getRegion().equals(region) || !user.getNgroup().equals("admin")){
                 flag=false;
                 colMessage.append("【区域】错误,本账号没有录入【"+region+"】区域的权限");
             }
@@ -244,7 +244,7 @@ public class LogicCheck {
 
                 total=total+NumberUtils.toDouble(settlement);
             }
-            if (colMessage.length() ==0 ){
+            if (colMessage.length() > 0 ){
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -255,18 +255,17 @@ public class LogicCheck {
     }
 
     public static Result cpyCheck(List<List<String>> electrics, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
-        //ErrorMessage errorMessage = new ErrorMessage(new StringBuilder(),1);
+
         StringBuilder errorMessage = new StringBuilder();
         HashMap<String,String> map = new HashMap();
 
         String soleRebackCode = "";
-        String soleCustomer = "";
         HashSet<String> keySet = new HashSet();
         double total=0.0;
         boolean flag = true;
 
 
-        System.out.println("electrics.get(0).size()>>>"+electrics.get(0).size());
+
         if (electrics.get(0).size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
             errorMessage.append("第【"+(electrics.get(0).size()+1)+"】列不能为空\n");
             flag=false;
@@ -274,9 +273,14 @@ public class LogicCheck {
         }
 
         soleRebackCode = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_REBACKCODE);
-        soleCustomer = electrics.get(0).get(ExcelColumns.INDEX_ELECTRIC_CUSTOMER);
         int col=2;
         for (List<String> electric : electrics) {
+            if (electric.size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
+
+                return new Result(false,"请检查第"+col+"行是否在除户号以外有没有完善的信息");
+            }
+
+
             StringBuilder colMessage = new StringBuilder();
             //key
             String key =electric.get(ExcelColumns.INDEX_ELECTRIC_SITECODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_AMMETERCODE)+electric.get(ExcelColumns.INDEX_ELECTRIC_ENDDATE);
@@ -295,13 +299,10 @@ public class LogicCheck {
             }
 
             //区域region
-            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION);
-            if (!Group.regionSet.contains(region)){
+            String region = electric.get(ExcelColumns.INDEX_ELECTRIC_REGION).replace("区","");
+            if (!region.equals("包干")){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
-            }else if (!user.getRegion().equals(region)){
-                flag=false;
-                colMessage.append("【区域】错误,本账号没有录入【"+region+"】区域的权限");
             }
 
             //站址编码siteCode
@@ -483,7 +484,8 @@ public class LogicCheck {
 
                 total=total+NumberUtils.toDouble(settlement);
             }
-            if (colMessage.length() ==0 ){
+            if (colMessage.length() > 0 ){
+
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -500,7 +502,6 @@ public class LogicCheck {
         boolean flag = true;
         if (verifys.get(0).size() < ExcelColumns.INDEX_VERIFY_TAXMONEY+1){
             errorMessage.append("第【"+(ExcelColumns.INDEX_VERIFY_TAXMONEY+1)+"】列不能为空\n");
-            System.out.println("第【"+(ExcelColumns.INDEX_VERIFY_TAXMONEY+1)+"】列不能为空\n");
             flag=false;
             return new Result(flag,errorMessage.toString());
         }
@@ -510,11 +511,10 @@ public class LogicCheck {
 
 
             //区域region
-            String region = verify.get(ExcelColumns.INDEX_VERIFY_REGION);
+            String region = verify.get(ExcelColumns.INDEX_VERIFY_REGION).replace("区","");
             if (!Group.regionSet.contains(region)){
                 flag=false;
                 colMessage.append("【区域】错误,请参导入模板表二限定字段");
-                System.out.println("区域"+colMessage.toString());
             }
 
             //站址编码siteCode
@@ -522,11 +522,9 @@ public class LogicCheck {
             if (!NumberUtils.isNumber(siteCode)){
                 flag=false;
                 colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
-                System.out.println("站址编码】错误,请检查是否有空格或非数字");
             }else if (siteCode.contains(".")){
                 flag=false;
                 colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
-                System.out.println("站址编码】错误,请检查是否有空格或非数字");
             }
 
             //分摊编号
@@ -577,7 +575,7 @@ public class LogicCheck {
             }
 
 
-            if (colMessage.length() !=0 ){
+            if (colMessage.length() > 0 ){
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -633,9 +631,6 @@ public class LogicCheck {
             String proportion2=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION2);
 
             String proportion3=percentage.get(ExcelColumns.INDEX_PERCENTAGE_NEWPERPORTION3);
-            System.out.println("proportion1"+proportion1);
-            System.out.println("proportion2"+proportion2);
-            System.out.println("proportion3"+proportion3);
             if (!NumberUtils.isNumber(proportion1)){
                 flag=false;
                 colMessage.append("【移动分摊比例】错误,请检查是否大于0且小于等于100");
@@ -655,7 +650,7 @@ public class LogicCheck {
                 flag=false;
                 colMessage.append("【电信分摊比例】错误,请检查是否大于0且小于等于100");
             }
-            if (colMessage.length() !=0 ){
+            if (colMessage.length() > 0 ){
                 errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
             }
             col++;
@@ -667,4 +662,67 @@ public class LogicCheck {
     }
 
 
+    public static Result IncomeCpyCheck(List<List<String>> cpyList) {
+        StringBuilder errorMessage = new StringBuilder();
+        HashSet<String> keySet = new HashSet();
+        boolean flag = true;
+        //列数
+        if (cpyList.get(0).size() < ExcelColumns.INDEX_CPY_ACCOUNTPERIOD+1){
+            errorMessage.append("第【"+(cpyList.get(0).size()+1)+"】列不能为空\n");
+            flag=false;
+            return new Result(flag,errorMessage.toString());
+        }
+        String soleDate = "";
+        soleDate = cpyList.get(0).get(ExcelColumns.INDEX_CPY_ACCOUNTPERIOD);
+        int col=2;
+        for (List<String> cpy : cpyList) {
+            StringBuilder colMessage = new StringBuilder();
+
+            //站址名称
+            String region=cpy.get(ExcelColumns.INDEX_CPY_REGION);
+            if (region==null){
+                flag=false;
+                colMessage.append("【区域】不能为空");
+            }
+
+            //站址编码siteCode
+            String siteCode = cpy.get(ExcelColumns.INDEX_CPY_SITECODE);
+            if (!NumberUtils.isNumber(siteCode)){
+                flag=false;
+                colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
+            }else if (siteCode.contains(".")){
+                flag=false;
+                colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
+            }
+
+            //站址名称
+            String siteName=cpy.get(ExcelColumns.INDEX_CPY_SITENAME);
+            if (siteName==null){
+                flag=false;
+                colMessage.append("【站点名称】不能为空");
+            }
+
+            //结算金额
+            String notaxMoney=cpy.get(ExcelColumns.INDEX_CPY_NOTAXMONEY);
+            if (!NumberUtils.isNumber(notaxMoney)){
+                flag=false;
+                colMessage.append("【结算金额】错误,请检查是否有空格或非数字");
+            }
+            if (colMessage.length() > 0 ){
+                errorMessage.append("【【第"+col+"行】】>>>").append(colMessage.toString());
+            }
+
+            //开票编号
+            String accountperiod=cpy.get(ExcelColumns.INDEX_CPY_ACCOUNTPERIOD);
+
+            if(!accountperiod.equals(soleDate)){
+                flag=false;
+                colMessage.append("【账期】错误,同一导入表账期应当一致");
+            }
+            col++;
+
+
+        }
+        return new Result(flag,errorMessage.toString());
+    }
 }
