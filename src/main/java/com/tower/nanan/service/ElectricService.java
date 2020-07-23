@@ -63,7 +63,7 @@ public class ElectricService {
             reback.setCustomer(electricR.getCustomer());
             reback.setSettlementModel("代垫");
             reback.setRebackCode(electricR.getRebackCode());
-            reback.setSettlement(result.getData().toString());
+            reback.setSettlement(result.getTotal());
             reback.setUploadDate(MyUtils.getExcelDate(new Date()));
             reback.setRebacked("否");
             rebackDao.insertSelective(reback);

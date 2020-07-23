@@ -14,8 +14,8 @@ public class RebackStat {
     private String siteCode;
     private String siteName;
     private String customer;
-    private String verifyMoney;
-    private String rebackMoney;
+    private Double verifyMoney;
+    private Double rebackMoney;
     private Double difference;
     private String statDate;
 }

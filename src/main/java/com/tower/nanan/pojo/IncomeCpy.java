@@ -11,7 +11,7 @@ public class IncomeCpy {
 
     private String Region;
     private String siteCode;
-    private String notaxMoney;
+    private Double notaxMoney;
     private String accountPeriod;
     private String uploadDate;
 

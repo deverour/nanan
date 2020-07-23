@@ -1,6 +1,7 @@
 package com.tower.nanan.entity;
 
 import com.tower.nanan.pojo.Electric;
+import com.tower.nanan.utils.MyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class ExcelColumns {
         electric.setPayMoney(list.get(INDEX_ELECTRIC_PAYMONEY));
         electric.setShareCustomer(list.get(INDEX_ELECTRIC_SHARECUSTOMER));
         electric.setProportion(list.get(INDEX_ELECTRIC_PROPORTION));
-        electric.setSettlement(list.get(INDEX_ELECTRIC_SETTLEMENT));
+        electric.setSettlement(MyUtils.to2Double(list.get(INDEX_ELECTRIC_SETTLEMENT)));
         electric.setCustomer(list.get(INDEX_ELECTRIC_CUSTOMER));
         electric.setVerifyCode(list.get(INDEX_ELECTRIC_VERIFYCODE));
         electric.setAccountPeriod(list.get(INDEX_ELECTRIC_ACCOUNTPERIOD));

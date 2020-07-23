@@ -12,8 +12,8 @@ public class RebackStatWithCpy {
     private String payDate;
     private String siteCode;
     private String siteName;
-    private String verifyMoney;
-    private String rebackMoney;
+    private Double verifyMoney;
+    private Double rebackMoney;
     private Double difference;
     private String statDate;
 }

@@ -13,8 +13,8 @@ public class RebackStatWithCustomer {
     private String verifyCode;
     private String payDate;
     private String customer;
-    private String verifyMoney;
-    private String rebackMoney;
+    private Double verifyMoney;
+    private Double rebackMoney;
     private Double difference;
     private String statDate;
 }

@@ -2,7 +2,6 @@ package com.tower.nanan.utils;
 
 import com.tower.nanan.pojo.*;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 
 import java.math.BigDecimal;
@@ -29,6 +28,11 @@ public class MyUtils {
         DecimalFormat format = new DecimalFormat("#0.##");
         return format.format(new BigDecimal(numStr));
     }
+
+    public static Double to2Double(String numStr){
+        Double num = NumberUtils.toDouble(numStr);
+        return to2Round(num);
+    }
     public static Double to2Round(Double numStr){
         DecimalFormat format = new DecimalFormat("#0.##");
         return NumberUtils.toDouble(format.format(numStr));
@@ -47,8 +51,8 @@ public class MyUtils {
     }
 
     public static String percent(String numStr){
-        double doubleNum = NumberUtils.toDouble(numStr)/100;
-        String newNumStr = String.valueOf(doubleNum);
+        Double doubleNum = NumberUtils.toDouble(numStr)/100;
+        String newNumStr = doubleNum.toString();
 
 
         return to6Round(newNumStr);
@@ -71,7 +75,7 @@ public class MyUtils {
         list.add(electric.getPayMoney());
         list.add(electric.getShareCustomer());
         list.add(electric.getProportion());
-        list.add(electric.getSettlement());
+        list.add(electric.getSettlement().toString());
         list.add(electric.getCustomer());
         list.add(electric.getVerifyCode());
         list.add(electric.getAccountPeriod());
@@ -86,8 +90,8 @@ public class MyUtils {
         list.add(rebackStatWithCustomer.getVerifyCode());
         list.add(rebackStatWithCustomer.getPayDate());
         list.add(rebackStatWithCustomer.getCustomer());
-        list.add(rebackStatWithCustomer.getVerifyMoney());
-        list.add(rebackStatWithCustomer.getRebackMoney());
+        list.add(rebackStatWithCustomer.getVerifyMoney().toString());
+        list.add(rebackStatWithCustomer.getRebackMoney().toString());
         list.add(rebackStatWithCustomer.getDifference().toString());
         list.add(rebackStatWithCustomer.getStatDate());
         return list;
@@ -99,8 +103,8 @@ public class MyUtils {
         list.add(rebackStatWithSite.getVerifyCode());
         list.add(rebackStatWithSite.getPayDate());
         list.add(rebackStatWithSite.getSiteCode());
-        list.add(rebackStatWithSite.getVerifyMoney());
-        list.add(rebackStatWithSite.getRebackMoney());
+        list.add(rebackStatWithSite.getVerifyMoney().toString());
+        list.add(rebackStatWithSite.getRebackMoney().toString());
         list.add(rebackStatWithSite.getDifference().toString());
         list.add(rebackStatWithSite.getStatDate());
         return list;
@@ -111,8 +115,8 @@ public class MyUtils {
         list.add(rebackStatWithReport.getRegion());
         list.add(rebackStatWithReport.getAccountPeriod());
         list.add(rebackStatWithReport.getCustomer());
-        list.add(rebackStatWithReport.getVerifyMoney());
-        list.add(rebackStatWithReport.getRebackMoney());
+        list.add(rebackStatWithReport.getVerifyMoney().toString());
+        list.add(rebackStatWithReport.getRebackMoney().toString());
         list.add(rebackStatWithReport.getDifference().toString());
         list.add(rebackStatWithReport.getStatDate());
         return list;
@@ -125,8 +129,8 @@ public class MyUtils {
         list.add(rebackStat.getPayDate());
         list.add(rebackStat.getCustomer());
         list.add(rebackStat.getSiteCode());
-        list.add(rebackStat.getVerifyMoney());
-        list.add(rebackStat.getRebackMoney());
+        list.add(rebackStat.getVerifyMoney().toString());
+        list.add(rebackStat.getRebackMoney().toString());
         list.add(rebackStat.getDifference().toString());
         list.add(rebackStat.getStatDate());
         return list;
@@ -150,11 +154,11 @@ public class MyUtils {
         list.add(reback.getAccountPeriod());
         list.add(reback.getCustomer());
         list.add(reback.getRebackCode());
-        list.add(reback.getSettlement());
+        list.add(reback.getSettlement().toString());
         list.add(reback.getRebackDate());
         list.add(reback.getRebacked());
         list.add(reback.getUploadDate());
-        list.add(reback.getSettlement());
+        list.add(reback.getSettlementModel());
 
         return list;
     }

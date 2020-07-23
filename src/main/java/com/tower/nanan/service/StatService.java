@@ -78,7 +78,7 @@ public class StatService {
             String verifyCode = electric.getVerifyCode();
             String customer = electric.getCustomer();
             String electricKey = verifyCode + "-" +customer;
-            Double notaxMoney = NumberUtils.toDouble(electric.getSettlement());
+            Double notaxMoney = electric.getSettlement();
             if (electricMap.containsKey(electricKey)){
                 electricMap.put(electricKey,notaxMoney+electricMap.get(electricKey));
             }else {
@@ -96,14 +96,14 @@ public class StatService {
             rebackStatWithCustomer.setVerifyCode(statTempWithCustomer.getVerifyCode());
             rebackStatWithCustomer.setPayDate(statTempWithCustomer.getPayDate());
             rebackStatWithCustomer.setCustomer(statTempWithCustomer.getCustomer());
-            rebackStatWithCustomer.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithCustomer.getTaxMoney())));
+            rebackStatWithCustomer.setVerifyMoney(MyUtils.to2Round(statTempWithCustomer.getTaxMoney()));
 
             if (electricMap.containsKey(entry.getKey())){
                 Double difference =Math.abs(electricMap.get(entry.getKey()) - statTempWithCustomer.getTaxMoney()) ;
-                rebackStatWithCustomer.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithCustomer.setRebackMoney(MyUtils.to2Round(electricMap.get(entry.getKey())));
                 rebackStatWithCustomer.setDifference(difference);
             }else {
-                rebackStatWithCustomer.setRebackMoney("0");
+                rebackStatWithCustomer.setRebackMoney(0.0);
                 rebackStatWithCustomer.setDifference(Math.abs((statTempWithCustomer.getTaxMoney())));
             }
 
@@ -145,7 +145,7 @@ public class StatService {
             String verifyCode = electric.getVerifyCode();
             String siteCode = electric.getSiteCode();
             String electricKey = verifyCode + "-" +siteCode;
-            Double taxMoney = NumberUtils.toDouble(electric.getSettlement());
+            Double taxMoney = electric.getSettlement();
             if (electricMap.containsKey(electricKey)){
                 electricMap.put(electricKey,taxMoney+electricMap.get(electricKey));
             }else {
@@ -166,7 +166,7 @@ public class StatService {
             rebackStatWithSite.setVerifyCode(statTempWithSite.getVerifyCode());
             rebackStatWithSite.setPayDate(statTempWithSite.getPayDate());
             rebackStatWithSite.setSiteCode(statTempWithSite.getSiteCode());
-            rebackStatWithSite.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithSite.getTaxMoney())));
+            rebackStatWithSite.setVerifyMoney(MyUtils.to2Round(statTempWithSite.getTaxMoney()));
             NameCode nameCode = nameCodeDao.selectByPrimaryKey(statTempWithSite.getSiteCode());
             if (nameCode != null){
                 rebackStatWithSite.setSiteName(nameCode.getSiteName());
@@ -175,10 +175,10 @@ public class StatService {
 
             if (electricMap.containsKey(entry.getKey())){
                 Double difference = electricMap.get(entry.getKey()) - statTempWithSite.getTaxMoney();
-                rebackStatWithSite.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithSite.setRebackMoney(MyUtils.to2Round(electricMap.get(entry.getKey())));
                 rebackStatWithSite.setDifference(Math.abs(difference));
             }else {
-                rebackStatWithSite.setRebackMoney("0");
+                rebackStatWithSite.setRebackMoney(0.0);
                 rebackStatWithSite.setDifference(statTempWithSite.getTaxMoney());
             }
 
@@ -217,7 +217,7 @@ public class StatService {
             String accountPeriod = electric.getAccountPeriod();
             String customer =electric.getCustomer();
             String electricKey = region + "-" + accountPeriod + "-" + customer;
-            Double taxMoney = NumberUtils.toDouble(electric.getSettlement());
+            Double taxMoney = electric.getSettlement();
             if (electricMap.containsKey(electricKey)){
                 electricMap.put(electricKey,taxMoney+electricMap.get(electricKey));
             }else {
@@ -237,16 +237,16 @@ public class StatService {
             rebackStatWithReport.setRegion(split[0]);
             rebackStatWithReport.setAccountPeriod(split[1]);
             rebackStatWithReport.setCustomer(split[2]);
-            rebackStatWithReport.setVerifyMoney(String.valueOf(MyUtils.to2Round(taxMoney)));
+            rebackStatWithReport.setVerifyMoney(MyUtils.to2Round(taxMoney));
 
 
 
             if (electricMap.containsKey(entry.getKey())){
                 Double difference = electricMap.get(entry.getKey()) -taxMoney;
-                rebackStatWithReport.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithReport.setRebackMoney(MyUtils.to2Round(electricMap.get(entry.getKey())));
                 rebackStatWithReport.setDifference(difference);
             }else {
-                rebackStatWithReport.setRebackMoney("0");
+                rebackStatWithReport.setRebackMoney(0.0);
                 rebackStatWithReport.setDifference(taxMoney);
             }
 
@@ -289,7 +289,7 @@ public class StatService {
             String siteCode = electric.getSiteCode();
             String customer =electric.getCustomer();
             String electricKey = verifyCode + "-" + siteCode + "-" + customer;
-            Double notaxMoney = NumberUtils.toDouble(electric.getSettlement());
+            Double notaxMoney = electric.getSettlement();
             if (electricMap.containsKey(electricKey)){
                 electricMap.put(electricKey,notaxMoney+electricMap.get(electricKey));
             }else {
@@ -311,16 +311,16 @@ public class StatService {
             rebackStat.setPayDate(statTemp.getPayDate());
             rebackStat.setSiteCode(statTemp.getSiteCode());
             rebackStat.setCustomer(statTemp.getCustomer());
-            rebackStat.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTemp.getTaxMoney())));
+            rebackStat.setVerifyMoney(MyUtils.to2Round(statTemp.getTaxMoney()));
 
 
 
             if (electricMap.containsKey(entry.getKey())){
                 Double difference = electricMap.get(entry.getKey()) - statTemp.getTaxMoney();
-                rebackStat.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStat.setRebackMoney(MyUtils.to2Round(electricMap.get(entry.getKey())));
                 rebackStat.setDifference(Math.abs(difference));
             }else {
-                rebackStat.setRebackMoney("0");
+                rebackStat.setRebackMoney(0.0);
                 rebackStat.setDifference(statTemp.getTaxMoney());
             }
 
@@ -346,7 +346,7 @@ public class StatService {
             String region = electric.getRegion();
             String accountPeriod = electric.getAccountPeriod();
             String siteCode = electric.getSiteCode();
-            Double taxMoney = NumberUtils.toDouble(electric.getSettlement());
+            Double taxMoney = electric.getSettlement();
             StatTempWithCpy statTempWithCpy = new StatTempWithCpy(region,accountPeriod,taxMoney);
             if (verifyMap.containsKey(siteCode)){
                 taxMoney = taxMoney + verifyMap.get(siteCode).getNotaxMoney();
@@ -367,7 +367,7 @@ public class StatService {
 
             String siteCode = incomeCpy.getSiteCode();
 
-            Double notaxMoney = NumberUtils.toDouble(incomeCpy.getNotaxMoney());
+            Double notaxMoney = incomeCpy.getNotaxMoney();
             if (electricMap.containsKey(siteCode)){
                 electricMap.put(siteCode,notaxMoney+electricMap.get(siteCode));
             }else {
@@ -387,17 +387,17 @@ public class StatService {
             rebackStatWithCpy.setSiteCode(entry.getKey());
             rebackStatWithCpy.setRegion(statTempWithCpy.getRegion());
             rebackStatWithCpy.setPayDate(statTempWithCpy.getAccountPeriod());
-            rebackStatWithCpy.setVerifyMoney(String.valueOf(MyUtils.to2Round(statTempWithCpy.getNotaxMoney())));
+            rebackStatWithCpy.setVerifyMoney(MyUtils.to2Round(statTempWithCpy.getNotaxMoney()));
 
 
             Double notaxMoney = statTempWithCpy.getNotaxMoney();
             if (electricMap.containsKey(entry.getKey())){
 
                 Double difference = electricMap.get(entry.getKey()) -notaxMoney;
-                rebackStatWithCpy.setRebackMoney(String.valueOf(MyUtils.to2Round(electricMap.get(entry.getKey()))));
+                rebackStatWithCpy.setRebackMoney(MyUtils.to2Round(electricMap.get(entry.getKey())));
                 rebackStatWithCpy.setDifference(difference);
             }else {
-                rebackStatWithCpy.setRebackMoney("0");
+                rebackStatWithCpy.setRebackMoney(0.0);
                 rebackStatWithCpy.setDifference(notaxMoney);
             }
             NameCode nameCode = nameCodeDao.selectByPrimaryKey(rebackStatWithCpy.getSiteCode());

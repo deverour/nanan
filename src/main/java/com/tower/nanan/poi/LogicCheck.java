@@ -22,7 +22,7 @@ public class LogicCheck {
         String soleRebackCode = "";
         String soleCustomer = "";
         HashSet<String> keySet = new HashSet();
-        double total=0.0;
+        Double total=0.0;
         boolean flag = true;
 
         if (electrics.get(0).size() < ExcelColumns.INDEX_ELECTRIC_REBACKCODE+1){
@@ -695,12 +695,7 @@ public class LogicCheck {
                 colMessage.append("【站址编码】错误,请检查是否有空格或非数字");
             }
 
-            //站址名称
-            String siteName=cpy.get(ExcelColumns.INDEX_CPY_SITENAME);
-            if (siteName==null){
-                flag=false;
-                colMessage.append("【站点名称】不能为空");
-            }
+
 
             //结算金额
             String notaxMoney=cpy.get(ExcelColumns.INDEX_CPY_NOTAXMONEY);
