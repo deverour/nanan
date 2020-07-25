@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +41,8 @@ public class CpyController {
     @RequestMapping("/costupload")
     public Result upload(@RequestParam("cpycostFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("包干成本上传   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return new Result(false,"对不起,你没有导入包干明细的权限");
@@ -63,6 +66,8 @@ public class CpyController {
     @RequestMapping("/incomeupload")
     public Result incomeupload(@RequestParam("cpyincomeFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("包干收入上传   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return new Result(false,"对不起,你没有导入包干明细的权限");

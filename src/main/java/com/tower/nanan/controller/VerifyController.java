@@ -37,6 +37,8 @@ public class VerifyController {
     @RequestMapping("upload")
     public Result upload(@RequestParam("verifyFile") MultipartFile multipartFile, HttpSession httpSession) {
         try {
+            System.out.println("---------------------------");
+            System.out.println("核销明细上传   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return new Result(false,"对不起,你没有核销明细的权限");
@@ -60,6 +62,8 @@ public class VerifyController {
     @RequestMapping("export")
     public ResponseEntity<byte[]> export( HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("核销明细导出   |   " + MyUtils.getnowtime() );
             User user = (User)httpSession.getAttribute("user");
             List<Verify> verifies = verifyService.findAll();
             InputStream is = ExcelWrite.WriteVerifies(verifies);

@@ -21,7 +21,7 @@ public class ExcelWrite {
 
     public static InputStream WriteElectics(List<Electric> list){
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -30,9 +30,7 @@ public class ExcelWrite {
         SXSSFWorkbook wb=new SXSSFWorkbook();
         ArrayList<String> namelist = ExcelColumns.getElectricTitle();
 
-        long ta =0;
-        long tb =0;
-        ta = System.currentTimeMillis();
+
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -64,8 +62,6 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
         InputStream in = null;
         try{
             //临时缓冲区
@@ -145,7 +141,7 @@ public class ExcelWrite {
 
     public static InputStream WriteVerifies(List<Verify> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -154,9 +150,7 @@ public class ExcelWrite {
         SXSSFWorkbook wb=new SXSSFWorkbook();
         ArrayList<String> namelist = ExcelColumns.getVerifyTitle();
 
-        long ta =0;
-        long tb =0;
-        ta = System.currentTimeMillis();
+
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -188,8 +182,6 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
         InputStream in = null;
         try{
             //临时缓冲区
@@ -207,7 +199,7 @@ public class ExcelWrite {
 
     public static InputStream WriteRebacks(List<Reback> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -216,9 +208,7 @@ public class ExcelWrite {
         SXSSFWorkbook wb=new SXSSFWorkbook();
         ArrayList<String> namelist = ExcelColumns.getRebackTitle();
 
-        long ta =0;
-        long tb =0;
-        ta = System.currentTimeMillis();
+
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -250,8 +240,7 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
+
         InputStream in = null;
         try{
             //临时缓冲区
@@ -269,7 +258,7 @@ public class ExcelWrite {
 
     public static InputStream WritePercentages(List<Percentage> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -278,9 +267,7 @@ public class ExcelWrite {
         SXSSFWorkbook wb=new SXSSFWorkbook();
         ArrayList<String> namelist = ExcelColumns.getPercentageTitle();
 
-        long ta =0;
-        long tb =0;
-        ta = System.currentTimeMillis();
+
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -312,8 +299,7 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
+
         InputStream in = null;
         try{
             //临时缓冲区
@@ -332,7 +318,7 @@ public class ExcelWrite {
 
     public static InputStream WriteRebackStatWithCustomer(List<RebackStatWithCustomer> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -341,9 +327,6 @@ public class ExcelWrite {
         SXSSFWorkbook wb=new SXSSFWorkbook();
         ArrayList<String> namelist = ExcelColumns.getRebackStatWithCustomerTitle();
 
-        long ta =0;
-        long tb =0;
-        ta = System.currentTimeMillis();
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -375,8 +358,6 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
         InputStream in = null;
         try{
             //临时缓冲区
@@ -395,7 +376,7 @@ public class ExcelWrite {
 
     public static InputStream WriteRebackStatWithSite(List<RebackStatWithSite> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -404,9 +385,6 @@ public class ExcelWrite {
         SXSSFWorkbook wb=new SXSSFWorkbook();
         ArrayList<String> namelist = ExcelColumns.getRebackStatWithSiteTitle();
 
-        long ta =0;
-        long tb =0;
-        ta = System.currentTimeMillis();
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -438,8 +416,7 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
+
         InputStream in = null;
         try{
             //临时缓冲区
@@ -457,7 +434,7 @@ public class ExcelWrite {
 
     public static InputStream WriteRebackStats(List<RebackStat> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -468,7 +445,7 @@ public class ExcelWrite {
 
         long ta =0;
         long tb =0;
-        ta = System.currentTimeMillis();
+
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -500,8 +477,8 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
+
+
         InputStream in = null;
         try{
             //临时缓冲区
@@ -520,7 +497,7 @@ public class ExcelWrite {
 
     public static InputStream WriteRebackStatWithReport(List<RebackStatWithReport> list) {
         int pages= list.size()/PAGE_COUNTS+1;
-        System.out.println("共： "+pages+"页");
+
         ArrayList<String> sheetName = new ArrayList<String>();
         for (int page=1;page<=pages;page++){
             sheetName.add("sheet"+page);
@@ -531,7 +508,7 @@ public class ExcelWrite {
 
         long ta =0;
         long tb =0;
-        ta = System.currentTimeMillis();
+
         for (int page=1;page<=pages;page++){
             wb.createSheet(sheetName.get(page-1));
             SXSSFSheet sheet = wb.getSheetAt(page-1);
@@ -563,8 +540,6 @@ public class ExcelWrite {
             }
         }
 
-        tb = System.currentTimeMillis();
-        System.out.println("总耗时："+(tb-ta));
         InputStream in = null;
         try{
             //临时缓冲区

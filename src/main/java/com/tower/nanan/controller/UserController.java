@@ -60,6 +60,7 @@ public class UserController {
 
                 httpServletRequest.setAttribute("login_msg","");
                 httpSession.setAttribute("user",loginUser);
+                System.out.println("---------------------------");
                 System.out.println(loginUser.getRegion()+" 登录成功  |   " +formatter.format(new Date()) );
                 //httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/pages/main.html");
                 return new Result(true,"登录成功");

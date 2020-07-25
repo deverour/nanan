@@ -92,8 +92,8 @@ public class VerifyService implements InitializingBean {
             sqlSession.clearCache();
         }
         long t2 = System.currentTimeMillis();
-        System.out.println("2>>>>"+t/1000);
-        System.out.println("总耗时"+(t2-t1)/1000);
+      /*  System.out.println("2>>>>"+t/1000);
+        System.out.println("总耗时"+(t2-t1)/1000);*/
         return new Result(true,"核销明细导入成功");
     }
 

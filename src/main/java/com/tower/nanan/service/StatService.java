@@ -49,7 +49,7 @@ public class StatService {
 
     @Transactional
     public void rebackStatForCustomer(){
-        System.out.println("rebackStatForCustomer");
+
         Map<String, StatTempWithCustomer> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -111,12 +111,12 @@ public class StatService {
 
             rebackStatWithCustomerDao.insertSelective(rebackStatWithCustomer);
         }
-        System.out.println("支付-回款按客户统计完成");
+
     }
 
     @Transactional
     public void rebackStatForSite(){
-        System.out.println("rebackStatForSite");
+
         Map<String,StatTempWithSite> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -185,12 +185,12 @@ public class StatService {
             rebackStatWithSite.setStatDate(MyUtils.getExcelDate(new Date()));
             rebackStatWithSiteDao.insertSelective(rebackStatWithSite);
         }
-        System.out.println("支付-回款按站址统计完成");
+
     }
 
     @Transactional
     public void rebackStatWithReport(){
-        System.out.println("rebackStatWithReport");
+
         Map<String,Double> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -226,7 +226,7 @@ public class StatService {
         }
 
         rebackStatWithReportDao.truncate();
-        System.out.println("verifyMap.size()"+verifyMap.size());
+
         for (Map.Entry<String, Double> entry : verifyMap.entrySet()) {
 
 
@@ -253,12 +253,12 @@ public class StatService {
             rebackStatWithReport.setStatDate(MyUtils.getExcelDate(new Date()));
             rebackStatWithReportDao.insertSelective(rebackStatWithReport);
         }
-        System.out.println("支付-回款报表统计完成");
+
     }
 
     @Transactional
     public void rebackStat(){
-        System.out.println("rebackStat");
+
         Map<String,StatTemp> verifyMap = new HashMap<>();
         Example example = new Example(Verify.class);
         Example.Criteria criteria = example.createCriteria();
@@ -331,12 +331,11 @@ public class StatService {
             rebackStat.setStatDate(MyUtils.getExcelDate(new Date()));
             rebackStatDao.insertSelective(rebackStat);
         }
-        System.out.println("支付-回款按明细统计完成");
+
     }
 
     @Transactional
     public void rebackStatWithCpy(){
-        System.out.println("rebackStatWithCpy");
         Map<String,StatTempWithCpy> verifyMap = new HashMap<>();
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
@@ -375,7 +374,7 @@ public class StatService {
             }
         }
 
-        rebackStatWithReportDao.truncate();
+        rebackStatWithCpyDao.truncate();
 
         for (Map.Entry<String, StatTempWithCpy> entry : verifyMap.entrySet()) {
 
@@ -402,12 +401,13 @@ public class StatService {
             }
             NameCode nameCode = nameCodeDao.selectByPrimaryKey(rebackStatWithCpy.getSiteCode());
             if (nameCode != null){
+
                 rebackStatWithCpy.setSiteName(nameCode.getSiteName());
             }
             rebackStatWithCpy.setStatDate(MyUtils.getExcelDate(new Date()));
             rebackStatWithCpyDao.insertSelective(rebackStatWithCpy);
         }
-        System.out.println("包干收支统计完成");
+
     }
 
     public List<RebackStatWithCustomer> findRebackStatWithCustomerByCondition(RebackStatQueryBean rebackStatQueryBean) throws ParseException {

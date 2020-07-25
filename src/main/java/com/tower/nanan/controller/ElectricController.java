@@ -35,6 +35,8 @@ public class ElectricController {
     @RequestMapping("/upload")
     public Result upload(@RequestParam("electricFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("电费明细上传   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -55,6 +57,8 @@ public class ElectricController {
     @RequestMapping("update")
     public Result update(@RequestParam("electricFile") MultipartFile multipartFile,HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("电费明细补录   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
 
             String path = FilePath.UPLOAD_TEMP;
@@ -76,6 +80,8 @@ public class ElectricController {
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("电费明细导出   |   " + MyUtils.getnowtime() );
             User user = (User)httpSession.getAttribute("user");
             List<Electric> electrics = electricService.findByCondition(electricQueryBean, user);
             InputStream is = ExcelWrite.WriteElectics(electrics);
@@ -96,7 +102,9 @@ public class ElectricController {
     @RequestMapping("/query")
     public PageResult query(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession) {
         try {
-
+            System.out.println("---------------------------");
+            System.out.println("电费明细查询   |   " + MyUtils.getnowtime() );
+            System.out.println("第"+electricQueryBean.getCurrentPage()+"页");
             User user = (User)httpSession.getAttribute("user");
             return electricService.pageQuery(electricQueryBean,user);
         } catch (Exception e) {

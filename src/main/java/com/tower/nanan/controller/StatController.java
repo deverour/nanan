@@ -6,6 +6,7 @@ import com.tower.nanan.entity.RebackStatQueryBean;
 import com.tower.nanan.poi.ExcelWrite;
 import com.tower.nanan.pojo.*;
 import com.tower.nanan.service.StatService;
+import com.tower.nanan.utils.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,8 @@ public class StatController {
     @RequestMapping("/exportforcustomer")
     public ResponseEntity<byte[]> exportForRebackStatWithCustomer(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("收支按客户导出   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return null;
@@ -54,6 +57,8 @@ public class StatController {
     @RequestMapping("/exportforsite")
     public ResponseEntity<byte[]> exportForRebackStatWithSite(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("收支按站址导出   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return null;
@@ -78,6 +83,8 @@ public class StatController {
     @RequestMapping("/export")
     public ResponseEntity<byte[]> exportForRebackStat(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("收支按明细导出   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return null;
@@ -99,8 +106,10 @@ public class StatController {
     }
 
     @RequestMapping("/reportexport")
-    public ResponseEntity<byte[]> exportForRebackStatWithReport(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
+    public ResponseEntity<byte[]> exportForRebackStatWithReport(HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("收支按报表导出   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return null;

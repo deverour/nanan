@@ -11,6 +11,7 @@ import com.tower.nanan.pojo.User;
 import com.tower.nanan.pojo.Verify;
 import com.tower.nanan.service.RebackService;
 import com.tower.nanan.service.VerifyService;
+import com.tower.nanan.utils.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,8 @@ public class RebackController {
     @RequestMapping("/query")
     public PageResult query(@RequestBody RebackQueryBean rebackQueryBean, HttpSession httpSession) {
         try {
+            System.out.println("---------------------------");
+            System.out.println("回款流程查询   |   " + MyUtils.getnowtime() );
             User user = (User)httpSession.getAttribute("user");
 
             PageResult pageResult = rebackService.pageQuery(rebackQueryBean, user);
@@ -53,6 +56,8 @@ public class RebackController {
     @RequestMapping("mark")
     public Result mark(@RequestParam("id") Integer id,HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("回款流程打标   |   " + MyUtils.getnowtime() );
             return rebackService.mark(id);
 
         }catch (Exception e){
@@ -65,6 +70,8 @@ public class RebackController {
     @RequestMapping("delete")
     public Result delete(@RequestParam("id") Integer id,HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("回款明细删除   |   " + MyUtils.getnowtime() );
              rebackService.delete(id);
              return new Result(true,"删除成功");
 
@@ -77,6 +84,8 @@ public class RebackController {
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestBody RebackQueryBean rebackQueryBean,HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("回款明细导出   |   " + MyUtils.getnowtime() );
             User user = (User)httpSession.getAttribute("user");
             List<Reback> rebacks = rebackService.findByCondition(rebackQueryBean, user);
             InputStream is = ExcelWrite.WriteRebacks(rebacks);

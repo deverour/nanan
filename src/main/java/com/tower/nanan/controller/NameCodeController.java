@@ -9,21 +9,25 @@ import com.tower.nanan.utils.MyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.UUID;
 
-@RequestMapping("namecode")
+@RestController
+@RequestMapping("/namecode")
 public class NameCodeController {
 
     @Autowired
     private NameCodeService nameCodeService;
 
-    @RequestMapping("upload")
+    @RequestMapping("/upload")
     public Result upload(@RequestParam("namecodeFile") MultipartFile multipartFile, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("站址站名映射上传 |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             String path = FilePath.UPLOAD_TEMP;
             String uuid = UUID.randomUUID().toString().replace("-", "");

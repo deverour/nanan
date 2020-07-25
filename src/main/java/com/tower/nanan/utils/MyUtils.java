@@ -167,6 +167,12 @@ public class MyUtils {
         ArrayList<String> list=new ArrayList<String>();
         list.add(percentage.getSiteCode());
         list.add(percentage.getAmmeterCode());
+        list.add(percentage.getLastDate1());
+        list.add(percentage.getLastDate2());
+        list.add(percentage.getLastDate3());
+        list.add(percentage.getLastProportion1());
+        list.add(percentage.getLastProportion2());
+        list.add(percentage.getLastProportion3());
         list.add(percentage.getNewProportion1());
         list.add(percentage.getNewProportion2());
         list.add(percentage.getNewProportion3());
@@ -221,6 +227,11 @@ public class MyUtils {
         long between_days=(time2-time1)/(1000*3600*24);
 
         return Integer.parseInt(String.valueOf(between_days));
+    }
+
+    public static String getnowtime(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        return formatter.format(new Date()) ;
     }
 
 

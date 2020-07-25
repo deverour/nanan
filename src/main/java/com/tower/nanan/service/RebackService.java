@@ -118,6 +118,7 @@ public class RebackService implements InitializingBean {
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("rebackCode",reback.getRebackCode());
+        Cache.rebackCodeSet.remove(reback.getRebackCode());
         rebackDao.deleteByPrimaryKey(id);
         electricDao.deleteByExample(example);
     }

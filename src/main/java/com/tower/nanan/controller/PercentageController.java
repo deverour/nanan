@@ -37,6 +37,8 @@ public class PercentageController {
     public Result upload(@RequestParam("percentageFile") MultipartFile multipartFile, HttpSession httpSession) {
 
         try {
+            System.out.println("---------------------------");
+            System.out.println("结算模式上传 " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return new Result(false,"对不起,你没有导入分摊比例明细的权限");
@@ -61,6 +63,8 @@ public class PercentageController {
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestParam("siteCode") String siteCode, HttpSession httpSession){
         try {
+            System.out.println("---------------------------");
+            System.out.println("结算模式导出   |   " + MyUtils.getnowtime() );
             User user = (User) httpSession.getAttribute("user");
             if (!user.getNgroup().equals("admin")){
                 return null;

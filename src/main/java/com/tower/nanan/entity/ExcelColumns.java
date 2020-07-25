@@ -135,9 +135,15 @@ public class ExcelColumns {
         ArrayList<String> namelist = new ArrayList<String>() ;
         namelist.add("站址编码");
         namelist.add("电表编码");
-        namelist.add("移动分摊");
-        namelist.add("联通分摊");
-        namelist.add("电信分摊");
+        namelist.add("移动最后一次签认时间");
+        namelist.add("联通最后一次签认时间");
+        namelist.add("电信最后一次签认时间");
+        namelist.add("移动最后一次签认比例");
+        namelist.add("联通最后一次签认比例");
+        namelist.add("电信最后一次签认比例");
+        namelist.add("移动系统比例");
+        namelist.add("联通系统比例");
+        namelist.add("电信系统比例");
 
         return namelist;
     }

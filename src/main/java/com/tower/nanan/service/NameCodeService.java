@@ -29,11 +29,13 @@ public class NameCodeService {
     public Result  saveNameCode(File file) throws Exception {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> nameCodeList = excelRead.getMyDataList();
+
         Result result = LogicCheck.nameCodeCheck(nameCodeList);
         if (result.isFlag()){
            NameCode nameCode = new NameCode();
 
             for (List<String> nc : nameCodeList) {
+
                 nameCode.setSiteCode(nc.get(0));
                 nameCode.setSiteName(nc.get(1));
                 if (nameCodeDao.selectByPrimaryKey(nc.get(0)) == null){
@@ -42,8 +44,9 @@ public class NameCodeService {
                 }else {
                     nameCodeDao.updateByPrimaryKeySelective(nameCode);
                 }
-                return new Result(true,"站址编码名称关系表导入成功");
+
             }
+            return new Result(true,"站址编码名称关系表导入成功");
 
         }
         return result;
