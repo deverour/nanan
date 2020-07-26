@@ -73,7 +73,7 @@
             <h3><small>包干成本上传</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
-                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpycostTemplate()" href="">模板下载</el-button>
                     <el-upload action="/cpy/costupload" name="cpycostFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
@@ -90,7 +90,7 @@
             <h3><small>包干收入上传</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
-                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyincomeTemplate()" href="">模板下载</el-button>
                     <el-upload action="/cpy/incomeupload" name="cpyincomeFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
@@ -107,7 +107,7 @@
             <h3><small>站址站名关系映射</small></h3>
             <el-card class="box-card">
                 <div class="boxMain">
-                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="cpyTemplate()" href="">模板下载</el-button>
+                    <el-button style="margin-bottom: 20px;margin-right: 20px" type="primary" @click="namecodeTemplate()" href="">模板下载</el-button>
                     <el-upload action="/namecode/upload" name="namecodeFile" :show-file-list="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                :on-success="handleSuccess" :on-progress="handleUploading" :before-upload="beforeUpload">
                         <el-button type="primary">上传文件</el-button>
@@ -157,9 +157,16 @@
             percentageTemplate(){
                 window.location.href="../templatefiles/分摊比例(结算模式)导入模板.xlsx";
             },
-            // 下载导入模板
-            cpyTemplate(){
+
+            cpycostTemplate(){
                 window.location.href="../templatefiles/包干成本导入模板.xlsx";
+            },
+            cpyincomeTemplate(){
+                window.location.href="../templatefiles/包干收入导入模板.xlsx";
+            },
+
+            namecodeTemplate(){
+                window.location.href="../templatefiles/站址站名关系映射导入模板.xlsx";
             },
 
             verifyexport(){
