@@ -1,9 +1,6 @@
 package com.tower.nanan.controller;
 
-import com.tower.nanan.entity.ElectricQueryBean;
-import com.tower.nanan.entity.PageResult;
-import com.tower.nanan.entity.RebackQueryBean;
-import com.tower.nanan.entity.Result;
+import com.tower.nanan.entity.*;
 import com.tower.nanan.poi.ExcelWrite;
 import com.tower.nanan.pojo.Electric;
 import com.tower.nanan.pojo.Reback;
@@ -39,6 +36,9 @@ public class RebackController {
 
     @RequestMapping("/query")
     public PageResult query(@RequestBody RebackQueryBean rebackQueryBean, HttpSession httpSession) {
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("回款流程查询   |   " + MyUtils.getnowtime() );
@@ -55,6 +55,9 @@ public class RebackController {
 
     @RequestMapping("mark")
     public Result mark(@RequestParam("id") Integer id,HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("回款流程打标   |   " + MyUtils.getnowtime() );
@@ -69,6 +72,9 @@ public class RebackController {
 
     @RequestMapping("delete")
     public Result delete(@RequestParam("id") Integer id,HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("回款明细删除   |   " + MyUtils.getnowtime() );
@@ -83,6 +89,9 @@ public class RebackController {
 
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestBody RebackQueryBean rebackQueryBean,HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("回款明细导出   |   " + MyUtils.getnowtime() );

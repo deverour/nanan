@@ -1,5 +1,6 @@
 package com.tower.nanan.controller;
 
+import com.tower.nanan.entity.Cache;
 import com.tower.nanan.entity.ElectricQueryBean;
 import com.tower.nanan.entity.FilePath;
 import com.tower.nanan.entity.Result;
@@ -36,6 +37,10 @@ public class VerifyController {
 
     @RequestMapping("upload")
     public Result upload(@RequestParam("verifyFile") MultipartFile multipartFile, HttpSession httpSession) {
+        System.out.println("verifyFile");
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("核销明细上传   |   " + MyUtils.getnowtime() );
@@ -61,6 +66,9 @@ public class VerifyController {
 
     @RequestMapping("export")
     public ResponseEntity<byte[]> export( HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("核销明细导出   |   " + MyUtils.getnowtime() );

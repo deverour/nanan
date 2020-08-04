@@ -1,10 +1,7 @@
 package com.tower.nanan.controller;
 
 
-import com.tower.nanan.entity.ElectricQueryBean;
-import com.tower.nanan.entity.FilePath;
-import com.tower.nanan.entity.PageResult;
-import com.tower.nanan.entity.Result;
+import com.tower.nanan.entity.*;
 import com.tower.nanan.poi.ExcelWrite;
 import com.tower.nanan.pojo.Electric;
 import com.tower.nanan.pojo.User;
@@ -34,6 +31,9 @@ public class ElectricController {
 
     @RequestMapping("/upload")
     public Result upload(@RequestParam("electricFile") MultipartFile multipartFile, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("电费明细上传   |   " + MyUtils.getnowtime() );
@@ -56,6 +56,9 @@ public class ElectricController {
 
     @RequestMapping("update")
     public Result update(@RequestParam("electricFile") MultipartFile multipartFile,HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("电费明细补录   |   " + MyUtils.getnowtime() );
@@ -79,6 +82,9 @@ public class ElectricController {
     }
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("电费明细导出   |   " + MyUtils.getnowtime() );
@@ -101,6 +107,9 @@ public class ElectricController {
 
     @RequestMapping("/query")
     public PageResult query(@RequestBody ElectricQueryBean electricQueryBean,HttpSession httpSession) {
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("电费明细查询   |   " + MyUtils.getnowtime() );

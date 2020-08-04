@@ -3,6 +3,7 @@ package com.tower.nanan.service;
 import com.tower.nanan.dao.CpyDao;
 import com.tower.nanan.dao.ElectricDao;
 import com.tower.nanan.dao.RebackDao;
+import com.tower.nanan.dao.VerifyDao;
 import com.tower.nanan.entity.Cache;
 import com.tower.nanan.entity.ExcelColumns;
 import com.tower.nanan.entity.Result;
@@ -21,9 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CpyService {
+    @Autowired
+    private VerifyDao verifyDao;
+
 
     @Autowired
     private ElectricDao electricDao;
@@ -41,7 +46,9 @@ public class CpyService {
     public Result saveCostCpys(File file, User user) throws Exception {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> electricList = excelRead.getMyDataList();
-        Result result = LogicCheck.cpyCheck(electricList, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
+        Set verifyCodeSet = verifyDao.getVerifyCodeSet();
+        Set rebackCodeSet = rebackDao.getRebackCodeSet();
+        Result result = LogicCheck.cpyCheck(electricList, user, rebackCodeSet, verifyCodeSet);
 
         if (result.isFlag()){
             Electric electric;
@@ -71,7 +78,6 @@ public class CpyService {
             reback.setSettlement(result.getTotal());
             reback.setUploadDate(MyUtils.getExcelDate(new Date()));
             rebackDao.insertSelective(reback);
-            Cache.rebackCodeSet.add(electricR.getRebackCode());
             return new Result(true,"包干明细导入成功");
         }
         return result;

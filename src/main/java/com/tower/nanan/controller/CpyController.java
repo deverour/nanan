@@ -1,10 +1,7 @@
 package com.tower.nanan.controller;
 
 
-import com.tower.nanan.entity.ElectricQueryBean;
-import com.tower.nanan.entity.FilePath;
-import com.tower.nanan.entity.PageResult;
-import com.tower.nanan.entity.Result;
+import com.tower.nanan.entity.*;
 import com.tower.nanan.poi.ExcelWrite;
 import com.tower.nanan.pojo.Electric;
 import com.tower.nanan.pojo.User;
@@ -40,6 +37,9 @@ public class CpyController {
 
     @RequestMapping("/costupload")
     public Result upload(@RequestParam("cpycostFile") MultipartFile multipartFile, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("包干成本上传   |   " + MyUtils.getnowtime() );
@@ -65,6 +65,9 @@ public class CpyController {
 
     @RequestMapping("/incomeupload")
     public Result incomeupload(@RequestParam("cpyincomeFile") MultipartFile multipartFile, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("包干收入上传   |   " + MyUtils.getnowtime() );

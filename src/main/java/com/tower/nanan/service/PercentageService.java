@@ -103,7 +103,7 @@ public class PercentageService {
                     percentageDao.updateByExampleSelective(percentage,example);
                 }
             }
-
+            System.out.println("物业系统比例导入成功");
             return new Result(true,"物业系统比例导入成功");
         }
         return result;

@@ -1,6 +1,7 @@
 package com.tower.nanan.controller;
 
 
+import com.tower.nanan.entity.Cache;
 import com.tower.nanan.entity.FilePath;
 import com.tower.nanan.entity.Result;
 import com.tower.nanan.pojo.User;
@@ -25,6 +26,9 @@ public class NameCodeController {
 
     @RequestMapping("/upload")
     public Result upload(@RequestParam("namecodeFile") MultipartFile multipartFile, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("站址站名映射上传 |   " + MyUtils.getnowtime() );

@@ -495,7 +495,7 @@ public class LogicCheck {
         return new Result(flag,errorMessage.toString(),null,MyUtils.to2Round(total));
     }
 
-    public static Result verifyCheck(List<List<String>> verifys, User user, Set<String> rebackCodeSet,Set<String> verifyCodeSet){
+    public static Result verifyCheck(List<List<String>> verifys){
         Set<String> billIdSet = new HashSet<String>();
         StringBuilder errorMessage = new StringBuilder();
         HashMap<String,String> map = new HashMap();

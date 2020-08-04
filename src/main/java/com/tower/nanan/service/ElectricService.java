@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.tower.nanan.dao.ElectricDao;
 import com.tower.nanan.dao.RebackDao;
+import com.tower.nanan.dao.VerifyDao;
 import com.tower.nanan.entity.*;
 import com.tower.nanan.poi.ExcelRead;
 import com.tower.nanan.poi.LogicCheck;
@@ -27,6 +28,9 @@ import java.util.Set;
 public class ElectricService {
 
     @Autowired
+    private VerifyDao verifyDao;
+
+    @Autowired
     private ElectricDao electricDao;
 
     @Autowired
@@ -40,7 +44,9 @@ public class ElectricService {
 
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> electricList = excelRead.getMyDataList();
-        Result result = LogicCheck.electricCheck(electricList, user, Cache.rebackCodeSet, Cache.verifyCodeSet);
+        Set verifyCodeSet = verifyDao.getVerifyCodeSet();
+        Set rebackCodeSet = rebackDao.getRebackCodeSet();
+        Result result = LogicCheck.electricCheck(electricList, user, rebackCodeSet, verifyCodeSet);
         if (result.isFlag()){
             Electric electric;
 
@@ -68,7 +74,6 @@ public class ElectricService {
             reback.setRebacked("否");
             System.out.println(reback);
             rebackDao.insertSelective(reback);
-            Cache.rebackCodeSet.add(electricR.getRebackCode());
             return new Result(true,"签认明细导入成功");
         }
         return result;
@@ -143,8 +148,9 @@ public class ElectricService {
         ExcelRead excelRead = new ExcelRead(file.getPath(),2);
         List<List<String>> lists = excelRead.getMyDataList();
         int index = 2;
+        Set verifyCodeSet = verifyDao.getVerifyCodeSet();
         for (List<String> list : lists) {
-            if (Cache.verifyCodeSet.contains(list.get(1))){
+            if (verifyCodeSet.contains(list.get(1))){
                 Electric electric = electricDao.selectByPrimaryKey(list.get(0));
                 if (electric == null){
                     throw new RuntimeException("第"+index+"行,电费编号："+list.get(0)+"不存在,请下载最新的电费明细后重试");

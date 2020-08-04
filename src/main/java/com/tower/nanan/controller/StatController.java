@@ -1,6 +1,7 @@
 package com.tower.nanan.controller;
 
 
+import com.tower.nanan.entity.Cache;
 import com.tower.nanan.entity.ElectricQueryBean;
 import com.tower.nanan.entity.RebackStatQueryBean;
 import com.tower.nanan.poi.ExcelWrite;
@@ -31,6 +32,9 @@ public class StatController {
 
     @RequestMapping("/exportforcustomer")
     public ResponseEntity<byte[]> exportForRebackStatWithCustomer(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("收支按客户导出   |   " + MyUtils.getnowtime() );
@@ -56,6 +60,9 @@ public class StatController {
 
     @RequestMapping("/exportforsite")
     public ResponseEntity<byte[]> exportForRebackStatWithSite(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("收支按站址导出   |   " + MyUtils.getnowtime() );
@@ -82,6 +89,9 @@ public class StatController {
 
     @RequestMapping("/export")
     public ResponseEntity<byte[]> exportForRebackStat(@RequestBody RebackStatQueryBean rebackStatQueryBean, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("收支按明细导出   |   " + MyUtils.getnowtime() );
@@ -107,6 +117,9 @@ public class StatController {
 
     @RequestMapping("/reportexport")
     public ResponseEntity<byte[]> exportForRebackStatWithReport(HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("收支按报表导出   |   " + MyUtils.getnowtime() );

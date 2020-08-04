@@ -1,5 +1,6 @@
 package com.tower.nanan.controller;
 
+import com.tower.nanan.entity.Cache;
 import com.tower.nanan.entity.FilePath;
 import com.tower.nanan.entity.Result;
 import com.tower.nanan.poi.ExcelWrite;
@@ -35,6 +36,9 @@ public class PercentageController {
 
     @RequestMapping("upload")
     public Result upload(@RequestParam("percentageFile") MultipartFile multipartFile, HttpSession httpSession) {
+        if (!Cache.switchs){
+            return null;
+        }
 
         try {
             System.out.println("---------------------------");
@@ -62,6 +66,9 @@ public class PercentageController {
 
     @RequestMapping("/export")
     public ResponseEntity<byte[]> export(@RequestParam("siteCode") String siteCode, HttpSession httpSession){
+        if (!Cache.switchs){
+            return null;
+        }
         try {
             System.out.println("---------------------------");
             System.out.println("结算模式导出   |   " + MyUtils.getnowtime() );

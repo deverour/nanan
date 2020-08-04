@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class RebackService implements InitializingBean {
+public class RebackService {
     @Autowired
     private RebackDao rebackDao;
 
@@ -106,10 +106,7 @@ public class RebackService implements InitializingBean {
 
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Cache.rebackCodeSet = rebackDao.getRebackCodeSet();
-    }
+
 
     @Transactional
     public void delete(Integer id) {
@@ -118,7 +115,6 @@ public class RebackService implements InitializingBean {
         Example example = new Example(Electric.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("rebackCode",reback.getRebackCode());
-        Cache.rebackCodeSet.remove(reback.getRebackCode());
         rebackDao.deleteByPrimaryKey(id);
         electricDao.deleteByExample(example);
     }
